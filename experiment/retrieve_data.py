@@ -16,9 +16,9 @@ def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
     target = dict['target']
 
     if sample:
-        # for now, select a fixed 10 percent, and only work with NC columns
+        # for now, select a fixed 5 percent, and only work with NC columns
         random.seed(2024)        
-        selIDs = random.sample(IDs, int(0.01*len(IDs)))  
+        selIDs = random.sample(IDs, int(0.05*len(IDs)))  
 
         # extract target
         target = target[target['IDCode'].isin(selIDs)]

@@ -38,12 +38,13 @@ if __name__ == '__main__':
          #datasets_names=['desc_target','desc','long_target','long','wide_target','wide','wide_10','wide_50','wide_90'],
          datasets_names=['desc_target', 'long_target','wide_target'],
          #simulation_params = {'wcs': [True, False], 'dbs': [True, False], 'dp': [True, False], 'md': ['without','separate','included','knn']},
-         simulation_params = {'wcs': [True, False], 'dbs': [True, False], 'dp': [True, False], 'md': ['without'], 'sample': True},
+         simulation_params = {'wcs': [True, False], 'dbs': [True, False], 'dp': [True, False], 'md': ['without'], 'sample': True}, 
+         # sample = True means that we use 5\% of cases and NC columns (+ language, sex, grade) only, retrieve_data.py
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # for now, we use a simple target model
          model_params = {'model': 'zmean'},
          alg_constraints = {'min_size': 0.05},
-         dfd_params = {'make_normal': True, 'make_dfd': False, 'm': 2},
+         dfd_params = {'make_normal': True, 'make_dfd': True, 'm': 2},
          wcs_params = {'gamma': 0.9},
-         date='12122023', 
+         date='13122023', 
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./Output/")

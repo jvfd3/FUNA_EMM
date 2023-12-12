@@ -11,9 +11,9 @@ def analysis(data_name=None, data_from=None, datasets_names=None, simulation_par
 
     # for now, we use a subset of 1% rows and only NC items
     descriptive_datasets, attribute_sets, target = rd.retrieve_data(data_name=data_name, data_from=data_from, datasets_names=datasets_names, sample=simulation_params['sample'])
-    print(descriptive_datasets.keys())
-    print(attribute_sets)
-    print(target)
+    #print(descriptive_datasets.keys())
+    #print(attribute_sets)
+    #print(target)
 
     # start a loop over the simulation parameters,
     # and over the descriptive datasets

@@ -25,7 +25,7 @@ def save_and_store_result(simulation_result=None, output_to_mypath=None):
             sum.update(considered_subgroups)
 
         if distribution is not None:       
-            distribution_params = obtain_summary_values_dfd(distribution=distribution, result_emm=result_emm)
+            distribution_params = obtain_summary_values_dfd(distribution=distribution)
             sum.update(distribution_params)
             sum.update(calculate_number_rejected(result_emm=result_emm, distribution_params=distribution_params))
             distribution_sum.update({'distribution':distribution})
@@ -44,48 +44,43 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
     tuple_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR = obtain_description_summary(result_emm=result_emm)
 
-    sum_result_emm = {'avg_varphi': result_emm['varphi'].mean(),
-                      'median_varphi': result_emm['varphi'].median(),
-                      'max_varphi': result_emm['varphi'].max(),
-                      'min_varphi': result_emm['varphi'].min(),
+    iqrs = [0.25,0.5,0.75]
 
-                      'avg_mean': result_emm['mean_est'].mean(),
-                      'max_mean': result_emm['mean_est'].max(),
-                      'min_mean': result_emm['mean_est'].min(),
-                      'avg_mean_se': result_emm['se_est'].mean(),
-                      'max_mean_se': result_emm['se_est'].max(),
-                      'min_mean_se': result_emm['se_est'].min(),
+    sum_result_emm = {}
 
-                      'avg_sg_size': result_emm['size_id'].mean(),
-                      'median_sg_size': result_emm['size_id'].median(),
-                      'max_sg_size': result_emm['size_id'].max(),
-                      'min_sg_size': result_emm['size_id'].min(),
+    iqr_over_names = ['varphi', 'mean_est', 'se_est', 'size_id']
+    for name in iqr_over_names:
+    
+        vals = result_emm[name].quantile(iqrs, interpolation='linear')
+        sum_result_emm.update({name+str(int(key*100)):val for key,val in dict(vals).items()})
+    
+    sum_result_emm.update({
                       'avg_row_size': result_emm['size_rows'].mean(),
+                      'expected_cover_count': expected_cover_count
+                      })
 
-                      'expected_cover_count': expected_cover_count,
-                      'median_cover_count': np.median(list(cover_counts.values())),
-                      'std_cover_count': np.std(list(cover_counts.values())),
-                      'min_count': np.min(list(cover_counts.values())),
-                      'max_cover_count': np.max(list(cover_counts.values())),
+    vals = np.quantile(list(cover_counts.values()),iqrs)
+    sum_result_emm.update(dict(zip(['covercount' + str(int(key*100)) for key in iqrs],vals)))
 
-                      'overall_coverage': overall_coverage,
+    sum_result_emm.update({
                       'CR': CR,
-                      'attribute_CR': attribute_CR,
+                      'overall_coverage': overall_coverage,              
 
                       'attribute_expected_cover_count': attribute_expected_cover_count,
-                      'avg_tuple_lens': np.mean(tuple_lens),
-                      'median_tuple_lens': np.median(tuple_lens),
-                      'max_tuple_lens': np.max(tuple_lens),
-                      'min_tuple_lens': np.min(tuple_lens),
+                      'attribute_CR': attribute_CR
+                      })
+
+    vals = np.quantile(tuple_lens,iqrs)
+    sum_result_emm.update(dict(zip(['tuplelen' + str(int(key*100)) for key in iqrs],vals)))
+                      
+    sum_result_emm.update({
                       'nr_unique_atts': nr_unique_atts,
-
                       'jsim': jsim,
-                      'avg': np.mean(list(jsims.values())),
-                      'median_jsim': np.median(list(jsims.values())),
-                      'max_jsim': np.max(list(jsims.values())),
-                      'min_jsim': np.min(list(jsims.values())),
+                      'time_minutes': time/60
+                      })
 
-                      'time_minutes': time/60}
+    vals = np.quantile(list(jsims.values()),iqrs)
+    sum_result_emm.update(dict(zip(['jsim' + str(int(key*100)) for key in iqrs],vals)))
 
     return sum_result_emm
 

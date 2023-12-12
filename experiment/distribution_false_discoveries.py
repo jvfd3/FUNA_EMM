@@ -34,7 +34,7 @@ def make_false_discovery(i=None, target=None, attributes=None, descriptive=None,
     result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive, sim_params=sim_params, beam_search_params=beam_search_params_temp, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
 
     # save qm of the first subgroup
-    print(result_emm)
+    #print(result_emm)
     qm_value = result_emm['varphi'].values[0] 
 
     return qm_value
