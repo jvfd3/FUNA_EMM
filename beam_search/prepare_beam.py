@@ -43,21 +43,17 @@ def sort_list_on_quality(list_unsorted=None):
 def apply_dbs_wcs(cq_sorted=None, sim_params=None, beam_search_params=None, general_params=None, stop_number_dbs=None, stop_number_wcs=None, wcs_gamma=None):
 
     # apply description-based selection
-    if sim_params[2]:
+    if sim_params[1]:
         # difficult to know when to stop
         # only from 2nd level and onwards
-        if beam_search_params['d_i'] == 1:
-            print('description-based selection')
         candidates, n_redun_descs = dbs.remove_redundant_descriptions(descs=cq_sorted, beam_search_params=beam_search_params, stop_number_dbs=stop_number_dbs)
     else: 
         candidates = cq_sorted
         n_redun_descs = None
 
     # apply cover-based selection
-    if sim_params[1]:            
+    if sim_params[2]:            
         # len(candidates) should always be larger than 0, at least 1 description will be maintained
-        if beam_search_params['d_i'] == 1:
-            print('cover-based selection')
         candidate_queue = cbs.select_using_weighted_coverage(candidates=candidates, general_params=general_params, stop_number_wcs=stop_number_wcs,  wcs_gamma=wcs_gamma)
     else: 
         candidate_queue = candidates[0:stop_number_wcs]

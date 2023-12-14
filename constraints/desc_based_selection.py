@@ -56,7 +56,7 @@ def compare_two_descs(old_desc=None, new_desc=None):
 
     # new_desc is smaller than old_desc
     # check if all items exist in old_desc
-    # if so, the new_desc is a general description/subset of old_desc
+    # if so, the new_desc is a general description of old_desc
     elif length_dif == -1:
         items_exist_in_old_desc = [item in list(old_desc.items()) for item in list(new_desc.items())]
         #print('items_exist_in_old_desc', items_exist_in_old_desc)

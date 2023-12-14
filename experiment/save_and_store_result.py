@@ -5,6 +5,8 @@ def save_and_store_result(simulation_result=None, output_to_mypath=None):
 
     simulation_summary_ls = []
     distribution_summary_ls = []
+    info_summary_ls = []
+
     for bs in simulation_result:
 
         params = bs['params']
@@ -14,29 +16,34 @@ def save_and_store_result(simulation_result=None, output_to_mypath=None):
         time = bs['time']
         distribution = bs['distribution']    
 
-        sum = dict(zip(['data','wcs','dbs','dp','md'],params))
-        distribution_sum = dict(zip(['data','wcs','dbs','dp','md'],params))
+        sum = dict(zip(['data','dbs','wcs','dp','md'],params))
+        distribution_sum = dict(zip(['data','dbs','wcs','dp','md'],params))
+        info_sum = dict(zip(['data','dbs','wcs','dp','md'],params))
 
         # separately save pd dataframe
         if result_emm is not None:
             store_result_emm = result_emm.drop(['idx_id'],axis=1)
             store_result_emm.to_csv(output_to_mypath + str(params) + '.txt', sep='\t', index=False)
             sum.update(obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time)) 
-            sum.update(considered_subgroups)
-
+            
+            info_sum.update(considered_subgroups) 
+            info_sum.update(general_params)       
+            
         if distribution is not None:       
             distribution_params = obtain_summary_values_dfd(distribution=distribution)
             sum.update(distribution_params)
             sum.update(calculate_number_rejected(result_emm=result_emm, distribution_params=distribution_params))
-            distribution_sum.update({'distribution':distribution})
-
+            distribution_sum.update({'distribution':distribution})       
+        
         simulation_summary_ls.append(sum)
         distribution_summary_ls.append(distribution_sum)
+        info_summary_ls.append(info_sum)
 
     simulation_summary = pd.DataFrame.from_records(simulation_summary_ls)    
-    distribution_summary = pd.DataFrame.from_records(distribution_summary_ls)    
+    distribution_summary = pd.DataFrame.from_records(distribution_summary_ls)  
+    info_summary = pd.DataFrame.from_records(info_summary_ls)   
 
-    return simulation_summary, distribution_summary
+    return simulation_summary, distribution_summary, info_summary
 
 def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
@@ -46,7 +53,7 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
     iqrs = [0.25,0.5,0.75]
 
-    sum_result_emm = {}
+    sum_result_emm = {'len_result_set': len(result_emm)}
 
     iqr_over_names = ['varphi', 'mean_est', 'se_est', 'size_id']
     for name in iqr_over_names:
@@ -86,34 +93,36 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
 def calculate_average_coverage(result_emm=None, general_params=None):
 
-    allids = general_params['IDs']
+    all_ids = general_params['IDs']
+    allids_int = general_params['IDs']
     allids_un = []
     for sg in np.arange(0,result_emm.shape[0]):
         ids = result_emm.loc[sg,'idx_id']
         allids_un += ids # store id of all sg in one ls
-        allids = np.intersect1d(allids, ids)
+        allids_int = np.intersect1d(allids_int, ids)
     
     values, counts = np.unique(allids_un, return_counts=True)
     #unids = list(set(allids_un)) # check number of unique id
     
-    cover_counts = {id: 0 for id in allids}
+    cover_counts = {id: 0 for id in all_ids}
     cover_counts.update({values[i]:counts[i] for i in range(len(values))})
     expected_cover_count = sum(list(cover_counts.values())) / len(cover_counts.keys())
 
-    overall_coverage = len(values)/len(general_params['IDs'])
+    overall_coverage = len(values)/len(all_ids)
     CR = sum(np.abs(list(cover_counts.values()) - expected_cover_count)/expected_cover_count) / len(cover_counts.keys())
 
     # jaccard similarity over all subgroups
-    jsim = len(allids) / len(values)
+    jsim = len(allids_int) / len(values)
 
     # jaccard similarities for all subgroups
     jsims = {}
     for sg1 in np.arange(0,result_emm.shape[0]):
         for sg2 in np.arange(0,result_emm.shape[0]):
-            ids1 = result_emm.loc[sg1,'idx_id']
-            ids2 = result_emm.loc[sg2,'idx_id']
-            jsim = len(np.intersect1d(ids1, ids2)) / len(np.unique(ids1 + ids2))
-            jsims[(sg1,sg2)] = jsim
+            if sg1 != sg2: 
+                ids1 = result_emm.loc[sg1,'idx_id']
+                ids2 = result_emm.loc[sg2,'idx_id']
+                jsim = len(np.intersect1d(ids1, ids2)) / len(np.unique(ids1 + ids2))
+                jsims[(sg1,sg2)] = jsim
 
     return overall_coverage, cover_counts, expected_cover_count, CR, jsim, jsims
 

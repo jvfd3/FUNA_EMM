@@ -19,7 +19,7 @@ def analysis(data_name=None, data_from=None, datasets_names=None, simulation_par
     # and over the descriptive datasets
     print('started analysis')
     desc_keys = descriptive_datasets.keys()
-    paramset = list(it.product(list(desc_keys), simulation_params['wcs'], simulation_params['dbs'], simulation_params['dp'], simulation_params['md'])) 
+    paramset = list(it.product(list(desc_keys), simulation_params['dbs'], simulation_params['wcs'], simulation_params['dp'], simulation_params['md'])) 
 
     i = 1
     simulation_result = []
