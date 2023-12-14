@@ -76,7 +76,6 @@ def beam_search(target=None, attributes=None, descriptive=None, sim_params=None,
    
     # apply dominance pruning
     if sim_params[3]:    
-        print('dominance pruning') 
         result_set, considered_subgroups = dp.apply_dominance_pruning(result_set=result_set, considered_subgroups=considered_subgroups, beam_search_params=beam_search_params, sim_params=sim_params, wcs_params=wcs_params, descriptive=descriptive, target=target, attributes=attributes, model_params=model_params, general_params=general_params, alg_constraints=alg_constraints)  
         
     # result_set is a dictionary

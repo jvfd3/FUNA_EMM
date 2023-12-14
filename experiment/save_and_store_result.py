@@ -49,7 +49,7 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
     overall_coverage, cover_counts, expected_cover_count, CR, jsim, jsims = calculate_average_coverage(result_emm=result_emm, general_params=general_params)
 
-    tuple_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR = obtain_description_summary(result_emm=result_emm)
+    desc_lens, desc_un_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR = obtain_description_summary(result_emm=result_emm)
 
     iqrs = [0.25,0.5,0.75]
 
@@ -77,8 +77,11 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
                       'attribute_CR': attribute_CR
                       })
 
-    vals = np.quantile(tuple_lens,iqrs)
-    sum_result_emm.update(dict(zip(['tuplelen' + str(int(key*100)) for key in iqrs],vals)))
+    vals = np.quantile(desc_lens,iqrs)
+    sum_result_emm.update(dict(zip(['desc_len' + str(int(key*100)) for key in iqrs],vals)))
+    
+    vals = np.quantile(desc_un_lens,iqrs)
+    sum_result_emm.update(dict(zip(['desc_un_len' + str(int(key*100)) for key in iqrs],vals)))
                       
     sum_result_emm.update({
                       'nr_unique_atts': nr_unique_atts,
@@ -129,7 +132,8 @@ def calculate_average_coverage(result_emm=None, general_params=None):
 def obtain_description_summary(result_emm=None):
 
     used_atts = list(result_emm['literal_order'])
-    tuple_lens = [len(tuple) for tuple in used_atts]
+    desc_lens = [len(tuple) for tuple in used_atts]
+    desc_un_lens = [len(set(tuple)) for tuple in used_atts]
 
     all_atts = [t for tuple in used_atts for t in tuple]
     nr_unique_atts = len(set(all_atts))
@@ -140,7 +144,7 @@ def obtain_description_summary(result_emm=None):
 
     attribute_CR = sum(np.abs(list(attribute_cover_counts.values()) - attribute_expected_cover_count)/attribute_expected_cover_count) / len(attribute_cover_counts.keys())
 
-    return tuple_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR
+    return desc_lens, desc_un_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR
 
 def obtain_summary_values_dfd(distribution=None):
 
