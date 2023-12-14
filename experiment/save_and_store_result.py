@@ -1,6 +1,20 @@
 import numpy as np
 import pandas as pd
 
+def save_and_store_synthetic_result(syn_simulation_result=None):
+
+    for syn in syn_simulation_result:
+
+        synparams = syn['synparams']
+        single_simulation_result = syn['single_simulation_result']
+        output_to_mypath = syn['output_to_mypath']
+
+        simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_mypath=output_to_mypath)
+
+        # merge all summaries together
+
+    return simulation_summary, distribution_summary, info_summary
+
 def save_and_store_result(simulation_result=None, output_to_mypath=None):
 
     simulation_summary_ls = []

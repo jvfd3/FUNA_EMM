@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
 import random
+import itertools as it
 
-def retrieve_data(data_name=None, data_from=None, datasets_names=None, sample=True):
+def retrieve_rw_data(data_name=None, data_from=None, datasets_names=None, sample=True):
 
     if data_name == 'FUNA':
         dict_funa = import_data_funa(data_name=data_name, data_from=data_from, datasets_names=datasets_names)

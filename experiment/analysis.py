@@ -3,22 +3,42 @@ import pandas as pd
 import itertools as it
 import time
 
-import experiment.retrieve_data as rd
+import experiment.retrieve_rw_data as rd
+import experiment.retrieve_synthetic_data as sd
 import beam_search.beam_search as bs
 import experiment.distribution_false_discoveries as dfd
 
+def synthetic_analysis(datasets_names=None, synthetic_params=None, simulation_params=None, beam_search_params=None, model_params=None, alg_constraints=None, dfd_params=None, wcs_params=None):
+
+    syn_simulation_result = []
+    synparamset = list(it.product(synthetic_params['N'], synthetic_params['T'], synthetic_params['G']))
+    desc_keys = datasets_names
+        
+    h = 1
+    for synparams in synparamset:
+
+        # create or extract data
+        descriptive_datasets, attribute_sets, target, output_to_mypath = sd.retrieve_synthetic_data(synparams=synparams)
+
+        # start analysis
+        single_simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attributes_sets=attributes_sets, target=target, simulation_params=simulation_params, beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
+        syn_simulation_result.append({'synparams': synparams, 'single_simulation_result': single_simulation_result, 'path': output_to_mypath})
+
+        h += 1
+
+    return syn_simulation_result
+
 def analysis(data_name=None, data_from=None, datasets_names=None, simulation_params=None, beam_search_params=None, model_params=None, alg_constraints=None, dfd_params=None, wcs_params=None):
 
-    # for now, we use a subset of 1% rows and only NC items
-    descriptive_datasets, attribute_sets, target = rd.retrieve_data(data_name=data_name, data_from=data_from, datasets_names=datasets_names, sample=simulation_params['sample'])
-    #print(descriptive_datasets.keys())
-    #print(attribute_sets)
-    #print(target)
+    descriptive_datasets, attribute_sets, target = rd.retrieve_rw_data(data_name=data_name, data_from=data_from, datasets_names=datasets_names, sample=simulation_params['sample'])
+    simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attributes_sets=attributes_sets, target=target, simulation_params=simulation_params, beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
 
-    # start a loop over the simulation parameters,
-    # and over the descriptive datasets
-    print('started analysis')
+    return simulation_result
+
+def analysis_per_dataset(descriptive_datasets=None, attributes_sets=None, target=None, simulation_params=None, beam_search_params=None, model_params=None, wcs_params=None, alg_constraints=None):
+
     desc_keys = descriptive_datasets.keys()
+    # order is important! 
     paramset = list(it.product(list(desc_keys), simulation_params['dbs'], simulation_params['wcs'], simulation_params['dp'], simulation_params['md'])) 
 
     i = 1
