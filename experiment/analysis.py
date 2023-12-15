@@ -17,15 +17,27 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=Non
     h = 1
     for synparams in synparamset:
 
-        print(synparams)
-
         # create or extract data
-        descriptive_datasets, attribute_sets, target, output_to_path = sd.retrieve_synthetic_data(data_from=data_from, synparams=synparams)
+        # this dataset contains synthetic_params['SGTypes'] number of subgroup types
+        descriptive_datasets, attribute_sets, target, syn_data_at_path = sd.retrieve_synthetic_data(data_from=data_from, synparams=synparams, datasets_names=datasets_names)
 
-        # start analysis
-        single_simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attribute_sets=attributes_sets, target=target, simulation_params=simulation_params, 
-                                                        beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, dfd_params=dfd_params, alg_constraints=alg_constraints)
-        syn_simulation_result.append({'synparams': synparams, 'single_simulation_result': single_simulation_result, 'output_to_path': output_to_path})
+        all_types = synthetic_params['SGTypes'].copy()
+        
+        for subgroup_type in synthetic_params['SGTypes']:
+            synparamstype = synparams + tuple(subgroup_type)
+            print(synparamstype)
+
+            all_types.remove(subgroup_type)
+            selcolumns = ['Target'+sg for sg in all_types]
+
+            targettype = target.copy()
+            targettype.drop(columns=selcolumns,axis=1, inplace=True)
+            targettype.rename({'Target'+subgroup_type:'Target'},axis=1,inplace=True)
+
+            # start analysis
+            single_simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attribute_sets=attribute_sets, target=targettype, simulation_params=simulation_params, 
+                                                            beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, dfd_params=dfd_params, alg_constraints=alg_constraints)
+            syn_simulation_result.append({'synparams': synparamstype, 'single_simulation_result': single_simulation_result, 'syn_data_at_path': syn_data_at_path})
 
         h += 1
 

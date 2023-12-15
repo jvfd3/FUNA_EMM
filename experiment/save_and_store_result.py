@@ -1,19 +1,33 @@
 import numpy as np
 import pandas as pd
+import os
 
-def save_and_store_synthetic_result(syn_simulation_result=None):
+def save_and_store_synthetic_result(syn_simulation_result=None, output_to_path=None):
 
-    for syn in syn_simulation_result:
+    distribution_summary = {}
+    info_summary = {}
+    syn_results_ls = []
+
+    for syn in syn_simulation_result:       
 
         synparams = syn['synparams']
         single_simulation_result = syn['single_simulation_result']
-        output_to_mypath = syn['output_to_mypath']
+        syn_data_at_path = syn['syn_data_at_path']
+        syn_sum = dict(zip(['N','T','G','SGType'],synparams))
+        
+        output_to_specific_path = output_to_path + str(list(synparams)) + '/'
+        if not os.path.exists(output_to_specific_path):
+            os.makedirs(output_to_specific_path)        
 
-        simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_mypath=output_to_mypath)
+        simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_path=output_to_specific_path)
+        syn_sum.update(pd.DataFrame.to_dict(simulation_summary))
 
-        # merge all summaries together
+        syn_results_ls.append(syn_sum)
 
-    return simulation_summary, distribution_summary, info_summary
+    syn_results = pd.DataFrame.from_records(syn_results_ls)  
+    print(syn_results)  
+
+    return syn_results, distribution_summary, info_summary
 
 def save_and_store_result(simulation_result=None, output_to_path=None):
 

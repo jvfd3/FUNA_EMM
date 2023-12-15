@@ -13,15 +13,14 @@ def retrieve_synthetic_data(data_from=None, synparams=None, datasets_names=None)
         dfs = ism.generate_synthetic_data(datasets_names=datasets_names, synparams=synparams)
         # store datasets there
         for sheet_name in dfs.keys():
-            print(sheet_name)
             dfs[sheet_name].to_parquet(syn_data_at_path + sheet_name + '.pq')
             
     else: 
 
         # extract data from there    
         dfs = import_synthetic_data(data_from=syn_data_at_path, datasets_names=datasets_names)
-        
-    descriptive_datasets, attribute_sets, target = prepare_synthetic_data(dict=dfs)
+
+    descriptive_datasets, attribute_sets, target = prepare_synthetic_data(dict=dfs, datasets_names=datasets_names)
 
     return descriptive_datasets, attribute_sets, target, syn_data_at_path
 
@@ -36,7 +35,7 @@ def import_synthetic_data(data_from=None, datasets_names=None):
 
     return dict
 
-def prepare_synthetic_data(dict=None):
+def prepare_synthetic_data(dict=None, datasets_names=None):
 
     IDs = dict['IDs']['ID'].tolist()
     target = dict['target']
@@ -55,11 +54,10 @@ def prepare_synthetic_data(dict=None):
     for key in descriptives.keys():
         types = data.dtypes
         types.drop('IDCode', inplace=True)
-        print(types)
 
         attributes = {'bin_atts': [], 
                       'num_atts': [], 
-                      'nom_atts': [], 
+                      'nom_atts': ['Group'], 
                       'ord_atts': []}
         
         if key in ['long_target', 'long']:
@@ -69,4 +67,4 @@ def prepare_synthetic_data(dict=None):
 
         attribute_sets[key] = attributes
 
-    return descriptives, attributes, target
+    return descriptives, attribute_sets, target

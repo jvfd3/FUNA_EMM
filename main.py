@@ -22,7 +22,7 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
     elif synthetic_params is not None:
         syn_simulation_result = an.synthetic_analysis(datasets_names=datasets_names, synthetic_params=synthetic_params, data_from=data_from, simulation_params=simulation_params, 
                                                       beam_search_params=beam_search_params, model_params=model_params, alg_constraints=alg_constraints, dfd_params=dfd_params, wcs_params=wcs_params)
-        simulation_summary, distribution_summary, info_summary = ssr.save_and_store_synthetic_result(syn_simulation_result=syn_simulation_result)
+        simulation_summary, distribution_summary, info_summary = ssr.save_and_store_synthetic_result(syn_simulation_result=syn_simulation_result, output_to_path=output_to_path)
 
     # save summary        
     beam_search_params.update(simulation_params)
@@ -51,7 +51,7 @@ if __name__ == '__main__':
          # sample = True means that we use 5\% of cases and NC columns (+ language, sex, grade) only, retrieve_data.py
          synthetic_params = None,
          beam_search_params = {'b': 8, 'w': 10, 'd': 5, 'q': 10}, # for now, we use a simple target model
-         model_params = {'model': 'zmean'},
+         model_params = {'model': 'zmean', 'column_name': 'DMTime'},
          alg_constraints = {'min_size': 0.05},
          dfd_params = {'make_normal': True, 'make_dfd': True, 'm': 2},
          wcs_params = {'gamma': 0.6},
@@ -62,15 +62,15 @@ if __name__ == '__main__':
 
     # Synthetic
     main(data_name='synthetic', 
-         datasets_names=['desc_target', 'long_target','wide_target'],
-         simulation_params = {'dbs': [False], 'wcs': [False], 'dp': [False], 'md': ['without'], 'sample': None},
-         synthetic_params = {'N': [10, 100], 'T': [5], 'G': [5]},
+         datasets_names=['long_target'],
+         simulation_params = {'dbs': [False], 'wcs': [True, False], 'dp': [False], 'md': ['without'], 'sample': None},
+         synthetic_params = {'N': [100], 'T': [20], 'G': [10], 'SGTypes': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']},
          beam_search_params = {'b': 8, 'w': 10, 'd': 3, 'q': 10}, # for now, we use a simple target model
-         model_params = {'model': 'zmean'},
+         model_params = {'model': 'zmean', 'column_name': 'Target'},
          alg_constraints = {'min_size': 0.05},
          dfd_params = {'make_normal': True, 'make_dfd': False, 'm': None},
          wcs_params = {'gamma': None},
-         date='15122023', 
+         date='16122023', 
          data_from="./data_input/",
          output_to="./output/"
     )
