@@ -8,7 +8,7 @@ import experiment.retrieve_synthetic_data as sd
 import beam_search.beam_search as bs
 import experiment.distribution_false_discoveries as dfd
 
-def synthetic_analysis(datasets_names=None, synthetic_params=None, simulation_params=None, beam_search_params=None, model_params=None, alg_constraints=None, dfd_params=None, wcs_params=None):
+def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=None, simulation_params=None, beam_search_params=None, model_params=None, alg_constraints=None, dfd_params=None, wcs_params=None):
 
     syn_simulation_result = []
     synparamset = list(it.product(synthetic_params['N'], synthetic_params['T'], synthetic_params['G']))
@@ -17,12 +17,15 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, simulation_pa
     h = 1
     for synparams in synparamset:
 
+        print(synparams)
+
         # create or extract data
-        descriptive_datasets, attribute_sets, target, output_to_mypath = sd.retrieve_synthetic_data(synparams=synparams)
+        descriptive_datasets, attribute_sets, target, output_to_path = sd.retrieve_synthetic_data(data_from=data_from, synparams=synparams)
 
         # start analysis
-        single_simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attributes_sets=attributes_sets, target=target, simulation_params=simulation_params, beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
-        syn_simulation_result.append({'synparams': synparams, 'single_simulation_result': single_simulation_result, 'path': output_to_mypath})
+        single_simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attribute_sets=attributes_sets, target=target, simulation_params=simulation_params, 
+                                                        beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, dfd_params=dfd_params, alg_constraints=alg_constraints)
+        syn_simulation_result.append({'synparams': synparams, 'single_simulation_result': single_simulation_result, 'output_to_path': output_to_path})
 
         h += 1
 
@@ -31,11 +34,12 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, simulation_pa
 def analysis(data_name=None, data_from=None, datasets_names=None, simulation_params=None, beam_search_params=None, model_params=None, alg_constraints=None, dfd_params=None, wcs_params=None):
 
     descriptive_datasets, attribute_sets, target = rd.retrieve_rw_data(data_name=data_name, data_from=data_from, datasets_names=datasets_names, sample=simulation_params['sample'])
-    simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attributes_sets=attributes_sets, target=target, simulation_params=simulation_params, beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
+    simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attribute_sets=attribute_sets, target=target, simulation_params=simulation_params, 
+                                             beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, dfd_params=dfd_params, alg_constraints=alg_constraints)
 
     return simulation_result
 
-def analysis_per_dataset(descriptive_datasets=None, attributes_sets=None, target=None, simulation_params=None, beam_search_params=None, model_params=None, wcs_params=None, alg_constraints=None):
+def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=None, simulation_params=None, beam_search_params=None, model_params=None, wcs_params=None, dfd_params=None, alg_constraints=None):
 
     desc_keys = descriptive_datasets.keys()
     # order is important! 

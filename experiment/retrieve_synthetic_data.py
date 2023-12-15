@@ -2,27 +2,28 @@ import numpy as np
 import pandas as pd
 import os
 
-import input.synthetic.synthetic_main as ism
+import data_input.synthetic.synthetic_main as ism
     
-def retrieve_synthetic_data(synparams=None, datasets_names=None):
+def retrieve_synthetic_data(data_from=None, synparams=None, datasets_names=None):
 
-    path_to_folder = '/synthetic/data/' + str(synparams) + '/'
-    if not os.path.exists(path_to_folder):
-        os.makedirs(path_to_folder)
+    syn_data_at_path = data_from + 'synthetic/data/' + str(list(synparams)) + '/'
+    if not os.path.exists(syn_data_at_path):
+        os.makedirs(syn_data_at_path)
     
-        descriptive_datasets, attribute_sets, target = ism.generate_synthetic_data(datasets_names=datasets_names, synparams=synparams)
+        dfs = ism.generate_synthetic_data(datasets_names=datasets_names, synparams=synparams)
         # store datasets there
         for sheet_name in dfs.keys():
             print(sheet_name)
-            dfs[sheet_name].to_parquet(path_to + sheet_name + '.pq')
+            dfs[sheet_name].to_parquet(syn_data_at_path + sheet_name + '.pq')
             
     else: 
 
         # extract data from there    
-        syn_dict = import_synthetic_data(data_from=path_to_folder, datasets_names=datasets_names)
-        descriptive_datasets, attribute_sets, target = prepare_synthetic_data(dict=syn_dict)
+        dfs = import_synthetic_data(data_from=syn_data_at_path, datasets_names=datasets_names)
+        
+    descriptive_datasets, attribute_sets, target = prepare_synthetic_data(dict=dfs)
 
-    return descriptive_datasets, attribute_sets, target, path_to_folder
+    return descriptive_datasets, attribute_sets, target, syn_data_at_path
 
 def import_synthetic_data(data_from=None, datasets_names=None):
 
@@ -30,7 +31,7 @@ def import_synthetic_data(data_from=None, datasets_names=None):
     for sheet_name in datasets_names:
         dict[sheet_name] = pd.read_parquet(data_from + sheet_name + '.pq')
 
-    dict['target'] = pd.read_parquet(data_from 'target.pq')
+    dict['target'] = pd.read_parquet(data_from + 'target.pq')
     dict['IDs'] = pd.read_parquet(data_from + 'IDs.pq')
 
     return dict

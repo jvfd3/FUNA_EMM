@@ -15,7 +15,7 @@ def save_and_store_synthetic_result(syn_simulation_result=None):
 
     return simulation_summary, distribution_summary, info_summary
 
-def save_and_store_result(simulation_result=None, output_to_mypath=None):
+def save_and_store_result(simulation_result=None, output_to_path=None):
 
     simulation_summary_ls = []
     distribution_summary_ls = []
@@ -37,7 +37,7 @@ def save_and_store_result(simulation_result=None, output_to_mypath=None):
         # separately save pd dataframe
         if result_emm is not None:
             store_result_emm = result_emm.drop(['idx_id'],axis=1)
-            store_result_emm.to_csv(output_to_mypath + str(params) + '.txt', sep='\t', index=False)
+            store_result_emm.to_csv(output_to_path + str(list(params)) + '.txt', sep='\t', index=False)
             sum.update(obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time)) 
             
             info_sum.update(considered_subgroups) 

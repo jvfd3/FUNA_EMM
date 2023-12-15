@@ -9,17 +9,19 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
          beam_search_params=None, model_params=None, alg_constraints=None, wcs_params=None, dfd_params=None, date=None, output_to=None):
 
     # save result at
-    output_to_mypath = output_to + data_name + '/' + str(date) + '/' 
-    if not os.path.exists(output_to_mypath):
-        os.makedirs(output_to_mypath)
+    output_to_path = output_to + data_name + '/' + str(date) + '/' 
+    if not os.path.exists(output_to_path):
+        os.makedirs(output_to_path)
 
     if synthetic_params is None: 
         # simulation_result is a list of dictionaries
-        simulation_result = an.analysis(data_name=data_name, data_from=data_from, datasets_names=datasets_names, simulation_params=simulation_params, beam_search_params=beam_search_params, model_params=model_params, alg_constraints=alg_constraints, dfd_params=dfd_params, wcs_params=wcs_params)
-        simulation_summary, distribution_summary, info_summary = ssr.save_and_store_result(simulation_result=simulation_result, output_to_mypath=output_to_mypath)
+        simulation_result = an.analysis(data_name=data_name, data_from=data_from, datasets_names=datasets_names, simulation_params=simulation_params, 
+                                        beam_search_params=beam_search_params, model_params=model_params, alg_constraints=alg_constraints, dfd_params=dfd_params, wcs_params=wcs_params)
+        simulation_summary, distribution_summary, info_summary = ssr.save_and_store_result(simulation_result=simulation_result, output_to_path=output_to_path)
     
     elif synthetic_params is not None:
-        syn_simulation_result = an.synthetic_analysis(datasets_names=datasets_names, synthetic_params=synthetic_params, simulation_params=simulation_params, beam_search_params=beam_search_params, model_params=model_params, alg_constraints=alg_constraints, dfd_params=dfd_params, wcs_params=wcs_params)
+        syn_simulation_result = an.synthetic_analysis(datasets_names=datasets_names, synthetic_params=synthetic_params, data_from=data_from, simulation_params=simulation_params, 
+                                                      beam_search_params=beam_search_params, model_params=model_params, alg_constraints=alg_constraints, dfd_params=dfd_params, wcs_params=wcs_params)
         simulation_summary, distribution_summary, info_summary = ssr.save_and_store_synthetic_result(syn_simulation_result=syn_simulation_result)
 
     # save summary        
@@ -29,7 +31,7 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
     beam_search_params.update(wcs_params)
     
     dfs = {'simulation_summary': simulation_summary, 'distributions': distribution_summary, 'analysis_info': info_summary, 'experiment_info': pd.DataFrame(dict([(k,pd.Series(v)) for k,v in beam_search_params.items()]))}
-    excel_file_name = output_to_mypath + str(list(simulation_params.values())) + '_' + '.xlsx'
+    excel_file_name = output_to_path + str(list(simulation_params.values())) + '_' + '.xlsx'
     
     writer = pd.ExcelWriter(excel_file_name, engine='xlsxwriter')
     for sheet_name in dfs.keys():
@@ -69,5 +71,6 @@ if __name__ == '__main__':
          dfd_params = {'make_normal': True, 'make_dfd': False, 'm': None},
          wcs_params = {'gamma': None},
          date='15122023', 
-         data_from="./input/",
-         output_to="./output/")
+         data_from="./data_input/",
+         output_to="./output/"
+    )
