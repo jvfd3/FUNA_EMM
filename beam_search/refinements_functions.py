@@ -35,9 +35,9 @@ def make_literals(dataset=None, attribute=None, type_desc=None, md=None, b=None)
             add_refinements= add_refinements + list_of_lits
 
     elif type_desc == 'ord':
-        cat_values = dataset[attribute].cat.categories
+        cat_values = dataset[attribute].values.categories
         for i in range(len(cat_values)-1):
-            list_of_lits = make_literals_per_type(attribute=attribute, value=i, type_desc=type_desc)
+            list_of_lits = make_literals_per_type(attribute=attribute, value=i, type_desc=type_desc, values_to_use=cat_values)
             add_refinements= add_refinements + list_of_lits          
 
     # add md literals in case of md approach (separate)

@@ -14,6 +14,11 @@ def retrieve_synthetic_data(data_from=None, synparams=None, datasets_names=None)
         # store datasets there
         for sheet_name in dfs.keys():
             dfs[sheet_name].to_parquet(syn_data_at_path + sheet_name + '.pq')
+
+        writer = pd.ExcelWriter(syn_data_at_path + 'data.xlsx', engine='xlsxwriter')
+        for sheet_name in dfs.keys():
+            dfs[sheet_name].to_excel(writer, sheet_name=sheet_name, index=False)
+        writer.close()
             
     else: 
 
@@ -52,14 +57,16 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
 
     attribute_sets = {}
     for key in descriptives.keys():
+        data = descriptives[key]
         types = data.dtypes
         types.drop('IDCode', inplace=True)
 
-        attributes = {'bin_atts': [], 
-                      'num_atts': [], 
-                      'nom_atts': ['Group'], 
-                      'ord_atts': []}
-        
+        attributes = {'bin_atts': [], 'num_atts': [], 'nom_atts': [], 'ord_atts': []}
+        attributes['bin_atts'] = attributes['bin_atts'] + []
+        attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values) + list(types[types == 'int32'].index.values)
+        attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
+        attributes['ord_atts'] = attributes['ord_atts'] + list(types[types == 'category'].index.values)
+
         if key in ['long_target', 'long']:
             attributes['id_atts'] = ['IDCode','TimeInd']
         else:

@@ -5,29 +5,35 @@ import os
 def save_and_store_synthetic_result(syn_simulation_result=None, output_to_path=None):
 
     distribution_summary = {}
-    info_summary = {}
+    info_summary_ls = []
     syn_results_ls = []
 
     for syn in syn_simulation_result:       
 
         synparams = syn['synparams']
         single_simulation_result = syn['single_simulation_result']
-        syn_data_at_path = syn['syn_data_at_path']
-        syn_sum = dict(zip(['N','T','G','SGType'],synparams))
+        syn_data_at_path = syn['syn_data_at_path']        
         
         output_to_specific_path = output_to_path + str(list(synparams)) + '/'
         if not os.path.exists(output_to_specific_path):
             os.makedirs(output_to_specific_path)        
 
         simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_path=output_to_specific_path)
-        syn_sum.update(pd.DataFrame.to_dict(simulation_summary))
+        
+        for row in np.arange(0,simulation_summary.shape[0]):
+            syn_sum = dict(zip(['N','T','G','SGType'],synparams))
+            syn_sum.update(pd.Series.to_dict(simulation_summary.iloc[row,:]))
+            syn_results_ls.append(syn_sum)
 
-        syn_results_ls.append(syn_sum)
+            an_info_sum = dict(zip(['N','T','G','SGType'],synparams))
+            an_info_sum.update(pd.Series.to_dict(info_summary.iloc[row,:]))
+            info_summary_ls.append(an_info_sum)
 
     syn_results = pd.DataFrame.from_records(syn_results_ls)  
+    info_results = pd.DataFrame.from_records(info_summary_ls)  
     print(syn_results)  
 
-    return syn_results, distribution_summary, info_summary
+    return syn_results, distribution_summary, info_results
 
 def save_and_store_result(simulation_result=None, output_to_path=None):
 

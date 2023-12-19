@@ -26,6 +26,7 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
 
     # save summary        
     beam_search_params.update(simulation_params)
+    beam_search_params.update(synthetic_params)
     beam_search_params.update(dfd_params)
     beam_search_params.update(alg_constraints)
     beam_search_params.update(wcs_params)
@@ -40,8 +41,8 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
 
 if __name__ == '__main__':
 
-    '''
     # FUNA
+    '''
     main(data_name='FUNA', 
          #datasets_names=['desc_target','desc','long_target','long','wide_target','wide','wide_10','wide_50','wide_90'],
          #datasets_names=['desc_target', 'long_target','wide_target'],
@@ -62,15 +63,15 @@ if __name__ == '__main__':
 
     # Synthetic
     main(data_name='synthetic', 
-         datasets_names=['long_target'],
-         simulation_params = {'dbs': [False], 'wcs': [True, False], 'dp': [False], 'md': ['without'], 'sample': None},
-         synthetic_params = {'N': [100], 'T': [20], 'G': [10], 'SGTypes': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']},
+         datasets_names=['desc_target', 'wide_target', 'long_target'],
+         simulation_params = {'dbs': [False], 'wcs': [False], 'dp': [False], 'md': ['without'], 'sample': None},
+         synthetic_params = {'N': [1000], 'T': [20], 'G': [5], 'SGTypes': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']},
          beam_search_params = {'b': 8, 'w': 10, 'd': 3, 'q': 10}, # for now, we use a simple target model
-         model_params = {'model': 'zmean', 'column_name': 'Target'},
-         alg_constraints = {'min_size': 0.05},
+         model_params = {'model': 'zmean_high', 'column_name': 'Target'},
+         alg_constraints = {'min_size': 0.01},
          dfd_params = {'make_normal': True, 'make_dfd': False, 'm': None},
-         wcs_params = {'gamma': None},
-         date='16122023', 
+         wcs_params = {'gamma': 0.9},
+         date='19122023', 
          data_from="./data_input/",
          output_to="./output/"
     )

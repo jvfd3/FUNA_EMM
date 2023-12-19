@@ -51,7 +51,9 @@ def calculate_varphi(estimates=None, model_params=None, general_params=None):
 
     varphi = np.nan
 
-    if model_params['model'] == 'zmean':
+    if model_params['model'] == 'zmean': # absolute
         varphi = np.round(np.abs(estimates['mean'] - general_params['estimates']['mean']) / estimates['mean_se'],1)
+    if model_params['model'] == 'zmean_high': # one-sided
+        varphi = np.round(estimates['mean'] - general_params['estimates']['mean'] / estimates['mean_se'],1)
 
     return varphi

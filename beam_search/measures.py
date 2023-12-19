@@ -9,6 +9,6 @@ def calculate_mean(df=None, column=None):
 
 def calculate_mean_se(df=None, column=None):
 
-    qm_se = df[column].std() / (df.shape[0] - 1)
+    qm_se = df[column].std() / np.sqrt(df.shape[0])
 
     return np.round(qm_se, 4)

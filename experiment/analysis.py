@@ -17,9 +17,12 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=Non
     h = 1
     for synparams in synparamset:
 
+        print(synparams)
+
         # create or extract data
         # this dataset contains synthetic_params['SGTypes'] number of subgroup types
         descriptive_datasets, attribute_sets, target, syn_data_at_path = sd.retrieve_synthetic_data(data_from=data_from, synparams=synparams, datasets_names=datasets_names)
+        print(attribute_sets)
 
         all_types = synthetic_params['SGTypes'].copy()
         
