@@ -52,16 +52,19 @@ def beam_search(target=None, attributes=None, descriptive=None, sim_params=None,
 
             for desc in seed_set:
 
+                #print(desc)
+
                 n_consd += 1
 
                 # check for similar description
-                constraint_similar_description = cs.check_similar_description(desc=desc, cq_satisfied=cq_satisfied)
+                constraint_similar_description = cs.check_similar_description(desc=desc, cq_satisfied=cq_satisfied, d_i=d_i, current_beam=candidate_queue)
                 if constraint_similar_description:
                     n_sim_descs += 1
                 else: 
                     desc_qm, constraint_subgroup_size, n_small_groups = qu.evaluate_desc(desc=desc, descriptive=descriptive, attributes=attributes, target=target, model_params=model_params, general_params=general_params, alg_constraints=alg_constraints, n_small_groups=n_small_groups)
                     if not constraint_subgroup_size:
                         cq_satisfied.append(desc_qm)
+                        #print(desc_qm['qualities'])
 
         beam_search_params.update({'d_i': d_i})
                                                      

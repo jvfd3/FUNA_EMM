@@ -9,7 +9,7 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
          beam_search_params=None, model_params=None, alg_constraints=None, wcs_params=None, dfd_params=None, date=None, output_to=None):
 
     # save result at
-    output_to_path = output_to + data_name + '/' + str(date) + '/' 
+    output_to_path = output_to + data_name + '/out' + str(date) + '/' 
     if not os.path.exists(output_to_path):
         os.makedirs(output_to_path)
 
@@ -63,15 +63,15 @@ if __name__ == '__main__':
 
     # Synthetic
     main(data_name='synthetic', 
-         datasets_names=['desc_target', 'wide_target', 'long_target'],
+         datasets_names=['long_target', 'wide_target', 'desc_target'],
          simulation_params = {'dbs': [False], 'wcs': [False], 'dp': [False], 'md': ['without'], 'sample': None},
-         synthetic_params = {'N': [1000], 'T': [20], 'G': [5], 'SGTypes': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']},
-         beam_search_params = {'b': 8, 'w': 10, 'd': 3, 'q': 10}, # for now, we use a simple target model
+         synthetic_params = {'N': [1000], 'T': [3], 'G': [3], 'SGTypes': ['C', 'D']},
+         beam_search_params = {'b': 8, 'w': 10, 'd': 5, 'q': 10}, # for now, we use a simple target model
          model_params = {'model': 'zmean_high', 'column_name': 'Target'},
-         alg_constraints = {'min_size': 0.01},
+         alg_constraints = {'min_size': None}, # adapt to G^T
          dfd_params = {'make_normal': True, 'make_dfd': False, 'm': None},
          wcs_params = {'gamma': 0.9},
-         date='19122023', 
+         date='22122023', 
          data_from="./data_input/",
          output_to="./output/"
     )

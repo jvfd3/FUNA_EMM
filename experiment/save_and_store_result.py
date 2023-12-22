@@ -49,6 +49,7 @@ def save_and_store_result(simulation_result=None, output_to_path=None):
         considered_subgroups = bs['considered_subgroups']
         time = bs['time']
         distribution = bs['distribution']    
+        attributes = bs['attributes']
 
         sum = dict(zip(['data','dbs','wcs','dp','md'],params))
         distribution_sum = dict(zip(['data','dbs','wcs','dp','md'],params))
@@ -61,7 +62,8 @@ def save_and_store_result(simulation_result=None, output_to_path=None):
             sum.update(obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time)) 
             
             info_sum.update(considered_subgroups) 
-            info_sum.update(general_params)       
+            info_sum.update(general_params)  
+            info_sum.update(attributes)     
             
         if distribution is not None:       
             distribution_params = obtain_summary_values_dfd(distribution=distribution)

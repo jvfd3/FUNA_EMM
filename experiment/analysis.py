@@ -18,6 +18,9 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=Non
     for synparams in synparamset:
 
         print(synparams)
+        # adapt min_size to G^T
+        alg_constraints['min_size'] = 1/((synparams[2]**synparams[1])+1)
+        print(alg_constraints['min_size'])
 
         # create or extract data
         # this dataset contains synthetic_params['SGTypes'] number of subgroup types
@@ -85,7 +88,7 @@ def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=
             # build dfd, as a pd.DataFrame where the quality values are a list, and other values are distribution params
             distribution = dfd.distribution_false_discoveries_params(m=dfd_params['m'], target=target, attributes=attribute_sets[params[0]], descriptive=descriptive_datasets[params[0]], sim_params=params, beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints) 
 
-        simulation_result.append({'params': params, 'result_emm': result_emm, 'general_params': general_params, 'considered_subgroups': considered_subgroups, 'time': elapsed_time, 'distribution': distribution})
+        simulation_result.append({'params': params, 'result_emm': result_emm, 'general_params': general_params, 'considered_subgroups': considered_subgroups, 'time': elapsed_time, 'distribution': distribution, 'attributes': attribute_sets[params[0]]})
 
         i += 1
 

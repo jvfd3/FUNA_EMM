@@ -2,24 +2,31 @@ import numpy as np
 
 # because the descriptions are saved in a dictionary
 # it is possible to compare them without reordering them
-# the binary, nominal (tuple), ordinal (Index) and numerical (tuple) can be handled
-def check_similar_description(desc=None, cq_satisfied=None):
+# the binary, nominal (tuple), ordinal (list) and numerical (tuple) can be handled
+def check_similar_description(desc=None, cq_satisfied=None, d_i=None, current_beam=None):
 
     constraint_similar_description = False
 
     # check for redundant descriptions (the exact same description but in another order)
-    # the comparison has to be done with the candidate queue of the current iteration only
+    # the comparison is most useful with the candidate queue of the current iteration only
     # this queue is saved in cq_satisfied
     # in theory, a refinement at the current level can be similar to a desc from an earlier level
-    # this can happen for numerical and ordinal attributes
-    # chances are low that those descriptions will end up in the result list together
-    for seed in cq_satisfied:
+    # this can happen for numerical and ordinal attributes, we will therefore also check the beam
+    for seedcq in cq_satisfied:
 
         current = desc['description'].copy()
-        new = seed['description'].copy()
-        if current == new: # we have to apply a constraint
+        old = seedcq['description'].copy()
+        if current == old: # we have to apply a constraint
             constraint_similar_description = True
             break
+
+    if d_i > 1: 
+        for seedb in current_beam:
+            current = desc['description'].copy()
+            old = seedb['description'].copy()
+            if current == old: # we have to apply a constraint
+                constraint_similar_description = True
+                break
 
     return constraint_similar_description
 

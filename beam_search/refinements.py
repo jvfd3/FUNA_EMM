@@ -135,12 +135,12 @@ def refine_ordinal_attributes(cq=None, seed=None, dataset=None, subgroup=None,
         description = seed['description']        
         lit = seed['adds']['literal_order']
 
-        for attribute in ordinal_attributes: # existing attributes will be replaced
+        for attribute in ordinal_attributes: 
 
-            #if not attribute in list(description.keys()):
+            if not attribute in list(description.keys()): # every possible subsequence will be checked, therefore not necessary to check again
 
-            add_refinements = rff.make_descriptions(dataset=subgroup, attribute=attribute, type_desc='ord', md=md)
-            new_descriptions = rff.concatenate_literals(description=description, lit=lit, add_refinements=add_refinements)
-            refined_cq = refined_cq + new_descriptions     
+                add_refinements = rff.make_descriptions(dataset=subgroup, attribute=attribute, type_desc='ord', md=md)
+                new_descriptions = rff.concatenate_literals(description=description, lit=lit, add_refinements=add_refinements)
+                refined_cq = refined_cq + new_descriptions     
 
     return  refined_cq

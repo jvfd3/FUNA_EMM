@@ -25,7 +25,7 @@ def make_literals(dataset=None, attribute=None, type_desc=None, md=None, b=None)
 
     elif type_desc == 'num':
         values = dataset.loc[dataset[attribute].notnull(),attribute]
-        quantiles = np.linspace(0, 1, b+1)[1:-1] # for 4 quantiles, this results in 0.25, 0.5, 0.75
+        quantiles = np.linspace(0, 1, b+1)[1:-1] # for b=4 quantiles, this results in 0.25, 0.5, 0.75
         min_value = values.quantile(0.0) 
         max_value = values.quantile(1.0)
               
@@ -62,6 +62,11 @@ def concatenate_literals(description=None, lit=None, add_refinements=None):
     for refinement in add_refinements:
         temp_desc = description.copy()
         refinement_desc = refinement['description']
+        # in case of numerical attributes, check if new values are not the same as old values
+        if list(refinement_desc.keys())[0] in list(temp_desc.keys()):
+            if refinement_desc[list(refinement_desc.keys())[0]] == temp_desc[list(refinement_desc.keys())[0]]:
+                continue
+            pass
         temp_desc.update(refinement_desc) # existing key will be overwritten
         new_descriptions.append({'description': temp_desc, 'adds': {'literal_order': lit + (list(refinement_desc.keys())[0],)}})
 
