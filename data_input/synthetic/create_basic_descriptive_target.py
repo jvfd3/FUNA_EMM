@@ -11,12 +11,13 @@ def create_descriptive(synparams=None):
     N = synparams[0]
     T = synparams[1]
     G = synparams[2]
+    ncovs = 10
     groups = list(string.ascii_lowercase[0:G])
 
     info = {'N': N, 'T': T, 'G': G, 'groups': groups, 'seed': 2024}
 
     sampled_groups = random.choices(groups, k=N*T) # this create uniform distribution of cases with equal probability of having one of the G^T possible sequences
-    #sampled_groups = np.repeat(random.choices(groups, k=N),T)
+    #sampled_groups = np.repeat(random.choices(groups, k=N),T) # this would make groups a time-invariant attribute
     IDs = ['id'+str(i) for i in list(np.repeat(np.arange(1,N+1),T))] 
 
     descriptive = pd.DataFrame({'IDCode': IDs,
@@ -33,13 +34,12 @@ def transform_group_into_ordinal(descriptive=None):
     
     descriptive_ord['Group'] = descriptive_ord['Group'].astype('category') # will assume that alphabetical order will be maintained
 
-    print(descriptive_ord.dtypes)
-
     return descriptive_ord
 
-def create_targets(descriptive=None, info=None):
+def create_targets(descriptive=None, synparams=None, info=None):
 
     T = descriptive['TimeInd'].max()
+    syn_noise = synparams[4]
 
     cat_values = descriptive['Group'].values.categories
     cat_codes = descriptive['Group'].values.codes
@@ -58,7 +58,7 @@ def create_targets(descriptive=None, info=None):
             for g in groups_int:
                 group_time_size = group_time_distances.loc[(t,cat_values[g]), 'IDCount']
                 group_time_distance = group_time_distances.loc[(t,cat_values[g]), 'y']
-                target_data = np.random.normal(loc=10.0+group_time_distance, scale=0.01, size=group_time_size)
+                target_data = np.random.normal(loc=10.0+group_time_distance, scale=syn_noise, size=group_time_size)
                 
                 target.loc[(target['TimeInd'] == t) & (target['Group'] == cat_values[g]), 'Target'+type_subgroup] = target_data
                 target.loc[(target['TimeInd'] == t) & (target['Group'] == cat_values[g]), 'GroupTimeDistance'+type_subgroup] = np.repeat(group_time_distance, group_time_size)
@@ -82,7 +82,7 @@ def define_subgroups(descriptive=None, T=None, groups_int=None, cat_values=None)
     subgroups = {}
     for type_subgroup in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
         group_time_means = descriptive.copy()
-        group_time_means = group_time_means.groupby(['TimeInd', 'Group']).count().unstack(fill_value=0).stack()        
+        group_time_means = group_time_means.groupby(['TimeInd', 'Group'],observed=False).count().unstack(fill_value=0).stack()    
         group_time_means.rename({'IDCode':'IDCount'}, axis='columns', inplace=True)
         group_time_means['y'] = np.nan
         for t in np.arange(1,T+1):

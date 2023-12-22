@@ -11,21 +11,22 @@ import experiment.distribution_false_discoveries as dfd
 def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=None, simulation_params=None, beam_search_params=None, model_params=None, alg_constraints=None, dfd_params=None, wcs_params=None):
 
     syn_simulation_result = []
-    synparamset = list(it.product(synthetic_params['N'], synthetic_params['T'], synthetic_params['G']))
+    synparamset = list(it.product(synthetic_params['N'], synthetic_params['T'], synthetic_params['G'], synthetic_params['minsize'], synthetic_params['noise']))
     desc_keys = datasets_names
         
     h = 1
     for synparams in synparamset:
 
         print(synparams)
-        # adapt min_size to G^T
-        alg_constraints['min_size'] = 1/((synparams[2]**synparams[1])+1)
-        print(alg_constraints['min_size'])
+        if synparams[3] == 'default': 
+            alg_constraints['min_size'] = 0.05
+        elif synparams[3] == 'adapted': 
+            # adapt min_size to G^T
+            alg_constraints['min_size'] = 1/((synparams[2]**synparams[1])+1)
 
         # create or extract data
         # this dataset contains synthetic_params['SGTypes'] number of subgroup types
         descriptive_datasets, attribute_sets, target, syn_data_at_path = sd.retrieve_synthetic_data(data_from=data_from, synparams=synparams, datasets_names=datasets_names)
-        print(attribute_sets)
 
         all_types = synthetic_params['SGTypes'].copy()
         

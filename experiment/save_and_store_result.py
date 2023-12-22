@@ -21,11 +21,11 @@ def save_and_store_synthetic_result(syn_simulation_result=None, output_to_path=N
         simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_path=output_to_specific_path)
         
         for row in np.arange(0,simulation_summary.shape[0]):
-            syn_sum = dict(zip(['N','T','G','SGType'],synparams))
+            syn_sum = dict(zip(['N','T','G','SGType','minsize','noise'],synparams))
             syn_sum.update(pd.Series.to_dict(simulation_summary.iloc[row,:]))
             syn_results_ls.append(syn_sum)
 
-            an_info_sum = dict(zip(['N','T','G','SGType'],synparams))
+            an_info_sum = dict(zip(['N','T','G','SGType','minsize','noise'],synparams))
             an_info_sum.update(pd.Series.to_dict(info_summary.iloc[row,:]))
             info_summary_ls.append(an_info_sum)
 

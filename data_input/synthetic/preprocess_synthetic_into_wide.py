@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def into_wide(ddlong=None, info=None):
+def into_wide(ddlong=None, extra_descriptors=None, info=None):
 
     # start from ddlong
     # change into wide format and add the 1 : maxT to every column
@@ -13,9 +13,12 @@ def into_wide(ddlong=None, info=None):
     descriptive_wide = remove_multi_index(ddwide=ddwide)
     descriptive_wide_cat = add_category_type(descriptive_wide=descriptive_wide)    
 
-    info.update({'shape_wide_0': descriptive_wide_cat.shape[0], 'shape_wide_1': descriptive_wide_cat.shape[1], 'na_wide_rows': descriptive_wide_cat.isnull().any(axis=1).sum(), 'na_wide_overall': descriptive_wide_cat.isnull().sum().sum()})
+    descriptive_wide_cat_added = add_basic_descriptors_to_wide(ddwide=descriptive_wide_cat, extra_descriptors=extra_descriptors, info=info)
 
-    return descriptive_wide_cat, info
+    info.update({'shape_wide_0': descriptive_wide_cat_added.shape[0], 'shape_wide_1': descriptive_wide_cat_added.shape[1], 'na_wide_rows': descriptive_wide_cat_added.isnull().any(axis=1).sum(), 
+                 'na_wide_overall': descriptive_wide_cat_added.isnull().sum().sum()})
+
+    return descriptive_wide_cat_added, info
 
 def check_for_completely_NA(ddwide=None):
 
@@ -43,4 +46,18 @@ def add_category_type(descriptive_wide=None):
         descriptive_wide_cat[c] = descriptive_wide_cat[c].astype('category')
 
     return descriptive_wide_cat
+
+def add_basic_descriptors_to_wide(ddwide=None, extra_descriptors=None, info=None):
+
+    extra_descs_invar = info['extra_desc_invar']
+    extra_descs_var = info['extra_desc_var']
+
+    # do something to merge ddwide and db
+    ddwide_added = ddwide.copy()
+
+    # do this for timeinvariant descs
+    #descriptive_wide = pd.merge(descriptive_wide, extra_descriptors.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
+    # do something else for timevariant descs
+
+    return ddwide_added
 
