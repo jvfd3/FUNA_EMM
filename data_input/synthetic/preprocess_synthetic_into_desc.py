@@ -40,7 +40,10 @@ def desc_columns_per_case(x=None, unique_codes=None):
         letter = string.ascii_lowercase[code]
 
         medtime_plus_one = [i+1 for i in medtime]
-        d['idx'+letter] = np.median(medtime_plus_one)
+        if len(medtime_plus_one) > 0: 
+            d['idx'+letter] = np.median(medtime_plus_one)
+        else:
+            d['idx'+letter] = 0.0
         cols += ['idx'+letter]
         
         d['len'+letter] = len(medtime_plus_one)        
