@@ -61,7 +61,10 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
         types = data.dtypes
         types.drop('IDCode', inplace=True)
 
+        # exceptions that are handled manually
         attributes = {'bin_atts': [], 'num_atts': [], 'nom_atts': [], 'ord_atts': []}
+        attributes, types = handle_type_exceptions(attributes=attributes, types=types, key=key)
+
         attributes['bin_atts'] = attributes['bin_atts'] + []
         attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values) + list(types[types == 'int32'].index.values)
         attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
@@ -75,3 +78,19 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
         attribute_sets[key] = attributes
 
     return descriptives, attribute_sets, target
+
+def handle_type_exceptions(attributes=None, types=None, key=None):
+
+    should_be_seen_as_binary_invar = [i for i in types.index.values if i.startswith('bininvar')]
+
+    if key in ['long_target', 'long', 'wide_target', 'wide']:
+        should_be_seen_as_binary_var = [i for i in types.index.values if i.startswith('binvar')]
+    else:
+        should_be_seen_as_binary_var = []    
+
+    should_be_seen_as_binary = should_be_seen_as_binary_invar + should_be_seen_as_binary_var
+
+    types.drop(should_be_seen_as_binary, inplace=True, errors='ignore')
+    attributes['bin_atts'] = should_be_seen_as_binary
+
+    return attributes, types

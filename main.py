@@ -32,7 +32,7 @@ def main(data_name=None, data_from=None, datasets_names=None, simulation_params=
     beam_search_params.update(wcs_params)
     
     dfs = {'simulation_summary': simulation_summary, 'distributions': distribution_summary, 'analysis_info': info_summary, 'experiment_info': pd.DataFrame(dict([(k,pd.Series(v)) for k,v in beam_search_params.items()]))}
-    excel_file_name = output_to_path + str(list(simulation_params.values())) + '_' + '.xlsx'
+    excel_file_name = output_to_path + str(list(simulation_params.values())) + '.xlsx'
     
     writer = pd.ExcelWriter(excel_file_name, engine='xlsxwriter')
     for sheet_name in dfs.keys():
@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     # Synthetic
     main(data_name='synthetic', 
-         datasets_names=['desc_target'], #['long_target', 'wide_target', 'desc_target'],
+         datasets_names=['long_target', 'wide_target', 'desc_target'],
          simulation_params = {'dbs': [False], 'wcs': [False], 'dp': [False], 'md': ['without'], 'sample': None},
          synthetic_params = {'N': [10], 'T': [10], 'G': [3], 'SGTypes': ['D'], 'minsize': ['default', 'adapted'], 'noise': [0.1, 1.0]},
          beam_search_params = {'b': 8, 'w': 10, 'd': 5, 'q': 10}, # for now, we use a simple target model
@@ -71,7 +71,7 @@ if __name__ == '__main__':
          alg_constraints = {'min_size': None}, # adapt to G^T
          dfd_params = {'make_normal': True, 'make_dfd': False, 'm': None},
          wcs_params = {'gamma': 0.9},
-         date='22122023', 
+         date='29122023', 
          data_from="./data_input/",
          output_to="./output/"
     )

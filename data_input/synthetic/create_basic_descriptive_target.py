@@ -16,7 +16,7 @@ def create_descriptive(synparams=None):
 
     info = {'N': N, 'T': T, 'G': G, 'groups': groups, 'seed': 2024}
 
-    sampled_groups = random.choices(groups, k=N*T) # this create uniform distribution of cases with equal probability of having one of the G^T possible sequences
+    sampled_groups = random.choices(groups, k=N*T) # this creates a uniform distribution of cases with equal probability of having one of the G^T possible sequences
     #sampled_groups = np.repeat(random.choices(groups, k=N),T) # this would make groups a time-invariant attribute
     IDs = ['id'+str(i) for i in list(np.repeat(np.arange(1,N+1),T))] 
 

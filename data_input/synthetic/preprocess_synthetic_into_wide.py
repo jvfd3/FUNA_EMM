@@ -4,16 +4,18 @@ import numpy as np
 def into_wide(ddlong=None, extra_descriptors=None, info=None):
 
     # start from ddlong
+    ddlong_added = add_basic_descriptors_to_wide_variant(ddlong=ddlong, extra_descriptors=extra_descriptors, info=info)
+
     # change into wide format and add the 1 : maxT to every column
-    cols = ddlong.drop(['IDCode','TimeInd'],axis=1).columns.values
-    ddwide = ddlong.pivot(index='IDCode',columns='TimeInd',values=cols)
+    cols = ddlong_added.drop(['IDCode','TimeInd'],axis=1).columns.values
+    ddwide = ddlong_added.pivot(index='IDCode',columns='TimeInd',values=cols)
     # ddwide.columns.values are now tuples
 
     ddwide = check_for_completely_NA(ddwide=ddwide)    
     descriptive_wide = remove_multi_index(ddwide=ddwide)
     descriptive_wide_cat = add_category_type(descriptive_wide=descriptive_wide)    
 
-    descriptive_wide_cat_added = add_basic_descriptors_to_wide(ddwide=descriptive_wide_cat, extra_descriptors=extra_descriptors, info=info)
+    descriptive_wide_cat_added = add_basic_descriptors_to_wide_invariant(ddwide=descriptive_wide_cat, extra_descriptors=extra_descriptors, info=info)
 
     info.update({'shape_wide_0': descriptive_wide_cat_added.shape[0], 'shape_wide_1': descriptive_wide_cat_added.shape[1], 'na_wide_rows': descriptive_wide_cat_added.isnull().any(axis=1).sum(), 
                  'na_wide_overall': descriptive_wide_cat_added.isnull().sum().sum()})
@@ -47,17 +49,17 @@ def add_category_type(descriptive_wide=None):
 
     return descriptive_wide_cat
 
-def add_basic_descriptors_to_wide(ddwide=None, extra_descriptors=None, info=None):
+def add_basic_descriptors_to_wide_variant(ddlong=None, extra_descriptors=None, info=None):
 
-    extra_descs_invar = info['extra_desc_invar']
-    extra_descs_var = info['extra_desc_var']
+    extra_descs_var = info['extra_desc_var'] + ['IDCode'] + ['TimeInd']
+    ddlong_added = pd.merge(ddlong, extra_descriptors[extra_descs_var], how = "left")
 
-    # do something to merge ddwide and db
-    ddwide_added = ddwide.copy()
+    return ddlong_added
 
-    # do this for timeinvariant descs
-    #descriptive_wide = pd.merge(descriptive_wide, extra_descriptors.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
-    # do something else for timevariant descs
+def add_basic_descriptors_to_wide_invariant(ddwide=None, extra_descriptors=None, info=None):
+
+    extra_descs_invar = info['extra_desc_invar'] + ['IDCode']
+    ddwide_added = pd.merge(ddwide, extra_descriptors[extra_descs_invar], how = "left")
 
     return ddwide_added
 

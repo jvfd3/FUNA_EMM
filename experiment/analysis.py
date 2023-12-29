@@ -17,7 +17,8 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=Non
     h = 1
     for synparams in synparamset:
 
-        print(synparams)
+        print('Data created for', h, 'out of', len(synparamset), ' combinations:', synparams)      
+
         if synparams[3] == 'default': 
             alg_constraints['min_size'] = 0.05
         elif synparams[3] == 'adapted': 
@@ -30,9 +31,10 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=Non
 
         all_types = synthetic_params['SGTypes'].copy()
         
+        j = 1
         for subgroup_type in synthetic_params['SGTypes']:
             synparamstype = synparams + tuple(subgroup_type)
-            print(synparamstype)
+            print('Simulation for ', j, 'out of', len(synthetic_params['SGTypes']), ' subgroup types:', subgroup_type)  
 
             all_types.remove(subgroup_type)
             selcolumns = ['Target'+sg for sg in all_types]
@@ -45,6 +47,8 @@ def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=Non
             single_simulation_result = analysis_per_dataset(descriptive_datasets=descriptive_datasets, attribute_sets=attribute_sets, target=targettype, simulation_params=simulation_params, 
                                                             beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, dfd_params=dfd_params, alg_constraints=alg_constraints)
             syn_simulation_result.append({'synparams': synparamstype, 'single_simulation_result': single_simulation_result, 'syn_data_at_path': syn_data_at_path})
+
+            j += 1
 
         h += 1
 
@@ -82,7 +86,7 @@ def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=
             result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attribute_sets[params[0]], descriptive=descriptive_datasets[params[0]], sim_params=params, beam_search_params=beam_search_params, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
             et = time.time()
             elapsed_time = et - st
-            print('Execution time:', elapsed_time, 'seconds')
+            #print('Execution time:', elapsed_time, 'seconds')
 
         # check if distribution has to be made
         if dfd_params['make_dfd']:
