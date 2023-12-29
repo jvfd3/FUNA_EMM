@@ -55,5 +55,10 @@ def calculate_varphi(estimates=None, model_params=None, general_params=None):
         varphi = np.round(np.abs(estimates['mean'] - general_params['estimates']['mean']) / estimates['mean_se'],1)
     if model_params['model'] == 'zmean_high': # one-sided
         varphi = np.round((estimates['mean'] - general_params['estimates']['mean']) / estimates['mean_se'],1)
+    if model_params['model'] == 'zslope_high': # one-sided
+        if estimates['slope_se'] > 0: 
+            varphi = np.round((estimates['slope'] - general_params['estimates']['slope']) / estimates['slope_se'],1)
+        else:
+            varphi = 0
 
     return varphi

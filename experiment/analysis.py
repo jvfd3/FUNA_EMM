@@ -66,14 +66,16 @@ def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=
 
     desc_keys = descriptive_datasets.keys()
     # order is important! 
-    paramset = list(it.product(list(desc_keys), simulation_params['dbs'], simulation_params['wcs'], simulation_params['dp'], simulation_params['md'])) 
+    paramset = list(it.product(list(desc_keys), simulation_params['dbs'], simulation_params['wcs'], simulation_params['dp'], simulation_params['md'], simulation_params['target_model'])) 
 
     i = 1
     simulation_result = []
     for params in paramset:
         
         params = list(params)
-        print('Simulation', i, 'out of', len(paramset), ':', params)      
+        print('Simulation', i, 'out of', len(paramset), ':', params)     
+
+        model_params['model'] = params[5]
 
         distribution=None  
         result_emm=None

@@ -21,11 +21,11 @@ def save_and_store_synthetic_result(syn_simulation_result=None, output_to_path=N
         simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_path=output_to_specific_path)
         
         for row in np.arange(0,simulation_summary.shape[0]):
-            syn_sum = dict(zip(['N','T','G','SGType','minsize','noise'],synparams))
+            syn_sum = dict(zip(['N','T','G','minsize','noise','SGType'],synparams))
             syn_sum.update(pd.Series.to_dict(simulation_summary.iloc[row,:]))
             syn_results_ls.append(syn_sum)
 
-            an_info_sum = dict(zip(['N','T','G','SGType','minsize','noise'],synparams))
+            an_info_sum = dict(zip(['N','T','G','minsize','noise','SGType'],synparams))
             an_info_sum.update(pd.Series.to_dict(info_summary.iloc[row,:]))
             info_summary_ls.append(an_info_sum)
 
@@ -51,9 +51,9 @@ def save_and_store_result(simulation_result=None, output_to_path=None):
         distribution = bs['distribution']    
         attributes = bs['attributes']
 
-        sum = dict(zip(['data','dbs','wcs','dp','md'],params))
-        distribution_sum = dict(zip(['data','dbs','wcs','dp','md'],params))
-        info_sum = dict(zip(['data','dbs','wcs','dp','md'],params))
+        sum = dict(zip(['data','dbs','wcs','dp','md','tm'],params))
+        distribution_sum = dict(zip(['data','dbs','wcs','dp','md', 'tm'],params))
+        info_sum = dict(zip(['data','dbs','wcs','dp','md', 'tm'],params))
 
         # separately save pd dataframe
         if result_emm is not None:
@@ -91,7 +91,7 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
     sum_result_emm = {'len_result_set': len(result_emm)}
 
-    iqr_over_names = ['varphi', 'mean_est', 'se_est', 'size_id']
+    iqr_over_names = ['varphi', 'mean_est', 'se_est', 'slope_est', 'se_slope', 'size_id']
     for name in iqr_over_names:
     
         vals = result_emm[name].quantile(iqrs, interpolation='linear')

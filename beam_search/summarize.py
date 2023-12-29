@@ -24,6 +24,8 @@ def obtain_subgroup_results(result_set=None):
                          desc['qualities']['varphi'],
                          desc['qualities']['estimates']['mean'],
                          desc['qualities']['estimates']['mean_se'],
+                         desc['qualities']['estimates']['slope'],
+                         desc['qualities']['estimates']['slope_se'],
                          desc['adds']['idxIDs']['size_sg'],
                          desc['adds']['idxIDs']['size_sg_rows'],
                          desc['adds']['idxIDs']['idx_id'])
@@ -35,6 +37,8 @@ def obtain_subgroup_results(result_set=None):
                                                  'varphi',
                                                  'mean_est',
                                                  'se_est',
+                                                 'slope_est', 
+                                                 'se_slope', 
                                                  'size_id',
                                                  'size_rows',
 
