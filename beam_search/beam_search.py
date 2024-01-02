@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 
+from joblib import Parallel, delayed
+
 import beam_search.qualities as qu
 import beam_search.refinements as rf
 import beam_search.select_subgroup as ss
@@ -37,12 +39,10 @@ def beam_search(target=None, attributes=None, descriptive=None, sim_params=None,
         n_consd = 0
         n_sim_descs = 0
         n_small_groups = 0
-        
+
         cq_satisfied = []
         for seed in candidate_queue:
-
-            #print('seed', seed['description'])
-
+            
             if d_i == 1:
                 seed_set = []
                 seed_set.append(seed)

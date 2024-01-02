@@ -1,85 +1,136 @@
 import numpy as np
 import pandas as pd
+import itertools as it
 import os
 
-def save_and_store_synthetic_result(syn_simulation_result=None, output_to_path=None):
+def create_empty_output_file(output_to_path=None):
 
-    distribution_summary = {}
-    info_summary_ls = []
-    syn_results_ls = []
+    dfs = {'simulation_summary': pd.DataFrame(), 'distributions': pd.DataFrame(), 
+           'analysis_info': pd.DataFrame(), 'experiment_info': pd.DataFrame()}
+    excel_file_name = output_to_path + 'output.xlsx'
 
-    for syn in syn_simulation_result:       
+    write_to_file(excel_file_name=excel_file_name, dfs=dfs)
+    
+    sheet_names = dfs.keys()
 
-        synparams = syn['synparams']
-        single_simulation_result = syn['single_simulation_result']
-        syn_data_at_path = syn['syn_data_at_path']        
-        
-        output_to_specific_path = output_to_path + str(list(synparams)) + '/'
-        if not os.path.exists(output_to_specific_path):
-            os.makedirs(output_to_specific_path)        
+    return excel_file_name, sheet_names
 
-        simulation_summary, distribution_summary, info_summary = save_and_store_result(simulation_result=single_simulation_result, output_to_path=output_to_specific_path)
-        
-        for row in np.arange(0,simulation_summary.shape[0]):
-            syn_sum = dict(zip(['N','T','G','minsize','noise','SGType'],synparams))
-            syn_sum.update(pd.Series.to_dict(simulation_summary.iloc[row,:]))
-            syn_results_ls.append(syn_sum)
+def update_output_file(excel_file_name=None, sheet_names=None, result_sum=None, distribution_sum=None, info_sum=None):     
 
-            an_info_sum = dict(zip(['N','T','G','minsize','noise','SGType'],synparams))
-            an_info_sum.update(pd.Series.to_dict(info_summary.iloc[row,:]))
-            info_summary_ls.append(an_info_sum)
+    # open output file at location excel_file_name
+    dfs = open_file(excel_file_name=excel_file_name, sheet_names=sheet_names)
 
-    syn_results = pd.DataFrame.from_records(syn_results_ls)  
-    info_results = pd.DataFrame.from_records(info_summary_ls)  
-    print(syn_results)  
+    if result_sum is not None:
+        df = dfs['simulation_summary']
+        dfnew = pd.concat((df, pd.DataFrame(result_sum,index=[0])))
+        dfs['simulation_summary'] = dfnew
+    
+    if distribution_sum is not None:
+        df = dfs['distributions']
+        dfnew = pd.concat((df, pd.DataFrame(distribution_sum,index=[0])))
+        dfs['distributions'] = dfnew
 
-    return syn_results, distribution_summary, info_results
+    if info_sum is not None:
+        df = dfs['analysis_info']
+        dfnew = pd.concat((df, pd.DataFrame(pd.Series(info_sum))),axis=1)
+        dfs['analysis_info'] = dfnew
 
-def save_and_store_result(simulation_result=None, output_to_path=None):
+    write_to_file(excel_file_name=excel_file_name, dfs=dfs)
 
-    simulation_summary_ls = []
-    distribution_summary_ls = []
-    info_summary_ls = []
+    return True
 
-    for bs in simulation_result:
+def update_info_about_synthetic_result(synparamset=None, SGTypes=None, excel_file_name=None, sheet_names=None):
 
-        params = bs['params']
-        result_emm = bs['result_emm']
-        general_params = bs['general_params']
-        considered_subgroups = bs['considered_subgroups']
-        time = bs['time']
-        distribution = bs['distribution']    
-        attributes = bs['attributes']
+    dfs = open_file(excel_file_name=excel_file_name, sheet_names=sheet_names)
+    nrows = dfs['simulation_summary'].shape[0]
+    
+    # create colums and rows
+    combs = [(*x, y) for x, y in list(it.product(synparamset, SGTypes))]
+    df = pd.DataFrame(combs, columns=['N', 'T', 'G', 'minsize', 'noise', 'SGType'])
+    nrrepeat = nrows / df.shape[0]
 
-        sum = dict(zip(['data','dbs','wcs','dp','md','tm'],params))
-        distribution_sum = dict(zip(['data','dbs','wcs','dp','md', 'tm'],params))
-        info_sum = dict(zip(['data','dbs','wcs','dp','md', 'tm'],params))
+    dfcombs = pd.DataFrame(np.repeat(df.values, nrrepeat, axis=0))
+    dfcombs.columns = df.columns
+    
+    simsum = dfs['simulation_summary']
+    dfnew = pd.concat((dfcombs, simsum), axis=1)
+    dfs['simulation_summary'] = dfnew
 
-        # separately save pd dataframe
-        if result_emm is not None:
-            store_result_emm = result_emm.drop(['idx_id'],axis=1)
-            store_result_emm.to_csv(output_to_path + str(list(params)) + '.txt', sep='\t', index=False)
-            sum.update(obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time)) 
+    write_to_file(excel_file_name=excel_file_name, dfs=dfs)
+
+    return True
+
+def final_update_experiment_info(excel_file_name=None, experiment_info=None, sheet_names=None):
+
+    dfs = open_file(excel_file_name=excel_file_name, sheet_names=sheet_names)
+    dfs['experiment_info'] = pd.DataFrame(dict([(k,pd.Series(v)) for k,v in experiment_info.items()]))
+    dfs['analysis_info'] = dfs['analysis_info'].T
+
+    print(dfs['simulation_summary'])
+    
+    write_to_file(excel_file_name=excel_file_name, dfs=dfs)
+
+    return True
+
+def open_file(excel_file_name=None, sheet_names=None):
+
+    dfs = {}
+    for sheet_name in sheet_names:
+        dfs[sheet_name] = pd.read_excel(excel_file_name, sheet_name=sheet_name)
+
+    return dfs
+
+def write_to_file(excel_file_name=None, dfs=None):
+
+    writer = pd.ExcelWriter(excel_file_name, engine='xlsxwriter')
+    for sheet_name in dfs.keys():
+        dfs[sheet_name].to_excel(writer, sheet_name=sheet_name, index=False)
+    writer.close()    
+
+    return True
+
+def save_and_store_result(simulation_result=None, output_to_path=None, excel_file_name=None, sheet_names=None):
+
+    params = simulation_result['params']
+    result_emm = simulation_result['result_emm']
+    general_params = simulation_result['general_params']
+    considered_subgroups = simulation_result['considered_subgroups']
+    time = simulation_result['time']
+    distribution = simulation_result['distribution']    
+    attributes = simulation_result['attributes']
+
+    result_sum = dict(zip(['data','dbs','wcs','dp','md','tm'],params))
+    distribution_sum = dict(zip(['data','dbs','wcs','dp','md', 'tm'],params))
+    info_sum = dict(zip(['data','dbs','wcs','dp','md', 'tm'],params))
+
+    # separately save pd dataframe with results list of one beam search
+    if result_emm is not None:
+        store_result_emm = result_emm.drop(['idx_id'],axis=1)
+        store_result_emm.to_csv(output_to_path + str(list(params)) + '.txt', sep='\t', index=False)
+        result_sum.update(obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time)) 
             
-            info_sum.update(considered_subgroups) 
-            info_sum.update(general_params)  
-            info_sum.update(attributes)     
+        info_sum.update(considered_subgroups) 
+        info_sum.update(general_params)  
+        info_sum.update(attributes)     
             
-        if distribution is not None:       
-            distribution_params = obtain_summary_values_dfd(distribution=distribution)
-            sum.update(distribution_params)
-            sum.update(calculate_number_rejected(result_emm=result_emm, distribution_params=distribution_params))
-            distribution_sum.update({'distribution':distribution})       
+    if distribution is not None:       
+        distribution_params = obtain_summary_values_dfd(distribution=distribution)
+        sum.update(distribution_params)
+        sum.update(calculate_number_rejected(result_emm=result_emm, distribution_params=distribution_params))
+        distribution_sum.update({'distribution':distribution})  
+
+    # open empty excel file and add simulation summary, distribution summary and info summary
+    update_output_file(excel_file_name=excel_file_name, result_sum=result_sum, distribution_sum=distribution_sum, info_sum=info_sum, sheet_names=sheet_names)     
         
-        simulation_summary_ls.append(sum)
-        distribution_summary_ls.append(distribution_sum)
-        info_summary_ls.append(info_sum)
+    #simulation_summary_ls.append(sum)
+    #distribution_summary_ls.append(distribution_sum)
+    #info_summary_ls.append(info_sum)
 
-    simulation_summary = pd.DataFrame.from_records(simulation_summary_ls)    
-    distribution_summary = pd.DataFrame.from_records(distribution_summary_ls)  
-    info_summary = pd.DataFrame.from_records(info_summary_ls)   
-
-    return simulation_summary, distribution_summary, info_summary
+    #simulation_summary = pd.DataFrame.from_records(simulation_summary_ls)    
+    #distribution_summary = pd.DataFrame.from_records(distribution_summary_ls)  
+    #info_summary = pd.DataFrame.from_records(info_summary_ls)  
+    
+    return True
 
 def obtain_summary_values_emm(result_emm=None, general_params=None, time=None):
 
