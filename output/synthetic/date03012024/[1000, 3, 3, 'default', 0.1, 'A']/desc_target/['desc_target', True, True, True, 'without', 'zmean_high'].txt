@@ -1,0 +1,6 @@
+medgroup	idxc	binvar3mean	bininvar4	binvar4mean	binvar5mean	lenc	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+(3.0, 3.0)	(1.5, 2.0)	(0.6666666666666666, 1.0)					('medgroup', 'idxc', 'binvar3mean')	3.2	10.0164	0.0058	-0.0063	0.0069	0.097	0.097
+(3.0, 3.0)	(1.5, 2.0)	(0.3333333333333333, 1.0)					('medgroup', 'idxc', 'binvar3mean')	3.1	10.0116	0.0043	-0.0022	0.0052	0.182	0.182
+	(0.0, 2.0)	(0.3333333333333333, 1.0)				(2.0, 3.0)	('idxc', 'lenc', 'binvar3mean')	3.1	10.0116	0.0043	-0.0022	0.0052	0.182	0.182
+	(0.0, 2.0)	(0.6666666666666666, 1.0)				(2.0, 3.0)	('idxc', 'lenc', 'binvar3mean')	3.2	10.0164	0.0058	-0.0063	0.0069	0.097	0.097
+			0.0	(0.6666666666666666, 1.0)	(0.5, 1.0)		('bininvar4', 'binvar4mean', 'binvar5mean')	3.2	10.0154	0.0054	0.0049	0.0071	0.113	0.113

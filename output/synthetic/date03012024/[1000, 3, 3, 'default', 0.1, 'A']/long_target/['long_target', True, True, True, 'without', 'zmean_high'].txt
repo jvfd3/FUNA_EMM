@@ -1,0 +1,6 @@
+binvar2	binvar5	bininvar5	bininvar3	Group	binvar1	TimeInd	bininvar2	bininvar4	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+0.0	1.0	0.0							('binvar2', 'binvar5', 'bininvar5')	2.7	10.0115	0.0049	-0.0006	0.0042	0.301	0.134
+0.0	1.0							0.0	('binvar2', 'binvar5', 'bininvar4')	2.6	10.0113	0.0051	-0.0007	0.004	0.279	0.12033333333333333
+0.0						(3.0, 3.0)		1.0	('binvar2', 'TimeInd', 'bininvar4')	2.5	10.0135	0.0062	0.0	0.0	0.253	0.08433333333333333
+			1.0	['c']	0.0				('bininvar3', 'Group', 'binvar1')	2.7	10.014	0.0059	-0.0023	0.0034	0.228	0.08966666666666667
+			1.0			(1.0, 1.0)	0.0		('TimeInd', 'bininvar2', 'bininvar3')	2.6	10.0143	0.0062	0.0	0.0	0.262	0.08733333333333333

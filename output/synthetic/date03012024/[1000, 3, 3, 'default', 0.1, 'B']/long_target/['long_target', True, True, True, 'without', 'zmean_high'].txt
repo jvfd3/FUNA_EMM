@@ -1,0 +1,6 @@
+TimeInd	Group	bininvar3	binvar3	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+(3.0, 3.0)				('TimeInd',)	936.8	12.9945	0.0032	0.0	0.0	1.0	0.3333333333333333
+(3.0, 3.0)	['b', 'c']			('TimeInd', 'Group')	788.2	12.9919	0.0038	0.0	0.0	0.694	0.23133333333333334
+(3.0, 3.0)	['a', 'b']			('TimeInd', 'Group')	770.2	13.0008	0.0039	0.0	0.0	0.642	0.214
+(3.0, 3.0)		1.0		('TimeInd', 'bininvar3')	714.5	12.9978	0.0042	0.0	0.0	0.521	0.17366666666666666
+(3.0, 3.0)			1.0	('TimeInd', 'binvar3')	697.5	12.996	0.0043	0.0	0.0	0.489	0.163

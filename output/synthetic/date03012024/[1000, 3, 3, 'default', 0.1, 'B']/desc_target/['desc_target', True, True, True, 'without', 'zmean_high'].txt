@@ -1,0 +1,5 @@
+idxa	bininvar1	bininvar2	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+(1.5, 3.0)			('idxa',)	0.1	10.0008	0.0617	2.9953	0.0033	0.525	0.525
+(1.5, 3.0)	0.0	1.0	('idxa', 'bininvar1', 'bininvar2')	0.1	10.0071	0.1238	3.0107	0.0069	0.132	0.132
+(1.5, 2.0)	0.0		('idxa', 'bininvar1', 'idxa')	0.1	10.0027	0.113	2.9985	0.0063	0.157	0.157
+	0.0		('bininvar1',)	0.0	9.9971	0.0639	3.0008	0.0033	0.492	0.492

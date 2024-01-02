@@ -53,15 +53,15 @@ if __name__ == '__main__':
 
     # Synthetic
     main(data_name='synthetic', 
-         datasets_names=['long_target'],
-         simulation_params = {'dbs': [False], 'wcs': [False], 'dp': [False], 'md': ['without'], 'target_model': ['zmean_high'], 'sample': None},
-         synthetic_params = {'N': [10], 'T': [3], 'G': [2], 'SGTypes': ['C'], 'minsize': ['default'], 'noise': [0.1]},
-         beam_search_params = {'b': 2, 'w': 5, 'd': 2, 'q': 5}, 
+         datasets_names=['long_target', 'wide_target', 'desc_target'],
+         simulation_params = {'dbs': [True], 'wcs': [True], 'dp': [True], 'md': ['without'], 'target_model': ['zmean_high'], 'sample': None},
+         synthetic_params = {'N': [1000], 'T': [3], 'G': [3], 'SGTypes': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'], 'minsize': ['default'], 'noise': [0.1]},
+         beam_search_params = {'b': 4, 'w': 20, 'd': 3, 'q': 5}, 
          model_params = {'model': None, 'column_name': 'Target'}, #zmean, zmean_high, zslope_high
          alg_constraints = {'min_size': None}, # adapt to G^T
          dfd_params = {'make_normal': True, 'make_dfd': False, 'm': None},
          wcs_params = {'gamma': 0.9},
-         date='02012024', 
+         date='03012024', 
          data_from="./data_input/",
          output_to="./output/"
     )

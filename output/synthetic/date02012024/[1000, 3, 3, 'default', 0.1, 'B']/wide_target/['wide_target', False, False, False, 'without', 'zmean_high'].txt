@@ -1,0 +1,6 @@
+binvar22	Group2	Group3	bininvar1	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+0.0				('binvar22',)	0.1	10.0001	0.0639	2.9983	0.0032	0.49	0.49
+0.0			1.0	('binvar22', 'bininvar1')	0.1	10.0015	0.0895	2.999	0.0045	0.25	0.25
+	['a']			('Group2',)	0.1	10.001	0.0782	2.9959	0.0042	0.327	0.327
+		['a']		('Group3',)	0.1	10.0022	0.0809	2.9973	0.0042	0.306	0.306
+		['a', 'b']		('Group3',)	0.1	9.9997	0.0559	3.0006	0.0029	0.642	0.642
