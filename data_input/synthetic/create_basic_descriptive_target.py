@@ -39,7 +39,7 @@ def transform_group_into_ordinal(descriptive=None):
 def create_targets(descriptive=None, synparams=None, info=None):
 
     T = descriptive['TimeInd'].max()
-    syn_noise = synparams[4]
+    syn_noise = synparams[3]
 
     cat_values = descriptive['Group'].values.categories
     cat_codes = descriptive['Group'].values.codes
@@ -149,7 +149,7 @@ def create_and_store_subgroup_figures(subgroups=None):
 
         group_time_means = subgroups[type_subgroup] #length of T * G
         gtm = group_time_means.reset_index()
-        groups = gtm.groupby('Group')
+        groups = gtm.groupby('Group', observed=False)
 
         fig, ax = plt.subplots()    
         for name, group in groups:

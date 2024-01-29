@@ -31,12 +31,12 @@ def check_similar_description(desc=None, cq_satisfied=None, d_i=None, current_be
     return constraint_similar_description
 
 # the min_size values are saved in general_params
-def check_subgroup_size(idxIDs=None, general_params=None, alg_constraints=None):
+def check_subgroup_size(idxIDs=None, general_params=None, sel_params=None):
 
     constraint_subgroup_size = False
 
-    # if subgroup is too small, we have to apply a constraint
-    if len(idxIDs['idx_id']) < alg_constraints['min_size']*len(general_params['IDs']):
+    # we focus on proportion of rows rather than cases
+    if idxIDs['size_sg_rows'] < sel_params['min_size']:
         constraint_subgroup_size = True
 
     return constraint_subgroup_size

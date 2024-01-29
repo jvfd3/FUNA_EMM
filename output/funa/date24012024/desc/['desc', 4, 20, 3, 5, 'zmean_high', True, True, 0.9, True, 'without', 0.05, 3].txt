@@ -1,0 +1,6 @@
+NCIES	NCtimeCmean	grade	NCtimeCmedian	NCRTinterceptNumDis	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+(788.38, 2620.8)	(1283.35, 3044.44)				('NCIES', 'NCtimeCmean')	19.6	3632.1106	49.1882			0.19	0.19
+(922.21, 2620.8)	(1205.16, 3044.44)				('NCIES', 'NCtimeCmean')	19.2	3453.4569	40.7279			0.25	0.25
+		['3', '4', '5']	(971.0, 2502.5)		('grade', 'NCtimeCmedian')	19.0	3341.3973	35.2726			0.31	0.31
+			(971.0, 2502.5)		('dom_pruning',)	18.5	3241.6737	30.8549			0.38	0.38
+				(1312.7, 3911.25)	('NCRTinterceptNumDis',)	18.7	3432.306	40.8022			0.25	0.25

@@ -1,6 +1,0 @@
-Group3	Group1	Group2	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-['a', 'b']	['b', 'c']		('Group3', 'Group1')	25.7	10.9562	0.0388	-0.0469	0.0509	0.438	0.438
-['a', 'b']	['c']		('Group1', 'Group3')	25.5	11.4667	0.0592	-0.8073	0.0509	0.216	0.216
-['a']	['b', 'c']		('Group3', 'Group1')	25.0	11.4909	0.0613	0.7626	0.0536	0.203	0.203
-['a']	['c']		('Group3', 'Group1')	24.9	12.008	0.0823	-0.0068	0.0071	0.1	0.1
-['a', 'b']	['b', 'c']	['b', 'c']	('Group3', 'Group1', 'Group2')	21.9	10.9852	0.0469	-0.1191	0.0618	0.303	0.303

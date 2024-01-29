@@ -54,8 +54,8 @@ def transform_idx_to_IDs(subgroup=None, id_atts=None, data_size_id=None, data_si
     idxIDs = {'id_atts': id_atts,
               'idx_sg': list(subgroup.index.values),
               'idx_id': list(subgroup[id_atts[0]].unique())}
-    idxIDs['size_sg'] = len(idxIDs['idx_id']) / data_size_id
-    idxIDs['size_sg_rows'] = len(subgroup) / data_size_rows
+    idxIDs['size_sg'] = np.round(len(idxIDs['idx_id']) / data_size_id,2)
+    idxIDs['size_sg_rows'] = np.round(len(subgroup) / data_size_rows,2)
 
     # in case of long descriptive data, time counter is an id attribute as well
     if len(id_atts) == 2:

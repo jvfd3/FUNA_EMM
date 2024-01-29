@@ -2,9 +2,24 @@ import pandas as pd
 import numpy as np
 import preprocess_functions as pf
 
-def into_wide(ddlong=None, db=None, info=None):
+def into_wide(ddlong=None, ddlongchecked=None, db=None, info=None):
 
     print('transform into wide')
+
+    descriptive_wide = change_into_wide(ddlong=ddlong, db=db)
+    info.update({'shape_wide_0': descriptive_wide.shape[0], 'shape_wide_1': descriptive_wide.shape[1], 'na_wide_rows': descriptive_wide.isnull().any(axis=1).sum(), 'na_wide_overall': descriptive_wide.isnull().sum().sum()})
+    
+    ddwide10, ddwide50, ddwide90, info = remove_columns_based_on_missings(descriptive_wide, info)  
+
+    descriptive_wide_adapt_to_target = change_into_wide(ddlong=ddlongchecked, db=db)
+    info.update({'shape_wide_adapt_0': descriptive_wide_adapt_to_target.shape[0], 'shape_wide_adapt_1': descriptive_wide_adapt_to_target.shape[1], 
+                 'na_wide_adapt_rows': descriptive_wide_adapt_to_target.isnull().any(axis=1).sum(), 
+                 'na_wide_adapt_overall': descriptive_wide_adapt_to_target.isnull().sum().sum()})
+    #descriptive_wide_adapt_to_target, info = wide_with_18_timepoints(ddlong, db, info)    
+
+    return descriptive_wide, info, ddwide10, ddwide50, ddwide90, descriptive_wide_adapt_to_target
+
+def change_into_wide(ddlong=None, db=None):
 
     # start from ddlong
     # change into wide format and add the 1 : maxT to every column
@@ -20,13 +35,8 @@ def into_wide(ddlong=None, db=None, info=None):
     descriptive_wide = remove_multi_index(ddwide)
 
     descriptive_wide = add_basic_descriptors(descriptive_wide, db)
-    info.update({'shape_wide_0': descriptive_wide.shape[0], 'shape_wide_1': descriptive_wide.shape[1], 'na_wide_rows': descriptive_wide.isnull().any(axis=1).sum(), 'na_wide_overall': descriptive_wide.isnull().sum().sum()})
-    
-    ddwide10, ddwide50, ddwide90, info = remove_columns_based_on_missings(descriptive_wide, info)  
 
-    descriptive_wide_adapt_to_target, info = wide_with_18_timepoints(ddlong, db, info)    
-
-    return descriptive_wide, info, ddwide10, ddwide50, ddwide90, descriptive_wide_adapt_to_target
+    return descriptive_wide
 
 def check_for_completely_NA(ddwide=None):
 
@@ -73,18 +83,3 @@ def remove_columns_based_on_missings(descriptive_wide=None, info=None):
 
     return ddwide10, ddwide50, ddwide90, info
 
-def wide_with_18_timepoints(ddlong=None, db=None, info=None):
-
-    # make a dataset based on the first 18 time points, similar to long_target and desc_target
-    cols = ddlong.drop(['IDCode','PreOrd'],axis=1).columns.values
-    ddlong18 = ddlong[ddlong['PreOrd'] < 19]
-    ddwide18 = ddlong18.pivot(index='IDCode',columns='PreOrd',values=cols)  
-
-    ddwide18 = check_for_completely_NA(ddwide18)    
-
-    ddwide18 = remove_multi_index(ddwide18)
-
-    ddwide18 = add_basic_descriptors(ddwide18, db)
-    info.update({'shape_wide18_0': ddwide18.shape[0], 'shape_wide18_1': ddwide18.shape[1], 'na_wide18_rows': ddwide18.isnull().any(axis=1).sum(), 'na_wide18_overall': ddwide18.isnull().sum().sum()})
-
-    return ddwide18, info

@@ -1,6 +1,0 @@
-binvar13	binvar31	Group3	Group1	binvar33	binvar42	bininvar4	binvar52	bininvar1	binvar22	binvar21	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-1.0	1.0	['a', 'b']									('binvar13', 'binvar31', 'Group3')	3.4	10.0127	0.0043	0.0007	0.0059	0.168	0.168
-1.0						0.0	1.0				('binvar13', 'bininvar4', 'binvar52')	3.3	10.0147	0.0051	-0.0098	0.0061	0.121	0.121
-	1.0							0.0	0.0		('binvar31', 'bininvar1', 'binvar22')	3.2	10.0145	0.0052	0.0017	0.007	0.12	0.12
-			['c']	1.0	1.0						('Group1', 'binvar33', 'binvar42')	3.4	10.0173	0.0056	-0.0149	0.007	0.088	0.088
-			['c']	1.0						0.0	('Group1', 'binvar33', 'binvar21')	3.1	10.0173	0.0062	-0.0125	0.0078	0.079	0.079

@@ -1,0 +1,6 @@
+NCIES	NCtimeCmean	grade	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+(1139.29, 4645.2)			('dom_pruning',)	19.2	3401.0182	38.1493			0.28	0.28
+(1134.0, 4645.2)			('dom_pruning',)	19.1	3396.7225	37.9928			0.28	0.28
+	(1208.78, 4497.2)		('dom_pruning',)	18.9	3361.4036	36.6097			0.3	0.3
+	(1128.65, 4497.2)	['3', '4']	('grade', 'NCtimeCmean')	18.5	3390.3707	38.9511			0.27	0.27
+	(1128.65, 4497.2)		('dom_pruning',)	18.2	3253.5355	31.9895			0.37	0.37

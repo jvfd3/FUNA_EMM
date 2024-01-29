@@ -1,0 +1,6 @@
+difE	binvar5mean	sumE	binvar1mean	binvar2mean	binvar3mean	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+(-9.0, -9.0)	(0.4, 1.0)					('difE', 'difE', 'binvar5mean')	1331.6			0.6678	0.0005	0.09	0.09
+(-9.0, -9.0)		(-17.0, 2.0)				('difE', 'difE', 'sumE')	1331.4			0.6677	0.0005	0.08	0.08
+(-9.0, -9.0)			(0.0, 0.6)			('difE', 'difE', 'binvar1mean')	1331.4			0.6677	0.0005	0.09	0.09
+(-9.0, -9.0)				(0.0, 0.6)		('difE', 'difE', 'binvar2mean')	1331.4			0.6677	0.0005	0.09	0.09
+(-9.0, -9.0)					(0.4, 0.9)	('difE', 'difE', 'binvar3mean')	1331.4			0.6677	0.0005	0.09	0.09

@@ -7,7 +7,7 @@ def into_desc(dd=None, db=None, info=None):
 
     #print(dd.keys()) # the four descriptor datasets
     #print(db.head()) # the 3 basic descriptors
-    dddesc, dddesc_adapt_to_target = transform_into_desc(dd)     
+    dddesc, dddesc_adapt_to_target = transform_into_desc(dd=dd, info=info)     
 
     # add basic descriptors    
     descriptive_desc = pd.merge(dddesc, db.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
@@ -20,35 +20,36 @@ def into_desc(dd=None, db=None, info=None):
 
     return descriptive_desc, info, descriptive_desc_adapt_to_target
 
-def transform_into_desc(dd=None):
+def transform_into_desc(dd=None, info=None):
 
     # first on entire dataset
     # groupby and create desc columns
     ddgrouped = groupby_and_create_desc_columns(dd=dd, selection=False)    
     dddesc = merge_into_desc(dd=ddgrouped)   
 
-    # then for first 18 time points
-    ddgrouped18 = groupby_and_create_desc_columns(dd=dd, selection=True)  
+    # then for the items corresponding with target
+    ddgrouped18 = groupby_and_create_desc_columns(dd=dd, selection=True, info=info)  
     dddesc_adapt_to_target = merge_into_desc(dd=ddgrouped18)   
 
     return dddesc, dddesc_adapt_to_target
 
-def groupby_and_create_desc_columns(dd=None, selection=None):
+def groupby_and_create_desc_columns(dd=None, selection=None, info=None):
 
     ddgrouped = {}
-
+    
     for key in dd.keys():
         data = dd[key].copy()
         if selection:
-            print(key)
-            data = data[data[key+'PreOrd']<19]
-            print(data)
-            print(data.shape)
+            datadm = info['DMIDCodeDMPreOrd']
+            datasel = data[data.set_index(['IDCode',key+'PreOrd']).index.isin(datadm.set_index(['IDCode','DMPreOrd']).index)].reset_index(drop=True)
+            data = datasel.copy()
+            #data = data[data[key+'PreOrd']<19]
         datagrouped = data.groupby('IDCode').apply(pf.desc_columns_per_case, name_task=key)
-        print(datagrouped)
-        print(datagrouped.shape)
-        datagrouped.reset_index(inplace=True)
-        ddgrouped[key] = datagrouped
+        datagrouped_scaled = pf.min_max_scaling(df=datagrouped)
+        #print(datagrouped_scaled)
+        #print(datagrouped_scaled.shape)
+        datagrouped_scaled.reset_index(inplace=True)
+        ddgrouped[key] = datagrouped_scaled
 
     return ddgrouped
 

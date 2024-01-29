@@ -1,0 +1,6 @@
+bininvar5	bininvar3	binvar3	bininvar4	binvar2	Group	binvar1	binvar5	binvar4	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+0.0	0.0	1.0							('bininvar5', 'bininvar3', 'binvar3')	3.1	10.0509	0.0139			0.25	0.13
+0.0	0.0					0.0			('bininvar5', 'bininvar3', 'binvar1')	2.8	10.0475	0.0141			0.25	0.12
+0.0	0.0							0.0	('bininvar5', 'bininvar3', 'binvar4')	2.7	10.0454	0.014			0.25	0.13
+	0.0		1.0	1.0					('bininvar4', 'binvar2', 'bininvar3')	3.1	10.0511	0.0141			0.24	0.12
+					['a']	1.0	1.0		('Group', 'binvar1', 'binvar5')	2.9	10.0677	0.0209			0.59	0.08

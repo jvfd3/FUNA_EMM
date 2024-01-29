@@ -29,10 +29,10 @@ def preprocess_data(tasks=None, path_from=None):
             data = import_data(name_task=name_task, path_from=path_from)
             dataDMs = data.groupby('IDCode').apply(pf.check_suitable_as_target)
             dataDMs.reset_index(drop=True, inplace=True)
+            info[name_task + 'IDCodeDMPreOrd'] = dataDMs[['IDCode','DMPreOrd']].copy()
             # add column with item numbers
-            dataDMs = pf.find_max_and_expand(dataDMs) 
+            #dataDMs = pf.find_max_and_expand(dataDMs) 
             
-
         i += 1
    
     print('add basic descriptors')  
@@ -46,6 +46,9 @@ def preprocess_data(tasks=None, path_from=None):
     print('check and remove IDs')    
     datasets, dataDMs, only_basic_descriptors, IDs = check_IDs(lsdata=datasets, dataDMs=dataDMs, only_basic_descriptors=only_basic_descriptors)  
     info['lenIDs'] = len(IDs)
+
+    print(dataDMs)
+    print(dataDMs.shape)
 
     return datasets, dataDMs, only_basic_descriptors, datasets_cases, info, IDs
     

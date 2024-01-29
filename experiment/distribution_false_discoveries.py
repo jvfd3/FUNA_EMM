@@ -5,33 +5,33 @@ from joblib import Parallel, delayed
 
 import beam_search.beam_search as bs
 
-def distribution_false_discoveries_params(m=None, target=None, attributes=None, descriptive=None, sim_params=None, beam_search_params=None, model_params=None, wcs_params=None, alg_constraints=None):
+def distribution_false_discoveries_params(m=None, target=None, attributes=None, descriptive=None, sel_params=None, extra_info=None):
 
-    beam_search_params_temp = beam_search_params.copy()
-    beam_search_params_temp['q'] = 1
+    sel_params_temp = sel_params.copy()
+    sel_params_temp['q'] = 1
 
     # make list with varphi values
-    distribution = make_distribution_false_discoveries(m=m, target=target, attributes=attributes, descriptive=descriptive, sim_params=sim_params, beam_search_params_temp=beam_search_params_temp, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
+    distribution = make_distribution_false_discoveries(m=m, target=target, attributes=attributes, descriptive=descriptive, sel_params_temp=sel_params_temp, extra_info=extra_info)
 
     return distribution
 
-def make_distribution_false_discoveries(m=None, target=None, attributes=None, descriptive=None, sim_params=None, beam_search_params_temp=None, model_params=None, wcs_params=None, alg_constraints=None):
+def make_distribution_false_discoveries(m=None, target=None, attributes=None, descriptive=None, sel_params_temp=None, extra_info=None):
 
     inputs = range(m)
     print('building distribution of false discoveries...')
 
-    qm_values = Parallel(n_jobs=-2)(delayed(make_false_discovery)(i, target, attributes, descriptive, sim_params, beam_search_params_temp, model_params, wcs_params, alg_constraints) for i in inputs)
+    qm_values = Parallel(n_jobs=-2)(delayed(make_false_discovery)(i, target, attributes, descriptive, sel_params_temp, extra_info) for i in inputs)
 
     return qm_values
 
-def make_false_discovery(i=None, target=None, attributes=None, descriptive=None, sim_params=None, beam_search_params_temp=None, model_params=None, wcs_params=None, alg_constraints=None):
+def make_false_discovery(i=None, target=None, attributes=None, descriptive=None, sel_params_temp=None, extra_info=None):
 
     print(i)
 
     shuffled_descriptive = shuffle_dataset(descriptive=descriptive, attributes=attributes)
 
     # perform beam search    
-    result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive, sim_params=sim_params, beam_search_params=beam_search_params_temp, model_params=model_params, wcs_params=wcs_params, alg_constraints=alg_constraints)
+    result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive, sel_params=sel_params_temp, extra_info=extra_info)
 
     # save qm of the first subgroup
     #print(result_emm)
@@ -41,7 +41,7 @@ def make_false_discovery(i=None, target=None, attributes=None, descriptive=None,
 
 def shuffle_dataset(descriptive=None, attributes=None):
 
-    # this function is very important in the context of wide and long targets
+    # this function is important in the context of wide and long targets
     # currently, target data is selected based on ID and time counter
     # it is thus necessary to swap these columns, rather than changing the indices
     id_atts = attributes['id_atts']

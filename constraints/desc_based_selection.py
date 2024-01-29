@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
 
-def remove_redundant_descriptions(descs=None, stop_number_dbs=None, beam_search_params=None):
+def remove_redundant_descriptions(descs=None, sel_params=None, stop_number_dbs=None):
 
     all_descs = descs.copy()
 
-    if beam_search_params['d_i'] > 1:
+    if sel_params['d_i'] > 1:
 
         # even if the length of descs is small, we still want to remove redundant descriptions
         if len(all_descs) > stop_number_dbs:

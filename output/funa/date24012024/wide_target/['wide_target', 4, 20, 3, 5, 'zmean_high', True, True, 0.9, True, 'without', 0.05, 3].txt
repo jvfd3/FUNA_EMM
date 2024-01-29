@@ -1,0 +1,6 @@
+grade	NCTime1	NCTime5	NCTime17	NCTime4	NCTime3	NCTime12	NCTime8	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
+['3', '4', '5']	(1680.0, 11958.0)	(875.0, 6223.0)						('grade', 'NCTime1', 'NCTime5')	18.1	3436.3064	42.3969			0.23	0.23
+['3', '4', '5']	(1680.0, 11958.0)				(916.5, 8301.0)			('grade', 'NCTime1', 'NCTime3')	18.0	3433.1654	42.4871			0.23	0.23
+['3', '4']							(928.0, 13724.0)	('NCTime8', 'grade')	16.7	3233.0886	33.6716			0.33	0.33
+	(1358.0, 11958.0)		(915.0, 4932.0)	(931.75, 10683.0)				('NCTime17', 'NCTime1', 'NCTime4')	17.7	3307.2166	36.0783			0.28	0.28
+					(1097.0, 9128.0)	(914.0, 6094.0)		('NCTime12', 'NCTime3')	17.4	3367.5122	39.9987			0.25	0.25

@@ -34,7 +34,7 @@ def check_suitable_as_target(x=None):
 
     # cases should have at least one answer on all 1-9 values
     if subset['DMStimL'].nunique() == 9:        
-        return subset[['IDCode', 'DMStimL', 'DMTime']]
+        return subset[['IDCode', 'DMPreOrd', 'DMStimL', 'DMTime']]
     else:
         return None
 
@@ -95,5 +95,16 @@ def find_max_and_expand(df=None):
     
     return df
     
+def min_max_scaling(df=None):
 
+    dfnew = df.copy()
+
+    for col in df.columns:
+        xmin = df[col].min()
+        xmax = df[col].max()
+        if not xmin == xmax:        
+            xnew = (df[col] - xmin)/(xmax-xmin)
+            dfnew[col] = xnew
+    
+    return dfnew
     

@@ -35,11 +35,12 @@ def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
             cols = data.columns.values
             keep_cols =  [col for col in cols if col.startswith('NC')]
             keep_cols = keep_cols + ['IDCode','sex','grade','language']
-            if name in ['long_target', 'long']:
+            if "long" in name: 
                 keep_cols.append('PreOrd')
         else:
             keep_cols = data.columns.values
         data = data[keep_cols]
+        data['grade'] = data['grade'].astype('category')
         data.reset_index(inplace=True,drop=True)
         descriptives[name] = data
 
@@ -60,11 +61,11 @@ def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
         # funa descriptors often run from 1 - 9, we currently consider them as numerical attributes, but may be useful to change this to ordinal in the future
 
         attributes['bin_atts'] = attributes['bin_atts'] + []
-        #attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values)
-        #attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
-        #attributes['ord_atts'] = attributes['ord_atts'] + []
+        attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values)
+        attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
+        attributes['ord_atts'] = attributes['ord_atts'] + list(types[types == 'category'].index.values)
         
-        if key in ['long_target', 'long']:
+        if "long" in key: 
             attributes['id_atts'] = ['IDCode','PreOrd']
         else:
             attributes['id_atts'] = ['IDCode']

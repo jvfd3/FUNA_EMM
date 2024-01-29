@@ -26,11 +26,11 @@ def make_literals(dataset=None, attribute=None, type_desc=None, md=None, b=None)
     elif type_desc == 'num':
         values = dataset.loc[dataset[attribute].notnull(),attribute]
         quantiles = np.linspace(0, 1, b+1)[1:-1] # for b=4 quantiles, this results in 0.25, 0.5, 0.75
-        min_value = values.quantile(0.0) 
-        max_value = values.quantile(1.0)
+        min_value = np.round(values.quantile(0.0),2)
+        max_value = np.round(values.quantile(1.0),2)
               
         for i in range(b-1):
-            value = values.quantile(quantiles[i], interpolation='linear')
+            value = np.round(values.quantile(quantiles[i], interpolation='linear'),2)
             list_of_lits = make_literals_per_type(attribute=attribute, value=value, type_desc=type_desc, min_value=min_value, max_value=max_value)
             add_refinements= add_refinements + list_of_lits
 

@@ -5,3 +5,7 @@ pyarrow
 xlsxwriter
 matplotlib
 openpyxl
+pyDOE
+statsmodels
+
+- the pwlf script as in the folder

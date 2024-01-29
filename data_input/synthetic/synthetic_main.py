@@ -6,7 +6,7 @@ import data_input.synthetic.preprocess_synthetic_into_wide as iw
 import data_input.synthetic.preprocess_synthetic_into_desc as id
 import data_input.synthetic.preprocess_synthetic_into_long as il
 
-def generate_synthetic_data(datasets_names=None, synparams=None):
+def generate_synthetic_data(synparams=None):
 
     descriptive_long, info, IDs = cbdt.create_descriptive(synparams=synparams)
 
@@ -24,9 +24,9 @@ def generate_synthetic_data(datasets_names=None, synparams=None):
            'info': pd.DataFrame(dict([ (k,pd.Series(v)) for k,v in info.items() ]))}
     
     dfs.update({
-        'desc_target': desc_target, 
-        'long_target': long_target,
-        'wide_target': wide_target 
+        'desc_adapt': desc_target, 
+        'long_adapt': long_target,
+        'wide_adapt': wide_target 
     })
 
     return dfs
