@@ -57,7 +57,7 @@ def transform_idx_to_IDs(subgroup=None, id_atts=None, data_size_id=None, data_si
     idxIDs['size_sg'] = np.round(len(idxIDs['idx_id']) / data_size_id,2)
     idxIDs['size_sg_rows'] = np.round(len(subgroup) / data_size_rows,2)
 
-    # in case of long descriptive data, time counter is an id attribute as well
+    # in case of long descriptive data (except when full_target is used), time counter is an id attribute as well
     if len(id_atts) == 2:
         idxIDs['idx_combi'] = subgroup[id_atts].apply(tuple,axis=1)
     
@@ -72,6 +72,8 @@ def select_subgroup_part_of_target(idxIDs=None, target=None):
         seltarget = target[target.set_index(id_atts).index.isin(idxIDs['idx_combi'])] # creates a tuple index, compares with tuples in idxIDs
     else:
         seltarget = target[target[idxIDs['id_atts'][0]].isin(idxIDs['idx_id'])]
+
+    #print(seltarget.groupby('IDCode')['IDCode'].count())
     
     return seltarget
 

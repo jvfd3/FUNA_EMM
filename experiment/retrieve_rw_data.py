@@ -35,10 +35,10 @@ def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
             cols = data.columns.values
             keep_cols =  [col for col in cols if col.startswith('NC')]
             keep_cols = keep_cols + ['IDCode','sex','grade','language']
-            if "long" in name: 
-                keep_cols.append('PreOrd')
         else:
             keep_cols = data.columns.values
+        if 'long' in name: 
+                keep_cols.append('PreOrd')
         data = data[keep_cols]
         data['grade'] = data['grade'].astype('category')
         data.reset_index(inplace=True,drop=True)
@@ -57,16 +57,22 @@ def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
         # exceptions that are handled manually
         attributes = {'bin_atts': [], 'num_atts': [], 'nom_atts': [], 'ord_atts': []}
         attributes, types = handle_type_exceptions(attributes=attributes, types=types)
+        
+        if 'without' in key: # we do not use PreOrd as a descriptor, only as an id indicator
+            types.drop('PreOrd', inplace=True)
 
         # funa descriptors often run from 1 - 9, we currently consider them as numerical attributes, but may be useful to change this to ordinal in the future
 
         attributes['bin_atts'] = attributes['bin_atts'] + []
-        attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values)
+        attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values) + list(types[types == 'int32'].index.values)
         attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
         attributes['ord_atts'] = attributes['ord_atts'] + list(types[types == 'category'].index.values)
         
-        if "long" in key: 
-            attributes['id_atts'] = ['IDCode','PreOrd']
+        if 'long' in key: 
+            if 'full_target' in key:
+                attributes['id_atts'] = ['IDCode']
+            else:
+                attributes['id_atts'] = ['IDCode','PreOrd']
         else:
             attributes['id_atts'] = ['IDCode']
 
@@ -97,8 +103,14 @@ def import_data_funa(data_name=None, data_from=None, datasets_names=None):
     print('importing data')
     #dict = pd.read_excel('prepareData/' + data_name + '/data.xlsx', sheet_name=None) # retrieve as dictionary, takes about an hour
     dict = {}
-    for sheet_name in datasets_names:
-        dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + sheet_name + '.pq')
+    for sheet_name in datasets_names:   
+        if 'long' in sheet_name:
+            if 'long_adapt' in sheet_name:
+                dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + 'long_adapt' + '.pq')
+            else:
+                dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + 'long' + '.pq')
+        else:
+            dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + sheet_name + '.pq')
 
     # import target data, import IDs
     dict['target'] = pd.read_parquet(data_from + data_name + '/DescriptionModels/target.pq')

@@ -87,17 +87,17 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
     descriptives = {}
     for name in datasets_names:
         if "long"in name: # in ['long_target_without', 'long_target_with']:
-            data = dict['long_target']
+            data = dict['long_adapt']
             keep_cols = data.columns.values
         elif "desc" in name: #in ['desc_target_perfect', 'desc_target_medium']:
-            data = dict['desc_target']
+            data = dict['desc_adapt']
             keep_cols = data.columns.values
-            if name == 'desc_target_perfect':
+            if name == 'desc_adapt_perfect':
                 idxletters = [i for i in keep_cols if i.startswith('idx')]
                 freqletters = [i for i in keep_cols if i.startswith('freq')]
                 unwanted_cols = idxletters + freqletters
                 keep_cols = [ele for ele in keep_cols if ele not in unwanted_cols]
-            elif name == 'desc_target_medium':
+            elif name == 'desc_adapt_medium':
                 sumgroups = [i for i in keep_cols if i.startswith('sum')]
                 difgroups = [i for i in keep_cols if i.startswith('dif')]
                 unwanted_cols = sumgroups + difgroups
@@ -112,14 +112,15 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
     attribute_sets = {}
     for key in descriptives.keys():
         data = descriptives[key]
-        types = data.dtypes
-        types.drop('IDCode', inplace=True)
+        #types = data.dtypes
+        types = data[['sumE', 'bininvar1']].dtypes
+        #types.drop('IDCode', inplace=True)
 
         # exceptions that are handled manually
         attributes = {'bin_atts': [], 'num_atts': [], 'nom_atts': [], 'ord_atts': []}
         attributes, types = handle_type_exceptions(attributes=attributes, types=types, key=key)
 
-        if key == 'long_target_without': # we do not use TimeInd as a descriptor, only as an id indicator
+        if key == 'long_adapt_without': # we do not use TimeInd as a descriptor, only as an id indicator
             types.drop('TimeInd', inplace=True)
 
         attributes['bin_atts'] = attributes['bin_atts'] + []
@@ -127,7 +128,7 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
         attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
         attributes['ord_atts'] = attributes['ord_atts'] + list(types[types == 'category'].index.values)
 
-        if "long" in key: # in ['long_target_with', 'long_target_without']:
+        if "long" in key: 
             attributes['id_atts'] = ['IDCode','TimeInd']
         else:
             attributes['id_atts'] = ['IDCode']
@@ -140,7 +141,7 @@ def handle_type_exceptions(attributes=None, types=None, key=None):
 
     should_be_seen_as_binary_invar = [i for i in types.index.values if i.startswith('bininvar')]
 
-    if key in ['long_target_with', 'long_target_without', 'wide_target']:
+    if key in ['long_adapt_with', 'long_adapt_without', 'wide_adapt']:
         should_be_seen_as_binary_var = [i for i in types.index.values if i.startswith('binvar')]
     else:
         should_be_seen_as_binary_var = []    

@@ -52,9 +52,9 @@ def apply_dbs_wcs(cq_sorted=None, sel_params=None, general_params=None, stop_num
         n_redun_descs = None
 
     # apply cover-based selection
-    if sel_params['wcs']:            
+    if sel_params['wcs']:         
         # len(candidates) should always be larger than 0, at least 1 description will be maintained
-        candidate_queue = cbs.select_using_weighted_coverage(candidates=candidates, general_params=general_params, stop_number_wcs=stop_number_wcs,  wcs_gamma=wcs_gamma)
+        candidate_queue = cbs.select_using_weighted_coverage(candidates=candidates, sel_params=sel_params, general_params=general_params, stop_number_wcs=stop_number_wcs,  wcs_gamma=wcs_gamma)
     else: 
         candidate_queue = candidates[0:stop_number_wcs]
 

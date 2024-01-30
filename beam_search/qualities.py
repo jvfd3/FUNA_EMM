@@ -53,7 +53,7 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None):
 
     if sel_params['model'] == 'zmean': # absolute
         varphi = np.round(np.abs(estimates['mean_est'] - general_params['estimates']['mean_est']) / estimates['mean_se'],1)
-    if sel_params['model'] == 'zmean_high': # one-sided
+    if sel_params['model'] == 'zmean_high': # one-sided, large
         varphi = np.round((estimates['mean_est'] - general_params['estimates']['mean_est']) / estimates['mean_se'],1)
     if sel_params['model'] == 'zslope_high': # one-sided
         if estimates['slope_se'] > 0: 
@@ -61,7 +61,10 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None):
         else:
             varphi = 0
     if sel_params['model'] == 'zsubrange': # one-sided, small
-        varphi = np.round(-1*(estimates['subrange_est'] - general_params['estimates']['subrange_est']) / estimates['subrange_se'],1)
+        if estimates['subrange_se'] > 0:
+            varphi = np.round(-1*(estimates['subrange_est'] - general_params['estimates']['subrange_est']) / estimates['subrange_se'],1)
+        else: 
+            varphi = 0
     if sel_params['model'] == 'subrange_fit': 
         varphi = np.round(estimates['global_error'] - estimates['local_error'],1)
 

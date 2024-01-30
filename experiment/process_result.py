@@ -15,7 +15,6 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None, s
             vals = result_emm[name].quantile(iqrs, interpolation='linear')
             sum_result_emm.update({name+str(int(key*100)):np.round(val,2) for key,val in dict(vals).items()})
     
-    '''
     # redundancy metrics
     cover_counts, expected_cover_count, CR, jentropy, jsims = calculate_average_coverage(result_emm=result_emm, general_params=general_params, sel_params=sel_params)
 
@@ -49,7 +48,7 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None, s
                       'attribute_CR': attribute_CR
                       'nr_unique_atts': nr_unique_atts
                       })
-    '''
+
     # other
     sum_result_emm.update({'time_minutes': time/60})    
 

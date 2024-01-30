@@ -72,8 +72,7 @@ def calculate_subrange(df=None, columns=None):
             i = 0
         else:
             i -= 0.2 # maximum 5 tries
-        if i == 0:
-            print(fitbreaks)
+            #print(i, ' ', fitbreaks, ' ', len(yy))        
         
     #print(type(fitbreaks))
     #print(fitbreaks.shape)
