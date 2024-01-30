@@ -60,12 +60,12 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None):
             varphi = np.round((estimates['slope_est'] - general_params['estimates']['slope_est']) / estimates['slope_se'],1)
         else:
             varphi = 0
-    if sel_params['model'] == 'zsubrange': # one-sided, small
+    if sel_params['model'] == 'zsubrange_low': # one-sided, small
         if estimates['subrange_se'] > 0:
             varphi = np.round(-1*(estimates['subrange_est'] - general_params['estimates']['subrange_est']) / estimates['subrange_se'],1)
         else: 
             varphi = 0
     if sel_params['model'] == 'subrange_fit': 
-        varphi = np.round(estimates['global_error'] - estimates['local_error'],1)
+        varphi = np.round((estimates['global_error'] - estimates['local_error'])/1000,1)
 
     return varphi

@@ -35,12 +35,10 @@ def import_synthetic_data(data_from=None, datasets_names=None):
     dict = {}
     for sheet_name in datasets_names:
         if "long" in sheet_name:
-            #dict['long_target'] = pd.read_parquet(data_from + 'long_target' + '.pq')
             dict['long_adapt'] = pd.read_parquet(data_from + 'long_adapt' + '.pq')
         elif "desc" in sheet_name:
-            #dict['desc_target'] = pd.read_parquet(data_from + 'desc_target' + '.pq')
             dict['desc_adapt'] = pd.read_parquet(data_from + 'desc_adapt' + '.pq')
-        elif sheet_name in ['wide_adapt']: 
+        else: 
             dict[sheet_name] = pd.read_parquet(data_from + sheet_name + '.pq')
 
     dict['target'] = pd.read_parquet(data_from + 'target.pq')
@@ -86,7 +84,7 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
     # extract descriptive datasets
     descriptives = {}
     for name in datasets_names:
-        if "long"in name: # in ['long_target_without', 'long_target_with']:
+        if "long" in name: # in ['long_target_without', 'long_target_with']:
             data = dict['long_adapt']
             keep_cols = data.columns.values
         elif "desc" in name: #in ['desc_target_perfect', 'desc_target_medium']:
@@ -112,15 +110,14 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
     attribute_sets = {}
     for key in descriptives.keys():
         data = descriptives[key]
-        #types = data.dtypes
-        types = data[['sumE', 'bininvar1']].dtypes
-        #types.drop('IDCode', inplace=True)
+        types = data.dtypes
+        types.drop('IDCode', inplace=True)
 
         # exceptions that are handled manually
         attributes = {'bin_atts': [], 'num_atts': [], 'nom_atts': [], 'ord_atts': []}
         attributes, types = handle_type_exceptions(attributes=attributes, types=types, key=key)
 
-        if key == 'long_adapt_without': # we do not use TimeInd as a descriptor, only as an id indicator
+        if 'without' in key: # we do not use TimeInd as a descriptor, only as an id indicator
             types.drop('TimeInd', inplace=True)
 
         attributes['bin_atts'] = attributes['bin_atts'] + []
@@ -128,8 +125,11 @@ def prepare_synthetic_data(dict=None, datasets_names=None):
         attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)
         attributes['ord_atts'] = attributes['ord_atts'] + list(types[types == 'category'].index.values)
 
-        if "long" in key: 
-            attributes['id_atts'] = ['IDCode','TimeInd']
+        if "long" in key:
+            if 'full_target' in key:
+                attributes['id_atts'] = ['IDCode']
+            else:
+                attributes['id_atts'] = ['IDCode','TimeInd'] 
         else:
             attributes['id_atts'] = ['IDCode']
 

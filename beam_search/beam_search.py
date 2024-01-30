@@ -35,7 +35,7 @@ def beam_search(target=None, attributes=None, descriptive=None, sel_params=None,
 
     for d_i in range(1, sel_params['d']+1):
         
-        print('d_i', d_i)
+        #print('d_i', d_i)
         n_consd = 0
         n_sim_descs = 0
         n_small_groups = 0

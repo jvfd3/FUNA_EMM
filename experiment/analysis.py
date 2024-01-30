@@ -75,7 +75,6 @@ def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=
         if not os.path.exists(output_to_desc_key_path):
             os.makedirs(output_to_desc_key_path) 
     
-        #paramset = list(it.product(list(desc_keys), simulation_params['dbs'], simulation_params['wcs'], simulation_params['dp'], simulation_params['md'], simulation_params['target_model']))
         sim_values = list(sim_params.values())
         paramset = list(it.product(*sim_values))
 
