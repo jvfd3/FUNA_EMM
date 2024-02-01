@@ -1,0 +1,6 @@
+grade	NCtimeCmedian	NCIES	NCtimeCmean	literal_order	varphi	size_id	size_rows	mean_est	mean_se
+['3', '4']	(0.18, 0.86)			('grade', 'NCtimeCmedian')	18.9	0.26	0.26	3389.543	37.9225
+['3', '4', '5', '6', '7']	(0.16, 0.86)			('dom_pruning',)	17.5	0.48	0.48	3140.4264	26.6502
+['3', '4', '5']	(0.16, 0.86)			('NCtimeCmedian', 'grade')	18.4	0.39	0.39	3208.6801	29.0782
+	(0.16, 0.86)		(0.13, 0.6)	('dom_pruning',)	18.1	0.39	0.39	3230.3733	30.6835
+		(0.01, 1.0)		('dom_pruning',)	17.7	0.31	0.31	3301.4847	35.3787

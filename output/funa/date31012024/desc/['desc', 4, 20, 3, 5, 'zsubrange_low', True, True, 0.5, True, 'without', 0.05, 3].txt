@@ -1,0 +1,6 @@
+NCAnsCprop	NCtimeCmedian	NCAnsCsum	language	grade	NCRTinterceptNumDis	literal_order	varphi	size_id	size_rows	subrange_est	subrange_se	slopes	intercepts	fitbreaks	betas
+(0.27, 0.94)	(0.23, 0.41)					('NCAnsCprop', 'NCtimeCmedian', 'NCAnsCprop')	55.5	0.06	0.06	1.16	0.04	[-5475.69   558.27]	[7631.45  625.27]	[1.   1.16 9.  ]	[ 2155.76 -5475.69  6033.96]
+(0.27, 0.93)	(0.19, 0.52)	(0.27, 0.96)				('NCtimeCmedian', 'NCAnsCsum', 'NCAnsCprop')	44.6	0.05	0.05	1.15	0.05	[-5321.96   507.53]	[7321.98  642.23]	[1.   1.15 9.  ]	[ 2000.03 -5321.96  5829.48]
+(0.19, 0.94)			f			('NCAnsCprop', 'language')	10.9	0.24	0.24	1.96	0.13	[-318.9   491.19]	[1818.64  233.43]	[1.   1.96 9.  ]	[1499.74 -318.9   810.09]
+(0.19, 0.96)				['3', '4']	(0.39, 0.57)	('grade', 'NCAnsCprop', 'NCRTinterceptNumDis')	9.4	0.08	0.08	1.78	0.17	[-703.15  599.62]	[2786.01  469.15]	[1.   1.78 9.  ]	[2082.86 -703.15 1302.76]
+(0.19, 0.94)				['3', '4', '5']	(0.39, 0.57)	('NCAnsCprop', 'grade', 'NCRTinterceptNumDis')	15.0	0.05	0.05	1.43	0.13	[-1848.39   554.22]	[4170.42  736.06]	[1.   1.43 9.  ]	[ 2322.03 -1848.39  2402.61]
