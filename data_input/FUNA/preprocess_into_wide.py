@@ -7,15 +7,10 @@ def into_wide(ddlong=None, ddlongchecked=None, db=None, info=None):
     print('transform into wide')
 
     descriptive_wide = change_into_wide(ddlong=ddlong, db=db)
-    info.update({'shape_wide_0': descriptive_wide.shape[0], 'shape_wide_1': descriptive_wide.shape[1], 'na_wide_rows': descriptive_wide.isnull().any(axis=1).sum(), 'na_wide_overall': descriptive_wide.isnull().sum().sum()})
     
     ddwide10, ddwide50, ddwide90, info = remove_columns_based_on_missings(descriptive_wide, info)  
 
-    descriptive_wide_adapt_to_target = change_into_wide(ddlong=ddlongchecked, db=db)
-    info.update({'shape_wide_adapt_0': descriptive_wide_adapt_to_target.shape[0], 'shape_wide_adapt_1': descriptive_wide_adapt_to_target.shape[1], 
-                 'na_wide_adapt_rows': descriptive_wide_adapt_to_target.isnull().any(axis=1).sum(), 
-                 'na_wide_adapt_overall': descriptive_wide_adapt_to_target.isnull().sum().sum()})
-    #descriptive_wide_adapt_to_target, info = wide_with_18_timepoints(ddlong, db, info)    
+    descriptive_wide_adapt_to_target = change_into_wide(ddlong=ddlongchecked, db=db) 
 
     return descriptive_wide, info, ddwide10, ddwide50, ddwide90, descriptive_wide_adapt_to_target
 

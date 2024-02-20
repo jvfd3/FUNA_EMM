@@ -1,0 +1,6 @@
+kidagetv_3	homeemo	momage	intcog	kidagetv_1	kidagetv_2	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
+(13.0, 14.0)	(9.0, 13.0)					('kidagetv_3', 'homeemo', 'kidagetv_3')	7.1	0.19	0.06	4.7871	0.0906	294.0
+(12.33, 14.0)		(27.0, 29.0)				('momage', 'kidagetv_3')	6.3	0.16	0.05	4.7592	0.098	262.0
+	(10.0, 13.0)				(10.42, 12.0)	('dom_pruning',)	6.5	0.25	0.08	4.6703	0.0817	391.0
+			(81.96, 191.38)	(9.08, 10.0)		('intcog', 'kidagetv_1')	6.3	0.23	0.07	4.6798	0.0856	312.0
+					(10.42, 12.0)	('dom_pruning',)	5.3	0.51	0.15	4.4408	0.0572	785.0

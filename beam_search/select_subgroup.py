@@ -51,11 +51,12 @@ def select_subgroup(description=None, df=None, attributes=None):
 
 def transform_idx_to_IDs(subgroup=None, id_atts=None, data_size_id=None, data_size_rows=None):
 
+    unid = list(subgroup[id_atts[0]].unique())
     idxIDs = {'id_atts': id_atts,
               'idx_sg': list(subgroup.index.values),
-              'idx_id': list(subgroup[id_atts[0]].unique())}
-    idxIDs['size_sg'] = np.round(len(idxIDs['idx_id']) / data_size_id,2)
-    idxIDs['size_sg_rows'] = np.round(len(subgroup) / data_size_rows,2)
+              'idx_id': unid,
+              'size_sg': np.round(len(unid) / data_size_id,2),
+              'size_sg_rows': np.round(len(subgroup) / data_size_rows,2)}
 
     # in case of long descriptive data (except when full_target is used), time counter is an id attribute as well
     if len(id_atts) == 2:
@@ -63,7 +64,7 @@ def transform_idx_to_IDs(subgroup=None, id_atts=None, data_size_id=None, data_si
     
     return idxIDs
 
-def select_subgroup_part_of_target(idxIDs=None, target=None):
+def select_subgroup_part_of_target(idxIDs=None, target=None, case_based_target=False):
 
     # select sg-part of the target 
     if 'idx_combi' in list(idxIDs.keys()):
@@ -71,7 +72,11 @@ def select_subgroup_part_of_target(idxIDs=None, target=None):
         id_atts = idxIDs['id_atts'] # has length two: IDCode, PreOrd
         seltarget = target[target.set_index(id_atts).index.isin(idxIDs['idx_combi'])] # creates a tuple index, compares with tuples in idxIDs
     else:
-        seltarget = target[target[idxIDs['id_atts'][0]].isin(idxIDs['idx_id'])]
+        seltarget = target[target[idxIDs['id_atts'][0]].isin(idxIDs['idx_id'])] # select all rows belonging to a case
+    
+    if case_based_target: # only select first available row of every case
+        longtarget = seltarget.copy()     
+        seltarget = longtarget.groupby(idxIDs['id_atts'][0]).first()
 
     #print(seltarget.groupby('IDCode')['IDCode'].count())
     

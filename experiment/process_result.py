@@ -9,7 +9,7 @@ def obtain_summary_values_emm(result_emm=None, general_params=None, time=None, s
 
     sum_result_emm = {'len_result_set': len(result_emm)}
 
-    iqr_over_names = ['varphi', 'size_id', 'size_rows', 'mean_est', 'mean_se', 'slope_est', 'slope_se', 'subrange_est', 'subrange_se']
+    iqr_over_names = ['varphi', 'size_id', 'size_rows', 'suppclass', 'mean_est', 'mean_se', 'slope_est', 'slope_se', 'subrange_est', 'subrange_se']
     for name in iqr_over_names:
         if name in result_emm.columns.values: 
             vals = result_emm[name].quantile(iqrs, interpolation='linear')

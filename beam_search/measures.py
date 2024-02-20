@@ -3,6 +3,13 @@ import pandas as pd
 
 import experiment.pwlf as pwlf
 
+def calculate_support_class(df=None, column=None, prefclass=None):
+
+    seldf = df[df[column]==prefclass].copy()
+    p = len(seldf)/len(df)
+
+    return np.round(p,8)
+
 def calculate_mean(df=None, column=None):
 
     qm_mean = df[column].mean()
@@ -68,7 +75,7 @@ def calculate_subrange(df=None, columns=None):
         my_pwlf = pwlf.PiecewiseLinFit(xx, yy)
         res = my_pwlf.fitfast(2, pop = 2) # 2 line segments, # 2 initializations
         fitbreaks = my_pwlf.fit_breaks
-        if fitbreaks[1] > 2: # sub range under 2 likely means that the algorithm has not run properly, however, could it also mean that there is no subitizing range? 
+        if (fitbreaks[1] > 2) and (fitbreaks[1] < 8): # sub range under 2 likely means that the algorithm has not run properly, however, could it also mean that there is no subitizing range? 
             i = 0
         else:
             i -= 0.2 # maximum 5 tries

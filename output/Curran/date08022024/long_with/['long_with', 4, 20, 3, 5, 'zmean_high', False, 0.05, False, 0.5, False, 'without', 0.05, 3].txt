@@ -1,0 +1,6 @@
+intcog	occasion	kidagetv	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
+(61.7, 191.38)	[2.0, 3.0]		('intcog', 'occasion')	23.7	0.69	0.37	5.4814	0.0565	488.0
+(61.7, 191.38)	[2.0, 3.0]	(10.0, 14.0)	('intcog', 'kidagetv', 'occasion')	23.7	0.69	0.37	5.4814	0.0565	488.0
+(61.7, 191.38)		(10.0, 14.0)	('intcog', 'kidagetv')	23.5	0.7	0.38	5.4642	0.0564	500.0
+(61.7, 191.38)		(10.83, 14.0)	('intcog', 'kidagetv', 'kidagetv')	23.5	0.66	0.29	5.6211	0.063	384.0
+	[1.0, 2.0, 3.0]	(10.5, 14.0)	('occasion', 'kidagetv')	23.6	0.73	0.35	5.5124	0.0581	461.0

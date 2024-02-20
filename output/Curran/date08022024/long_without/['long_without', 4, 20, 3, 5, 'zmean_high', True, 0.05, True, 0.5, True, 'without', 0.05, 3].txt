@@ -1,0 +1,6 @@
+kidagetv	intcog	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
+(10.0, 14.0)		('dom_pruning',)	22.6	0.77	0.42	5.3593	0.0539	563.0
+(8.17, 14.0)	(85.5, 191.38)	('intcog', 'kidagetv', 'intcog')	19.4	0.68	0.43	5.2146	0.0555	567.0
+(8.17, 14.0)		('dom_pruning',)	17.0	0.94	0.66	4.9108	0.0453	880.0
+(7.67, 14.0)		('kidagetv',)	13.4	0.97	0.75	4.7316	0.0441	999.0
+	(81.96, 191.38)	('intcog',)	14.8	0.72	0.5	4.9718	0.0563	663.0

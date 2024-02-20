@@ -7,6 +7,12 @@ import beam_search.measures as me
 def calculate_general_estimates(target=None, sel_params=None, extra_info=None):
 
     estimates = {}
+    if "wra" in sel_params['model']:
+        if extra_info['case_based_target']:
+            longtarget = target.copy()
+            target = longtarget.groupby(extra_info['target_column_names'][1]).first()
+        qm_p = me.calculate_support_class(df=target, column=extra_info['target_column_names'][0], prefclass=extra_info['prefclass'])
+        estimates = {'suppclass': qm_p}
     if "zmean" in sel_params['model']: 
         qm_mean = me.calculate_mean(df=target, column=extra_info['target_column_names'][0])
         qm_mean_se = me.calculate_mean_se(df=target, column=extra_info['target_column_names'][0])
@@ -26,6 +32,9 @@ def calculate_subgroup_estimates(target=None, sel_params=None, extra_info=None, 
     #estimates = {'sgsize': len(target)}
     estimates = {}
 
+    if "wra" in sel_params['model']:
+        qm_p = me.calculate_support_class(df=target, column=extra_info['target_column_names'][0], prefclass=extra_info['prefclass'])
+        estimates = {'suppclass': qm_p}
     if "zmean" in sel_params['model']: 
         qm_mean = me.calculate_mean(df=target, column=extra_info['target_column_names'][0])
         qm_mean_se = me.calculate_mean_se(df=target,column=extra_info['target_column_names'][0])
@@ -40,5 +49,7 @@ def calculate_subgroup_estimates(target=None, sel_params=None, extra_info=None, 
     if sel_params['model'] == 'subrange_fit':
         global_error, local_error = me.calculate_error_subrange(df=target, estimates=estimates, columns=extra_info['target_column_names'], general_params=general_params)
         estimates.update({'global_error': global_error, 'local_error': local_error})
+
+    estimates.update({'nrrows':len(target)})
 
     return estimates

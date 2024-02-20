@@ -1,0 +1,6 @@
+occasion	homeemo	homecog	momage	kidagetv	literal_order	varphi	size_id	size_rows	slope_est	slope_se	nrrows
+[0.0, 1.0]	(8.0, 13.0)	(8.0, 14.0)			('occasion', 'homeemo', 'homecog')	6.8	0.6	0.36	1.5553	0.056	474.0
+[0.0, 1.0]		(8.0, 14.0)	(24.0, 29.0)		('occasion', 'momage', 'homecog')	6.7	0.65	0.39	1.5481	0.0561	511.0
+[0.0, 1.0]	(8.0, 13.0)		(24.0, 29.0)		('occasion', 'homeemo', 'momage')	6.5	0.68	0.4	1.5222	0.0537	532.0
+[0.0, 1.0]	(8.0, 13.0)				('occasion', 'homeemo')	6.4	0.77	0.46	1.4984	0.0505	605.0
+[0.0, 1.0]	(8.0, 13.0)			(6.0, 11.58)	('kidagetv', 'occasion', 'homeemo')	6.4	0.77	0.46	1.4984	0.0505	605.0

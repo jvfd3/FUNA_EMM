@@ -1,0 +1,6 @@
+kidagetv	homeemo	momage	homecog	literal_order	varphi	size_id	size_rows	slope_est	slope_se	nrrows
+(6.0, 9.92)	(8.0, 13.0)			('kidagetv', 'kidagetv', 'homeemo')	5.3	0.77	0.45	1.4546	0.0529	592.0
+(6.0, 11.58)		(24.0, 29.0)	(8.0, 14.0)	('kidagetv', 'momage', 'homecog')	4.2	0.65	0.5	1.3504	0.042	657.0
+(6.0, 9.92)				('kidagetv', 'kidagetv')	4.6	1.0	0.58	1.3894	0.0471	762.0
+(6.0, 11.42)	(8.0, 11.0)			('homeemo', 'homeemo', 'kidagetv')	4.0	0.62	0.47	1.3532	0.0448	619.0
+(6.0, 11.42)				('dom_pruning',)	3.3	1.0	0.74	1.2919	0.0356	983.0

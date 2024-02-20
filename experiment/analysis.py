@@ -91,6 +91,9 @@ def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=
             result_emm=None
             elapsed_time=0
 
+            #print(attribute_sets[sel_params['data_key']])
+            #print(descriptive_datasets[sel_params['data_key']])
+
             # a single run
             if extra_info['run_beam_search']:
                 #print('start beam search')
@@ -102,7 +105,8 @@ def analysis_per_dataset(descriptive_datasets=None, attribute_sets=None, target=
                                                                                   #wcs_params=sel_wcs_params, alg_constraints=sel_alg_constraints)
                 et = time.time()
                 elapsed_time = et - st
-                #print('Execution time:', elapsed_time, 'seconds')
+                print('Execution time:', elapsed_time, 'seconds')
+                #print(result_emm)
 
             # check if distribution has to be made
             if extra_info['make_dfd']:

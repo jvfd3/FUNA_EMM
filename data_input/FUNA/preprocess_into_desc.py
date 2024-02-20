@@ -14,10 +14,6 @@ def into_desc(dd=None, db=None, info=None):
 
     descriptive_desc_adapt_to_target = pd.merge(dddesc_adapt_to_target, db.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
 
-    info.update({'shape_desc_0': descriptive_desc.shape[0], 'shape_desc_1': descriptive_desc.shape[1], 'na_desc_rows': descriptive_desc.isnull().any(axis=1).sum(), 'na_desc_overall': descriptive_desc.isnull().sum().sum()})
-
-    info.update({'shape_desc18_0': descriptive_desc_adapt_to_target.shape[0], 'shape_desc18_1': descriptive_desc_adapt_to_target.shape[1], 'na_desc18_rows': descriptive_desc_adapt_to_target.isnull().any(axis=1).sum(), 'na_desc18_overall': descriptive_desc_adapt_to_target.isnull().sum().sum()})
-
     return descriptive_desc, info, descriptive_desc_adapt_to_target
 
 def transform_into_desc(dd=None, info=None):

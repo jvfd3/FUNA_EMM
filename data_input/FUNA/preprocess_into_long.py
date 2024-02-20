@@ -15,12 +15,10 @@ def into_long(dd=None, db=None, info=None):
 
     # add basic descriptors
     descriptive_long = pd.merge(ddmerged_checked, db.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
-    info.update({'shape_long_0': descriptive_long.shape[0], 'shape_long_1': descriptive_long.shape[1], 'na_long_rows': descriptive_long.isnull().any(axis=1).sum(), 'na_long_overall': descriptive_long.isnull().sum().sum()})
-
+    
     # check max length of targets and remove descriptors 
     descriptive_long_checked = check_PreOrd_target(dl=descriptive_long, info=info)
-    info.update({'shape_long_check_0': descriptive_long_checked.shape[0], 'shape_long_check_1': descriptive_long_checked.shape[1], 'na_long_check_rows': descriptive_long_checked.isnull().any(axis=1).sum(), 'na_long_check_overall': descriptive_long_checked.isnull().sum().sum()})
-
+    
     return descriptive_long_checked, descriptive_long, info
 
 def merge_into_long(dd=None):

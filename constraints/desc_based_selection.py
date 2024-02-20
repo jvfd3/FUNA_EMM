@@ -7,6 +7,8 @@ def remove_redundant_descriptions(descs=None, sel_params=None, stop_number_dbs=N
 
     if sel_params['d_i'] > 1:
 
+        varphi_range = check_range(all_descs=all_descs, sel_params=sel_params)
+
         # even if the length of descs is small, we still want to remove redundant descriptions
         if len(all_descs) > stop_number_dbs:
             stop_at = stop_number_dbs
@@ -22,7 +24,9 @@ def remove_redundant_descriptions(descs=None, sel_params=None, stop_number_dbs=N
             #print('new_desc', new_desc['description'])
             for old_desc in candidates:
 
-                if new_desc['qualities']['varphi'] == old_desc['qualities']['varphi']:
+                #if new_desc['qualities']['varphi'] == old_desc['qualities']['varphi']:
+                are_equal = compare_two_varphi(varphi1=new_desc['qualities']['varphi'], varphi2=old_desc['qualities']['varphi'], varphi_range=varphi_range)
+                if are_equal:
 
                     remove = compare_two_descs(old_desc=old_desc['description'], new_desc=new_desc['description'])
                     if remove == 'old_desc':
@@ -42,9 +46,28 @@ def remove_redundant_descriptions(descs=None, sel_params=None, stop_number_dbs=N
     else:
 
         n_redun_descs = None
-        candidates = all_descs
+        candidates = all_descs[0:stop_number_dbs]
 
     return candidates, n_redun_descs
+
+def check_range(all_descs=None, sel_params=None):
+
+    # for now, very conservative, we take 0.05 from the maximum varphi that exists
+    # it is just meant to correct for rounding error or scaling problems
+    all_varphis = [desc['qualities']['varphi'] for desc in all_descs]
+    max_varphi = np.max(all_varphis)
+    varphi_range = sel_params['alpha'] * max_varphi
+
+    return varphi_range
+
+def compare_two_varphi(varphi1=None, varphi2=None, varphi_range=None):
+
+    are_equal = False
+    dif = np.abs(varphi1 - varphi2)
+    if dif < varphi_range:
+        are_equal = True
+
+    return are_equal
 
 def compare_two_descs(old_desc=None, new_desc=None):
 

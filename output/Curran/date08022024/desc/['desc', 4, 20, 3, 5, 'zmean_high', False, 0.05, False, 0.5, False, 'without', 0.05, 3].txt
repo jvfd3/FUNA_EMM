@@ -1,0 +1,6 @@
+min_age	sum_emo	max_emo	min_emo	sum_age	momage	slope_age	slope_emo	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
+(0.48, 1.0)	(0.52, 1.0)	(0.68, 1.0)						('min_age', 'sum_emo', 'max_emo')	8.0	0.19	0.19	4.8486	0.0887	292.0
+(0.48, 1.0)	(0.52, 1.0)		(0.68, 1.0)					('min_age', 'sum_emo', 'min_emo')	7.9	0.18	0.18	4.8546	0.0905	280.0
+(0.46, 0.97)	(0.69, 1.0)						(0.62, 1.0)	('slope_emo', 'min_age', 'sum_emo')	7.7	0.17	0.17	4.8481	0.0922	268.0
+			(0.78, 1.0)	(0.75, 1.0)	(23.0, 28.0)			('min_emo', 'sum_age', 'momage')	7.7	0.12	0.12	4.9755	0.1088	192.0
+			(0.78, 1.0)	(0.75, 1.0)		(0.79, 0.97)		('min_emo', 'sum_age', 'slope_age')	7.7	0.12	0.12	4.9755	0.1088	192.0

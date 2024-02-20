@@ -1,0 +1,6 @@
+kidagetv_1	homeemo	intcog	kidagetv_0	homecog	literal_order	varphi	size_id	size_rows	slope_est	slope_se	nrrows
+(8.0, 8.38)	(8.0, 13.0)	(58.31, 115.5)			('kidagetv_1', 'homeemo', 'intcog')	4.9	0.15	0.05	1.5454	0.0753	208.0
+(8.0, 8.33)	(8.0, 13.0)	(58.31, 115.5)			('homeemo', 'kidagetv_1', 'intcog')	4.9	0.15	0.05	1.5454	0.0753	208.0
+(8.0, 8.38)				(8.0, 14.0)	('kidagetv_1', 'homecog', 'homecog')	4.7	0.16	0.05	1.5483	0.0792	217.0
+(8.0, 8.38)		(56.0, 115.5)		(8.0, 14.0)	('kidagetv_1', 'intcog', 'homecog')	4.7	0.16	0.05	1.5483	0.0792	217.0
+	(8.0, 13.0)	(44.31, 87.5)	(6.0, 6.33)		('homeemo', 'kidagetv_0', 'intcog')	4.9	0.16	0.05	1.5317	0.0736	213.0

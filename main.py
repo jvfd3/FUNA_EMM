@@ -75,8 +75,9 @@ if __name__ == '__main__':
          data_from="./data_input/",
          output_to="./output/")
     ''' 
+    '''
     # FUNA
-    # difference with before: wcs changed for long format, we set gamma = 0.5, we provide full_target possibility, we change the adapt version
+    # difference with before: wcs changed for long format, we set gamma = 0.5, we provide full_target possibility, adapt version is now linked per item-number
     main(data_name='FUNA',
          #datasets_names=['long_adapt_with','long_adapt_full_target_with','long_with','long_full_target_with', 
          #                'long_adapt_without','long_adapt_full_target_without','long_without','long_full_target_without',
@@ -94,25 +95,28 @@ if __name__ == '__main__':
          date='30012024', 
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./output/")
-
+    
+    # This run is closer to what Pekka is searching for
+    # we cannot include wide data, too many descriptors
+    # we will not include long data, interpretation is not very meaningfull
+    # we will not sample, hence, use 15485 cases and NC and arithmetic descriptors
     main(data_name='FUNA', 
          #datasets_names=['long_adapt_with','long_adapt_full_target_with','long_with','long_full_target_with', 
          #                'long_adapt_without','long_adapt_full_target_without','long_without','long_full_target_without',
          #                'desc_adapt','desc',
          #                'wide','wide_10','wide_50','wide_adapt','wide_90'],
-         datasets_names=['long_full_target_with', # we use full_target, we skip adapt because does not make a difference, we focus on wide_10 and wide_90
-                         'long_full_target_without',
-                         'desc',
-                         'wide_10','wide_90'],
+         datasets_names=['desc'],
          synthetic_params = None,
-         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [5], 'model': ['zsubrange_low', 'subrange_fit'],
+         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [5], 'model': ['subrange_fit'],
                        'dbs': [True], 'wcs': [True], 'gamma': [0.5], 'dp': [True], 'md': ['without'],
                        'min_size': [0.05]}, 
-         extra_info = {'target_column_names': ['DMTime','IDCode','PreOrd', 'DMStimL'], 'sample': True, 'run_beam_search': True, 'make_dfd': True, 'm': 20}, 
-         date='31012024', 
+         extra_info = {'target_column_names': ['DMTime','IDCode','PreOrd', 'DMStimL'], 'sample': False, 'run_beam_search': True, 'make_dfd': True, 'm': 20}, 
+         date='01022024', 
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./output/")
-
+    '''
+    '''
+    # This is run but not yet evaluated; will probably not focus on dbs and wcs for this paper
     # Synthetic
     # the non-adapt versions do not exist for synthetic data
     main(data_name='synthetic', 
@@ -124,8 +128,61 @@ if __name__ == '__main__':
                        'dbs': [False], 'wcs': [True], 'gamma': [0.1,0.5,0.9], 'dp': [False], 'md': ['without'],
                        'min_size': [0.05]},           
          extra_info = {'target_column_names': ['Target','IDCode','TimeInd'], 'sample': None, 'run_beam_search': True, 'make_dfd': True, 'm': 10},
-         date='30012024', 
+         date='02022024', 
          data_from="./data_input/",
          output_to="./output/")
 
+    # This not yet evaluated in detail; wide and desc formats result in non-significant subgroups for low and high target models     
+    main(data_name='FUNA', 
+         #datasets_names=['long_adapt_with','long_adapt_full_target_with','long_with','long_full_target_with', 
+         #                'long_adapt_without','long_adapt_full_target_without','long_without','long_full_target_without',
+         #                'desc_adapt','desc',
+         #                'wide','wide_10','wide_50','wide_adapt','wide_90'],
+         datasets_names=['long_full_target_with', 'long_full_target_without', 'wide', 'desc'],
+         synthetic_params = None,
+         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [5], 'model': ['zsubrange_low', 'zsubrange_high', 'subrange_fit'],
+                       'dbs': [True], 'wcs': [True], 'gamma': [0.5], 'dp': [True], 'md': ['without'],
+                       'min_size': [0.05]}, 
+         extra_info = {'target_column_names': ['DMTime','IDCode','PreOrd', 'DMStimL'], 'sample': True, 'run_beam_search': True, 'make_dfd': True, 'm': 20}, 
+         date='03022024', 
+         data_from="C:/Users/20200059/Documents/Data/",
+         output_to="./output/")
+    '''
+    '''
+    # changed dbs to have 4w instead of 2w
+    # added 0.05 marge around dbs
+    main(data_name='GPA/admitted', 
+         datasets_names=['wide', 'desc'],
+         synthetic_params = None,
+         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [25], 'model': ['wra'],
+                       'dbs': [True,False], 'alpha': [0.05], 'wcs': [True,False], 'gamma': [0.5], 'dp': [True,False], 'md': ['without'],
+                       'min_size': [0.05]}, 
+         extra_info = {'target_column_names': ['admitted','student','semester'], 'sample': None, 'prefclass': 1.0, 'case_based_target': True,
+                       'run_beam_search': True, 'make_dfd': True, 'm': 500}, 
+         date='06022024', 
+         data_from="C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/DescriptionModels/data_input/",
+         output_to="./output/")
+    '''
+    main(data_name='GPA/gpa', 
+         datasets_names=['wide', 'long_with', 'long_without', 'desc'],
+         synthetic_params = None,
+         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [5], 'model': ['zmean_high', 'zslope_high'],
+                       'dbs': [False], 'alpha': [0.05], 'wcs': [False], 'gamma': [0.5], 'dp': [False], 'md': ['without'],
+                       'min_size': [0.05]}, 
+         extra_info = {'target_column_names': ['gpa','student','semester'], 'sample': None, 'prefclass': None, 'case_based_target': False,
+                       'run_beam_search': True, 'make_dfd': True, 'm': 100}, 
+         date='07022024', 
+         data_from="C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/DescriptionModels/data_input/",
+         output_to="./output/")
     
+    main(data_name='Curran', 
+         datasets_names=['wide', 'long_with', 'long_without', 'desc'],
+         synthetic_params = None,
+         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [5], 'model': ['zmean_high', 'zslope_high'],
+                       'dbs': [False], 'alpha': [0.05], 'wcs': [False], 'gamma': [0.5], 'dp': [False], 'md': ['without'],
+                       'min_size': [0.05]}, 
+         extra_info = {'target_column_names': ['read','id','occasion'], 'sample': None, 'prefclass': None, 'case_based_target': False,
+                       'run_beam_search': True, 'make_dfd': True, 'm': 100}, 
+         date='08022024', 
+         data_from="C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/DescriptionModels/data_input/",
+         output_to="./output/")

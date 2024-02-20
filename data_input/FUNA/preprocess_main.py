@@ -40,12 +40,17 @@ def main(tasks=None, date=None, path_from=None, path_to=None):
         'descriptive_wide_adapt': descriptive_wide_adapt_to_target 
         })
     
+    print(info)
+    print(dfs)
+    
+    '''
     writer = pd.ExcelWriter(path_to + 'data.xlsx', engine='xlsxwriter')
     for sheet_name in dfs.keys():
         print(sheet_name)
         dfs[sheet_name].to_parquet(path_to + sheet_name + '.pq')
         dfs[sheet_name].to_excel(writer, sheet_name=sheet_name, index=False)
     writer.close()
+    '''
 
 if __name__ == '__main__':
 

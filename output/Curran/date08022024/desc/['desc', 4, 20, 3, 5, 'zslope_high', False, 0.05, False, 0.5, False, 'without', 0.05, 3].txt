@@ -1,0 +1,6 @@
+slope_age	max_age	min_age	sum_age	slope_emo	min_emo	literal_order	varphi	size_id	size_rows	slope_est	slope_se	nrrows
+(0.26, 0.51)	(0.14, 0.39)					('slope_age', 'slope_age', 'max_age')	5.5	0.15	0.15	1.6975	0.0948	120.0
+(0.26, 0.51)		(0.12, 0.67)				('slope_age', 'slope_age', 'min_age')	5.2	0.15	0.15	1.6661	0.0943	126.0
+(0.26, 0.76)	(0.0, 0.46)		(0.16, 0.27)			('max_age', 'slope_age', 'sum_age')	5.2	0.16	0.16	1.6611	0.0934	126.0
+(0.26, 0.97)				(0.0, 0.31)	(0.41, 0.97)	('slope_emo', 'slope_age', 'min_emo')	5.2	0.17	0.17	1.6384	0.0899	139.0
+(0.0, 0.51)			(0.18, 0.27)			('slope_age', 'sum_age', 'sum_age')	5.1	0.15	0.15	1.6703	0.0982	118.0

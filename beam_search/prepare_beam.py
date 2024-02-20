@@ -13,7 +13,7 @@ def prepare_beam_and_candidate_result_set(candidate_result_set=None, cq_satisfie
 
         cq_sorted = sort_list_on_quality(list_unsorted=cq_satisfied)
     
-        candidate_queue, n_redun_descs = apply_dbs_wcs(cq_sorted=cq_sorted, sel_params=sel_params, general_params=general_params, stop_number_dbs = 2*sel_params['w'], stop_number_wcs=sel_params['w'], wcs_gamma=sel_params['gamma'])
+        candidate_queue, n_redun_descs = apply_dbs_wcs(cq_sorted=cq_sorted, sel_params=sel_params, general_params=general_params, stop_number_dbs = 4*sel_params['w'], stop_number_wcs=sel_params['w'], wcs_gamma=sel_params['gamma'])
 
         # we have the same procedure for the result set, but we do that all the way at the end, because of possibly applying dominance pruning
         # for now, we therefore just prepare a list of possible results
@@ -29,7 +29,7 @@ def prepare_result_set(candidate_result_set=None, general_params=None, sel_param
     result_set_ordered = sort_list_on_quality(list_unsorted=candidate_result_set)
 
     # here 'w' is replaced with 'q'
-    result_set, rs_n_redun_descs = apply_dbs_wcs(cq_sorted=result_set_ordered, sel_params=sel_params, general_params=general_params, stop_number_dbs = 2*sel_params['q'], stop_number_wcs=sel_params['q'], wcs_gamma=sel_params['gamma'])
+    result_set, rs_n_redun_descs = apply_dbs_wcs(cq_sorted=result_set_ordered, sel_params=sel_params, general_params=general_params, stop_number_dbs = 4*sel_params['q'], stop_number_wcs=sel_params['q'], wcs_gamma=sel_params['gamma'])
 
     return result_set, rs_n_redun_descs
 
@@ -48,7 +48,7 @@ def apply_dbs_wcs(cq_sorted=None, sel_params=None, general_params=None, stop_num
         # only from 2nd level and onwards
         candidates, n_redun_descs = dbs.remove_redundant_descriptions(descs=cq_sorted, sel_params=sel_params, stop_number_dbs=stop_number_dbs)
     else: 
-        candidates = cq_sorted
+        candidates = cq_sorted[0:stop_number_dbs]
         n_redun_descs = None
 
     # apply cover-based selection
