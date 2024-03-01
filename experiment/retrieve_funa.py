@@ -3,15 +3,19 @@ import pandas as pd
 import random
 import itertools as it
 
-def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
+def retrieve_data_funa(dict=None, datasets_names=None, extra_info=None):
 
     IDs = dict['IDs']['ID'].tolist()
     target = dict['target']
 
+    sample = extra_info['sample']
+    sample_prop = extra_info['sample_prop']
+
     if sample:
         # for now, select a fixed 5 percent, and only work with NC columns
         random.seed(2024)        
-        selIDs = random.sample(IDs, int(0.05*len(IDs)))  
+        selIDs = random.sample(IDs, int(sample_prop*len(IDs)))  
+        #print(selIDs[0:10])
 
         # extract target
         target = target[target['IDCode'].isin(selIDs)]
@@ -23,14 +27,15 @@ def retrieve_data_funa(dict=None, datasets_names=None, sample=None):
         data = dict[name]
         if sample:
             data = data[data['IDCode'].isin(selIDs)].copy()
-        if sample:
-            cols = data.columns.values
-            keep_cols =  [col for col in cols if col.startswith('NC')]
-            keep_cols = keep_cols + ['IDCode','sex','grade','language']
-            if 'long' in name: 
-                keep_cols.append('PreOrd')
-        else:
-            keep_cols = list(data.columns.values)
+        #if sample:
+        #    cols = data.columns.values
+        #    keep_cols =  [col for col in cols if col.startswith('NC')]
+        #    keep_cols = keep_cols + ['IDCode','sex','grade','language']
+        #    if 'long' in name: 
+        #        keep_cols.append('PreOrd')
+        #else:
+        #    keep_cols = list(data.columns.values)
+        keep_cols = list(data.columns.values)
         dataset = data[keep_cols].copy()
         dataset['grade'] = dataset['grade'].astype('category')
         dataset.reset_index(inplace=True,drop=True)

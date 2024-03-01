@@ -92,7 +92,7 @@ def write_to_file(excel_file_name=None, dfs=None):
 
     return True
 
-def save_and_store_result(simulation_result=None, output_to_path=None, excel_file_name=None, sheet_names=None):
+def save_and_store_result(simulation_result=None, extra_info=None, output_to_path=None, excel_file_name=None, sheet_names=None):
 
     sel_params = simulation_result['params'] # dictionary
     result_emm = simulation_result['result_emm'] # pd with uneven columns
@@ -107,11 +107,16 @@ def save_and_store_result(simulation_result=None, output_to_path=None, excel_fil
 
     # separately save pd dataframe with results list of one beam search
     if result_emm is not None:
-        store_result_emm = result_emm.drop(['idx_id', 'idx_sg'],axis=1)
+        cols_to_drop = ['idx_id', 'idx_sg']
+        if 'dferror' in result_emm.columns.values:
+            cols_to_drop = cols_to_drop + ['dferror']
+        store_result_emm = result_emm.drop(cols_to_drop,axis=1)
         store_result_emm.to_csv(output_to_path + str(list(sel_params.values())) + '.txt', sep='\t', index=False)
-        result_sum.update(prr.obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time, sel_params=sel_params, attributes=attributes)) 
+        result_sum.update(prr.obtain_summary_values_emm(result_emm=result_emm, general_params=general_params, time=time, 
+                                                        sel_params=sel_params, attributes=attributes, extra_info=extra_info)) 
             
         info_sum.update(considered_subgroups) 
+        del general_params['estimates']['dferror']
         info_sum.update(general_params)  
         info_sum.update(attributes)     
             

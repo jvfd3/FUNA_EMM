@@ -12,6 +12,9 @@ def prepare_beam_and_candidate_result_set(candidate_result_set=None, cq_satisfie
     if len(cq_satisfied) > 0:
 
         cq_sorted = sort_list_on_quality(list_unsorted=cq_satisfied)
+        #print(cq_sorted[0]['description'])
+        #print(cq_sorted[0]['qualities']['varphi'])
+        #print(len(cq_sorted[0]['adds']['idxIDs']['idx_id']))
     
         candidate_queue, n_redun_descs = apply_dbs_wcs(cq_sorted=cq_sorted, sel_params=sel_params, general_params=general_params, stop_number_dbs = 4*sel_params['w'], stop_number_wcs=sel_params['w'], wcs_gamma=sel_params['gamma'])
 
@@ -21,6 +24,10 @@ def prepare_beam_and_candidate_result_set(candidate_result_set=None, cq_satisfie
         candidate_result_set.append(selected_for_result_list) # creates a nested list
         rs_candidates = [item for sublist in candidate_result_set for item in sublist] # unlist alle elements
         candidate_result_set = [rs_candidates]
+
+        #print(candidate_queue[0]['description'])
+        #print(candidate_queue[0]['qualities']['varphi'])
+        #print(len(candidate_queue[0]['adds']['idxIDs']['idx_id']))
 
     return candidate_result_set, candidate_queue, n_redun_descs
 

@@ -1087,7 +1087,6 @@ class PiecewiseLinFit(object):
         >>> slopes = my_pwlf.calc_slopes()
 
         """
-        #print(self.fit_breaks)
         y_hat = self.predict(self.fit_breaks)
         self.slopes = np.divide(
                     (y_hat[1:self.n_segments + 1] -

@@ -5,6 +5,24 @@ from joblib import Parallel, delayed
 
 import beam_search.beam_search as bs
 
+# without parallelization
+def distribution_false_discoveries_params_without(m=None, target=None, attributes=None, descriptive=None, sel_params=None, extra_info=None):
+
+    sel_params_temp = sel_params.copy()
+    sel_params_temp['q'] = 1
+
+    distribution = []
+    for i in np.arange(0,m):
+        print(i)
+        shuffled_descriptive = shuffle_dataset(descriptive=descriptive, attributes=attributes)
+        result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive, 
+                                                                          sel_params=sel_params_temp, extra_info=extra_info)
+        qm_value = result_emm['varphi'].values[0] 
+        distribution.append(qm_value)
+
+    return distribution
+
+# with parallelization
 def distribution_false_discoveries_params(m=None, target=None, attributes=None, descriptive=None, sel_params=None, extra_info=None):
 
     sel_params_temp = sel_params.copy()

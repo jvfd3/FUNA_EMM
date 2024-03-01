@@ -31,7 +31,7 @@ out %>%
   mutate(dbs = as.character(dbs)) %>%
   mutate(dp = as.character(dp)) %>%
   select(c(measure,value,data_key,wcs,dbs,dp)) %>%
-  ggplot(aes(y=value,x=dp,fill=dbs,pattern=wcs)) + 
+  ggplot(aes(y=value,x=wcs,fill=dp,pattern=dbs)) + 
   #geom_bar(stat='identity', position = position_dodge(), color="black") + 
   geom_bar_pattern(stat='identity', position = position_dodge(),
                    color="black",
@@ -40,15 +40,15 @@ out %>%
                    pattern_density = 0.1,
                    pattern_spacing = 0.025,
                    pattern_key_scale_factor = 0.6) + 
-  facet_grid(measure ~ data_key., scales = "free_y") + 
-  scale_fill_manual(values=c("#2ca25f", "#3182bd")) + 
+  facet_grid(measure ~ data_key, scales = "free_y") + 
+  scale_fill_manual(values=c("#fc9272", "#3182bd")) + 
   scale_pattern_manual(values = c('TRUE' = "stripe", 'FALSE' = "none")) +
   scale_alpha_discrete(range = c(0.2,0.8)) + 
-  labs(x = "format", y = "value", pattern = "wcs") + 
+  labs(x = "wcs", y = "", pattern = "dbs") + 
   guides(pattern = guide_legend(override.aes = list(fill = "white")),
          fill = guide_legend(override.aes = list(pattern = "none")))
 
-name <- paste('wcsdbsdp.eps', sep = "", collapse = NULL)
+name <- paste('admitted/date06022024/wcsdbsdp.eps', sep = "", collapse = NULL)
 ggsave(name, width = 20, height = 24, units = "cm")
 
 # explore results for gpa

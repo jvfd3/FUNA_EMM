@@ -31,21 +31,21 @@ def calculate_general_params(target=None, sel_params=None, extra_info=None):
 def calculate_subgroup_params(target=None, sel_params=None, extra_info=None, general_params=None, idxIDs=None):
     
     seltarget = ss.select_subgroup_part_of_target(idxIDs=idxIDs, target=target, case_based_target=extra_info['case_based_target'])
-    estimates = pa.calculate_subgroup_estimates(target=seltarget, sel_params=sel_params, extra_info=extra_info, general_params=general_params)    
+    estimates = pa.calculate_subgroup_estimates(target=seltarget, sel_params=sel_params, extra_info=extra_info, general_params=general_params, idxIDs=idxIDs)    
     varphi = calculate_varphi(estimates=estimates, sel_params=sel_params, general_params=general_params)    
-    subgroup_params = {'idxIDs': idxIDs, 'estimates': estimates, 'varphi': varphi}
+    subgroup_params = {'idxIDs': idxIDs, 'estimates': estimates, 'varphi': varphi, 'temp_varphi': float('-inf')}
 
     return subgroup_params
 
 def add_qm(desc=None, general_params=None, subgroup_params=None):
 
     desc_qm = desc.copy()  
-    desc_qm['qualities'] = {'estimates': subgroup_params['estimates'], 'varphi': subgroup_params['varphi']}
+    desc_qm['qualities'] = {'estimates': subgroup_params['estimates'], 'varphi': subgroup_params['varphi'], 'temp_varphi': subgroup_params['temp_varphi']}
     desc_qm['adds']['idxIDs'] = subgroup_params['idxIDs']
 
     return desc_qm
 
-def calculate_varphi(estimates=None, sel_params=None, general_params=None):
+def calculate_varphi(estimates=None, sel_params=None, general_params=None, idxIDs=None):
 
     varphi = np.nan
 
@@ -77,13 +77,28 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None):
             varphi = np.round((estimates['subrange_est'] - general_params['estimates']['subrange_est']) / estimates['subrange_se'],1)
         else:
             varphi = 0
-    if sel_params['model'] == 'subrange_fit': 
+    
+    if sel_params['model'] in ['subrange_fit', 'subrange_ssr', 'subrange_ssrs', 'subrange_ssrb', 'subrange_ll']: 
         n = estimates['nrrows']        
         N = general_params['nrrows']
         nc = N - n
         if nc == 0:
-            varphi = 0
+            varphi = float('-inf')
         else:
-            varphi = np.round((-((n/N)*math.log((n/N),2)) - ((nc/N)*math.log((nc/N),2))) * ((estimates['global_error'] - estimates['local_error'])/1000), 1)
+            ef = -((n/N)*math.log((n/N),2)) - ((nc/N)*math.log((nc/N),2))
+            A = estimates['SSresLocal']             
+            B = estimates['SSresGlobal']
+            if sel_params['model'] == 'subrange_fit':                
+                varphi = np.round(ef * ((B/n)-(A/n)), 2)
+            if sel_params['model'] == 'subrange_ssr':
+                varphi = np.round(ef * -1 * (A/n), 2)      
+            #if sel_params['model'] == 'subrange_ssrs':
+            #    varphi = np.round(-1 * (A/n), 2)                 
+            if sel_params['model'] == 'subrange_ssrb':
+                varphi = np.round(ef * (A/n) * ((B/n)-(A/n)), 2)
+            if sel_params['model'] == 'subrange_ll':
+                llA = (n/2)*np.log(estimates['precision']) - (n/2)*np.log(2*np.pi) - 0.5*(estimates['precision'])*A
+                llB = (n/2)*np.log(general_params['estimates']['precision']) - (n/2)*np.log(2*np.pi) - 0.5*(general_params['estimates']['precision'])*B
+                varphi = np.round(llA-estimates['nrparams']-llB+general_params['estimates']['nrparams'], 2)
 
     return varphi

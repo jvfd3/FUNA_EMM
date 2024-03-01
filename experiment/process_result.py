@@ -3,47 +3,49 @@ import pandas as pd
 import itertools as it
 import math
 
-def obtain_summary_values_emm(result_emm=None, general_params=None, time=None, sel_params=None, attributes=None):
+def obtain_summary_values_emm(result_emm=None, general_params=None, time=None, sel_params=None, attributes=None, extra_info=None):
 
     iqrs = [0.25,0.5,0.75]
 
     sum_result_emm = {'len_result_set': len(result_emm)}
 
-    iqr_over_names = ['varphi', 'size_id', 'size_rows', 'suppclass', 'mean_est', 'mean_se', 'slope_est', 'slope_se', 'subrange_est', 'subrange_se']
+    iqr_over_names = ['varphi', 'wvarphi', 'size_id', 'size_rows', 'suppclass', 'mean_est', 'mean_se', 'slope_est', 'slope_se', 'subrange_est', 'subrange_se']
     for name in iqr_over_names:
         if name in result_emm.columns.values: 
             vals = result_emm[name].quantile(iqrs, interpolation='linear')
             sum_result_emm.update({name+str(int(key*100)):np.round(val,2) for key,val in dict(vals).items()})
 
-    # redundancy metrics
-    cover_counts, expected_cover_count, CR, jentropy, jsims = calculate_average_coverage(result_emm=result_emm, general_params=general_params, sel_params=sel_params)
+    if extra_info['run_redun_metrics']: 
 
-    sum_result_emm.update({
+        # redundancy metrics
+        cover_counts, expected_cover_count, CR, jentropy, jsims = calculate_average_coverage(result_emm=result_emm, general_params=general_params, sel_params=sel_params)
+
+        sum_result_emm.update({
                       #'avg_row_size': result_emm['size_rows'].mean(),
                       'expected_cover_count': expected_cover_count
                       })
 
-    vals = np.quantile(list(cover_counts.values()),iqrs)
-    sum_result_emm.update(dict(zip(['covercount' + str(int(key*100)) for key in iqrs],vals)))
+        vals = np.quantile(list(cover_counts.values()),iqrs)
+        sum_result_emm.update(dict(zip(['covercount' + str(int(key*100)) for key in iqrs],vals)))
 
-    sum_result_emm.update({
+        sum_result_emm.update({
                       'CR': CR,
                       'jentropy': jentropy,         
                       })
 
-    vals = np.quantile(list(jsims.values()),iqrs)
-    sum_result_emm.update(dict(zip(['jsim' + str(int(key*100)) for key in iqrs],vals)))
+        vals = np.quantile(list(jsims.values()),iqrs)
+        sum_result_emm.update(dict(zip(['jsim' + str(int(key*100)) for key in iqrs],vals)))
 
-    # description metrics
-    desc_lens, desc_un_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR = calculate_description_summary(result_emm=result_emm, attributes=attributes)
+        # description metrics
+        desc_lens, desc_un_lens, nr_unique_atts, attribute_cover_counts, attribute_expected_cover_count, attribute_CR = calculate_description_summary(result_emm=result_emm, attributes=attributes)
 
-    vals = np.quantile(desc_lens,iqrs)
-    sum_result_emm.update(dict(zip(['desc_len' + str(int(key*100)) for key in iqrs],vals)))
+        vals = np.quantile(desc_lens,iqrs)
+        sum_result_emm.update(dict(zip(['desc_len' + str(int(key*100)) for key in iqrs],vals)))
     
-    vals = np.quantile(desc_un_lens,iqrs)
-    sum_result_emm.update(dict(zip(['desc_un_len' + str(int(key*100)) for key in iqrs],vals)))
+        vals = np.quantile(desc_un_lens,iqrs)
+        sum_result_emm.update(dict(zip(['desc_un_len' + str(int(key*100)) for key in iqrs],vals)))
                       
-    sum_result_emm.update({
+        sum_result_emm.update({
                       'attribute_expected_cover_count': attribute_expected_cover_count,
                       'attribute_CR': attribute_CR,
                       'nr_unique_atts': nr_unique_atts

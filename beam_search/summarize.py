@@ -22,6 +22,7 @@ def obtain_subgroup_results(result_set=None):
 
     subgroup_results = [(desc['adds']['literal_order'],
                          desc['qualities']['varphi'],
+                         desc['qualities']['temp_varphi'],
                          desc['adds']['idxIDs']['size_sg'],
                          desc['adds']['idxIDs']['size_sg_rows'],
                          desc['adds']['idxIDs']['idx_id'], # will remove these later when saving the result set
@@ -32,6 +33,7 @@ def obtain_subgroup_results(result_set=None):
     subgroup_results_pd = pd.DataFrame(subgroup_results, 
                                        columns= ['literal_order',
                                                  'varphi',
+                                                 'wvarphi', 
                                                  'size_id',
                                                  'size_rows',
                                                  'idx_id',

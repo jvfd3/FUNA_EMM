@@ -7,5 +7,6 @@ matplotlib
 openpyxl
 pyDOE
 statsmodels
+alive_progress
 
 - the pwlf script as in the folder
