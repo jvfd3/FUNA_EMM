@@ -9,7 +9,7 @@ library(arrow)
 library(gridExtra)
 library(grid)
 library(devtools)
-install_github("coolbutuseless/ggpattern")
+#install_github("coolbutuseless/ggpattern")
 library(ggpattern)
 
 setwd("C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/DescriptionModels/output/funa/")
@@ -98,6 +98,7 @@ out28sum <- out28 %>%
   ungroup() %>%
   left_join(out27) %>%
   select(c(model, avg_varphi, var_varphi, mu))
+
 out28long <- out28 %>% 
   left_join(out28sum) %>%
   mutate(varphi = (varphi50 - avg_varphi)/sqrt(var_varphi)) %>%
@@ -160,8 +161,12 @@ read_excel("date27022024/output.xlsx") %>%
   select(model, varphi50, size_id50, mu, rej95) %>%
   xtable(include.rownames = FALSE)
 
-  
-out27
+out05 <- read_excel("date05032024/output.xlsx")  
+out28 %>%
+  left_join(out05[,c('model','d','gamma','mu','rej90','rej95','rej99')],by=c('model','d','gamma')) %>%
+  select(model, d, gamma, size_id50, rej95, CR, jentropy, jsim50, attribute_CR, time_minutes) %>%
+  arrange(factor(model, levels=c('subrange_ssr','subrange_fit','subrange_ssrb','subrange_ll')), d, gamma) %>%
+  xtable(include.rownames = FALSE)
 
 ###
 
@@ -308,3 +313,54 @@ plot
 
 name <- paste('date02032024/subgroups_ssrb.eps', sep = "", collapse = NULL)
 ggsave(name, width = 16, height = 10, units = "cm")
+
+###
+
+setwd("C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/DescriptionModels/output/funa/")
+descsssrb <- read_delim("date05032024/desc/['desc', 4, 20, 3, 10, 'subrange_ssrb', False, True, 0.5, False, 'without', 0.05, 3].txt")
+descsfit <- read_delim("date05032024/desc/['desc', 4, 20, 3, 10, 'subrange_fit', False, True, 0.5, False, 'without', 0.05, 3].txt")
+
+setwd("C:/Users/20200059/Documents/Data/FUNA/DescriptionModels/") 
+target <- read_parquet("target.pq")
+descriptive <- read_parquet("descriptive_desc.pq")
+
+# ssrb
+sgID1 <- descriptive %>%
+  filter(NCRTinterceptNumRatio <= 0.58) %>%
+  filter(NCRTinterceptNumRatio >= 0.41) %>%
+  filter(NCtimeCmean   <= 0.36) %>%
+  filter(NCtimeCmean   >= 0.2) %>%
+  filter(CAAnsCsum   >= 0.05) %>%
+  filter(NCRTslopeNumDis <= 0.3) %>%
+  select(IDCode)
+sgID2 <- descriptive %>%
+  filter(NCRTinterceptNumRatio <= 0.58) %>%
+  filter(NCRTinterceptNumRatio >= 0.38) %>%
+  filter(NCIES <= 0.38) %>%
+  filter(NCIES >= 0.04) %>%
+  filter(CAPreOrdmax >= 0.02) %>%
+  filter(CAPreOrdmax <= 0.15) %>%
+  select(IDCode)
+sgID3 <- descriptive %>%
+  filter(NCRTinterceptNumRatio <= 0.58) %>%
+  filter(NCRTinterceptNumRatio >= 0.41) %>%
+  select(IDCode)
+
+target <- target %>%
+  mutate(inSG1 = if_else(IDCode %in% sgID1$IDCode, 1, 0)) %>%
+  mutate(inSG2 = if_else(IDCode %in% sgID2$IDCode, 1, 0)) %>%
+  mutate(inSG3 = if_else(IDCode %in% sgID3$IDCode, 1, 0)) %>%
+  mutate(inSG4 = if_else(IDCode %in% sgID4$IDCode, 1, 0)) %>%
+  mutate(inSG5 = if_else(IDCode %in% sgID5$IDCode, 1, 0))
+
+descsssrb$intercepts
+descsssrb$fitbreaks
+descsssrb$slopes
+
+regs <- data.frame(bp=c(3.34,3.32,2.21,2.54,3.41,3.23),
+                   ic=c(1406.6,2267.76,2468.36,1786.98,2260.9,1762.72),
+                   b1=c(88.07,26.32,-241.35,34.88,15.72,93.61),
+                   b2=c(462.68,927.79,759.28,703.73,835.69,685.29)) %>%
+  mutate(y1 = ic+(bp*b1)) %>%
+  mutate(y2 = y1+(9-bp)*b2)
+regs

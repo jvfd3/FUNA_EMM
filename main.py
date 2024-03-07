@@ -241,6 +241,7 @@ if __name__ == '__main__':
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./output/")
     '''
+    '''
     # run with only 1 breakpoint in both subgroup and omega, we do not have to repeat for subrange_fit
     main(data_name='FUNA', 
          datasets_names=['desc'],
@@ -280,3 +281,30 @@ if __name__ == '__main__':
          date='01032024', 
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./output/")
+    '''
+    main(data_name='FUNA', 
+         datasets_names=['desc'],
+         synthetic_params = None,
+         sim_params = {'b': [4], 'w': [20], 'd': [3, 5], 'q': [10], 'model': ['subrange_ll', 'subrange_ssr', 'subrange_ssrb', 'subrange_fit'], 
+                       'dbs': [False], 'wcs': [True], 'gamma': [0.1, 0.5, 0.9], 'dp': [False], 'md': ['without'],
+                       'min_size': [0.05]}, 
+         extra_info = {'target_column_names': ['DMTime','IDCode','PreOrd', 'DMStimL'], 'sample': True, 'sample_prop': 0.05, 
+                       'case_based_target': False, 'run_redun_metrics': False, 
+                       'run_beam_search': True, 'make_dfd': True, 'm': 50}, 
+         date='05032024', 
+         data_from="C:/Users/20200059/Documents/Data/",
+         output_to="./output/")
+
+    main(data_name='FUNA', 
+         datasets_names=['desc'],
+         synthetic_params = None,
+         sim_params = {'b': [4], 'w': [20], 'd': [3], 'q': [20], 'model': ['subrange_ssrb'],  
+                       'dbs': [False], 'wcs': [True], 'gamma': [0.5], 'dp': [False], 'md': ['without'],
+                       'min_size': [0.05]}, 
+         extra_info = {'target_column_names': ['DMTime','IDCode','PreOrd', 'DMStimL'], 'sample': False, 'sample_prop': None, 
+                       'case_based_target': False, 'run_redun_metrics': False,
+                       'run_beam_search': True, 'make_dfd': False, 'm': None}, 
+         date='06032024', 
+         data_from="C:/Users/20200059/Documents/Data/",
+         output_to="./output/")
+    
