@@ -1,6 +1,0 @@
-NCTime	grade	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-(1109.0, 15642.0)	['3', '4', '5']	('NCTime', 'grade', 'NCTime')	16.4	3289.752	37.8631			0.59	0.26
-(1070.0, 15642.0)	['3', '4', '5']	('NCTime', 'NCTime', 'grade')	16.3	3256.1483	35.8624			0.6	0.28
-(1109.0, 15642.0)		('dom_pruning',)	15.0	3146.8609	31.8639			0.92	0.34
-(1070.0, 15642.0)	['3', '4', '5', '6']	('NCTime', 'NCTime', 'grade')	15.8	3210.5873	34.1738			0.68	0.3
-(1070.0, 15642.0)		('dom_pruning',)	14.7	3111.5358	30.0187			0.94	0.38

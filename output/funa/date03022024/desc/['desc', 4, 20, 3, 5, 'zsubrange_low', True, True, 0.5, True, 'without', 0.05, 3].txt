@@ -1,6 +1,0 @@
-NCAnsCprop	NCtimeCmedian	NCtimeCmean	NCAnsCsum	NCRTslopeNumDis	NCIES	NCRTinterceptNumDis	literal_order	varphi	size_id	size_rows	subrange_est	subrange_se	slopes	intercepts	fitbreaks	betas	nrrows
-(0.19, 0.94)	(0.23, 0.41)						('dom_pruning',)	116.0	0.06	0.06	1.06	0.02	[-15893.23    558.27]	[18048.99   625.27]	[1.   1.06 9.  ]	[  2155.76 -15893.23  16451.5 ]	811
-(0.19, 0.94)	(0.18, 0.41)		(0.27, 0.92)				('NCAnsCprop', 'NCtimeCmedian', 'NCAnsCsum')	44.4	0.05	0.05	1.16	0.05	[-4700.19   508.47]	[6674.67  613.02]	[1.   1.16 9.  ]	[ 1974.47 -4700.19  5208.66]	695
-		(0.12, 0.44)	(0.27, 0.92)				('NCtimeCmean', 'NCAnsCsum', 'NCAnsCsum')	115.5	0.05	0.05	1.07	0.02	[-11276.6     477.53]	[13293.92   752.53]	[1.   1.07 9.  ]	[  2017.32 -11276.6   11754.13]	658
-		(0.12, 0.44)				(0.36, 0.57)	('NCtimeCmean', 'NCRTinterceptNumDis')	12.6	0.37	0.37	1.99	0.11	[-267.83  584.3 ]	[1961.58  267.93]	[1.   1.99 9.  ]	[1693.74 -267.83  852.13]	4866
-				(0.31, 0.39)	(0.03, 0.13)		('NCRTslopeNumDis', 'NCIES')	22.4	0.24	0.24	1.59	0.08	[-855.4   592.87]	[2523.67  225.25]	[1.   1.59 9.  ]	[1668.27 -855.4  1448.27]	3120

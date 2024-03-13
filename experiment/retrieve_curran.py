@@ -28,8 +28,6 @@ def retrieve_data_curran(dict=None, datasets_names=None):
         if 'without' in key: # we do not use PreOrd as a descriptor, only as an id indicator
             types.drop('occasion', inplace=True)
 
-        # funa descriptors often run from 1 - 9, we currently consider them as numerical attributes, but may be useful to change this to ordinal in the future
-
         attributes['bin_atts'] = attributes['bin_atts'] + []
         attributes['num_atts'] = attributes['num_atts'] + list(types[types == 'float64'].index.values) + list(types[types == 'int64'].index.values) + list(types[types == 'int32'].index.values)
         attributes['nom_atts'] = attributes['nom_atts'] + list(types[types == 'object'].index.values)

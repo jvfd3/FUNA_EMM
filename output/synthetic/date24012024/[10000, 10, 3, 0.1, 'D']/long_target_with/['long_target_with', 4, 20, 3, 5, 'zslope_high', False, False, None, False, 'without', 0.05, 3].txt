@@ -1,6 +1,0 @@
-bininvar3	bininvar4	TimeInd	bininvar5	bininvar1	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-1.0	1	(8.0, 10.0)			('bininvar3', 'bininvar4', 'TimeInd')	3.1			0.3888	0.0176	0.24	0.07
-1.0	1		0.0		('bininvar3', 'bininvar4', 'bininvar5')	2.6			0.3488	0.0056	0.12	0.12
-0.0	0		1.0		('bininvar5', 'bininvar4', 'bininvar3')	2.6			0.3481	0.0053	0.13	0.13
-	1	(1.0, 3.0)	0.0		('TimeInd', 'bininvar5', 'bininvar4')	3.0			0.3869	0.0176	0.24	0.07
-	1	(1.0, 5.5)		1.0	('TimeInd', 'bininvar4', 'bininvar1')	2.7			0.358	0.0087	0.24	0.12

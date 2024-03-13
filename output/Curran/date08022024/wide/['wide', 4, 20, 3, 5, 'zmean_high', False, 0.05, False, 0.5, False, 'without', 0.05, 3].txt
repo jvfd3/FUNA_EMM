@@ -1,6 +1,0 @@
-kidagetv_3	homeemo	homecog	kidagetv_2	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
-(13.0, 14.0)	(9.0, 13.0)			('kidagetv_3', 'homeemo', 'kidagetv_3')	7.1	0.19	0.06	4.7871	0.0906	294.0
-(13.0, 14.0)		(9.0, 14.0)		('kidagetv_3', 'homecog', 'kidagetv_3')	7.0	0.19	0.06	4.772	0.0904	293.0
-(13.0, 14.0)	(8.0, 13.0)			('kidagetv_3', 'homeemo', 'kidagetv_3')	6.9	0.2	0.06	4.7404	0.0876	324.0
-	(9.0, 13.0)		(11.0, 12.0)	('kidagetv_2', 'homeemo', 'kidagetv_2')	6.8	0.2	0.06	4.7446	0.0887	307.0
-		(9.0, 14.0)	(11.0, 12.0)	('kidagetv_2', 'homecog', 'kidagetv_2')	6.8	0.19	0.06	4.7488	0.089	301.0

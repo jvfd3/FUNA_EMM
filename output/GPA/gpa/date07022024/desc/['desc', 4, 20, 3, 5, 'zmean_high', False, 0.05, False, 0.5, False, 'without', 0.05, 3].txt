@@ -1,6 +1,0 @@
-sum_job	min_intjob	max_job	min_job	max_intjob	slope_job	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
-(0.0, 0.46)	(0.0, 0.0)					('sum_job', 'min_intjob')	9.3	0.47	0.47	3.0158	0.0163	564.0
-(0.0, 0.46)	(0.0, 0.0)	(0.0, 1.0)				('sum_job', 'min_intjob', 'max_job')	9.3	0.47	0.47	3.0158	0.0163	564.0
-(0.0, 0.46)	(0.0, 0.0)		(0.0, 1.0)			('sum_job', 'min_intjob', 'min_job')	9.3	0.47	0.47	3.0158	0.0163	564.0
-(0.0, 0.46)	(0.0, 0.0)			(0.0, 0.5)		('sum_job', 'min_intjob', 'max_intjob')	9.3	0.47	0.47	3.0158	0.0163	564.0
-(0.0, 0.46)	(0.0, 0.0)				(0.0, 0.54)	('sum_job', 'slope_job', 'min_intjob')	9.3	0.47	0.47	3.0158	0.0163	564.0

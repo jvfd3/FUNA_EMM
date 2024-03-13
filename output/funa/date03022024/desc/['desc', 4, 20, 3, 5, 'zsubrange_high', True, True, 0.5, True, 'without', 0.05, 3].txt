@@ -1,6 +1,0 @@
-NCtimeCmedian	grade	NCAnsCsum	NCRTinterceptNumDis	sex	NCtimeCmean	NCRTinterceptNumRatio	literal_order	varphi	size_id	size_rows	subrange_est	subrange_se	slopes	intercepts	fitbreaks	betas	nrrows
-(0.07, 0.19)	['6', '7', '8', '9']	(0.6, 0.96)					('NCtimeCmedian', 'grade', 'NCAnsCsum')	5.5	0.12	0.12	5.08	0.31	[188.77 502.22]	[ 746.59 -845.76]	[1.   5.08 9.  ]	[935.36 188.77 313.45]	1535
-(0.2, 0.36)	['7', '8', '9']						('grade', 'NCtimeCmedian', 'NCtimeCmedian')	4.3	0.05	0.05	5.29	0.44	[268.71 741.94]	[  951.17 -1551.65]	[1.   5.29 9.  ]	[1219.88  268.71  473.23]	683
-(0.13, 0.41)	['7', '8', '9']		(0.32, 0.45)				('grade', 'NCtimeCmedian', 'NCRTinterceptNumDis')	4.7	0.15	0.15	5.16	0.38	[250.89 583.5 ]	[ 860.84 -855.76]	[1.   5.16 9.  ]	[1111.73  250.89  332.61]	1933
-(0.2, 0.33)	['6', '7', '8', '9']			f			('sex', 'grade', 'NCtimeCmedian')	4.2	0.05	0.05	5.21	0.44	[229.54 776.53]	[ 1053.79 -1795.11]	[1.   5.21 9.  ]	[1283.34  229.54  546.99]	606
-(0.15, 0.21)					(0.04, 0.12)	(0.33, 0.37)	('NCtimeCmean', 'NCtimeCmedian', 'NCRTinterceptNumRatio')	2.6	0.18	0.18	4.0	0.24	[132.03 540.74]	[1071.19 -563.63]	[1. 4. 9.]	[1203.22  132.03  408.7 ]	2276

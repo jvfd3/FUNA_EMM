@@ -1,6 +1,0 @@
-Group10	Group1	Group4	Group5	Group9	binvar17	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-['c']	['a']	['a', 'b']				('Group10', 'Group1', 'Group4')	664.6			0.6666	0.0005	0.08	0.08
-['c']	['a']					('Group10', 'Group1')	664.4			0.6665	0.0005	0.11	0.11
-['c']	['a']		['a', 'b']			('Group10', 'Group1', 'Group5')	664.2			0.6664	0.0005	0.08	0.08
-['c']	['a']			['a', 'b']		('Group10', 'Group1', 'Group9')	663.8			0.6662	0.0005	0.08	0.08
-['c']	['a']				1.0	('Group10', 'Group1', 'binvar17')	555.0			0.6673	0.0006	0.06	0.06

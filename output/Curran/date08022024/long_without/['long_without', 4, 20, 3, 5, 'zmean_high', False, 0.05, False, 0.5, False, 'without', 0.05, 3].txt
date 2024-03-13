@@ -1,6 +1,0 @@
-intcog	kidagetv	homecog	literal_order	varphi	size_id	size_rows	mean_est	mean_se	nrrows
-(61.7, 191.38)	(10.0, 14.0)		('intcog', 'kidagetv')	23.5	0.7	0.38	5.4642	0.0564	500.0
-(61.7, 191.38)	(10.83, 14.0)		('intcog', 'kidagetv', 'kidagetv')	23.5	0.66	0.29	5.6211	0.063	384.0
-	(10.17, 14.0)		('kidagetv', 'kidagetv')	23.4	0.75	0.39	5.4341	0.0552	519.0
-	(10.33, 14.0)	(7.0, 14.0)	('homecog', 'kidagetv', 'kidagetv')	23.3	0.61	0.31	5.5709	0.0613	409.0
-	(10.17, 14.0)	(7.0, 14.0)	('kidagetv', 'kidagetv', 'homecog')	23.2	0.62	0.32	5.5333	0.0601	430.0

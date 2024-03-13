@@ -1,6 +1,0 @@
-Group	bininvar4	bininvar5	bininvar1	bininvar2	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-['a']					('Group',)	320.5	10.0214	0.0105	0.6107	0.0019	0.9839	0.33387
-['a']	1.0				('Group', 'bininvar4')	226.1	10.0105	0.0149	0.6123	0.0027	0.4908	0.16601
-['a']		1.0			('Group', 'bininvar5')	226.0	10.0135	0.0148	0.612	0.0027	0.496	0.16828
-['a']			0.0		('Group', 'bininvar1')	225.8	10.0131	0.0148	0.6115	0.0027	0.4889	0.16731
-['a']				0.0	('Group', 'bininvar2')	225.8	10.029	0.0148	0.6114	0.0027	0.495	0.16853

@@ -1,6 +1,0 @@
-TimeInd	Group	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-(1.0, 2.0)	['c']	('TimeInd', 'Group', 'TimeInd')	632.1	12.6627	0.0042	-0.1359	0.0037	0.5527	0.06656
-(9.0, 10.0)	['a']	('Group', 'TimeInd', 'TimeInd')	631.7	12.6609	0.0042	0.1383	0.0037	0.5677	0.06849
-(8.0, 9.0)	['a']	('Group', 'TimeInd', 'TimeInd')	475.2	12.0036	0.0042	0.1415	0.0037	0.5651	0.06844
-(2.0, 3.0)	['c']	('TimeInd', 'Group', 'TimeInd')	473.6	11.997	0.0042	-0.1382	0.0037	0.562	0.06788
-(8.0, 10.0)	['a']	('Group', 'TimeInd')	422.6	12.3323	0.0055	0.2523	0.0039	0.7126	0.10219

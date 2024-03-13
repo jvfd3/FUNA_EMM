@@ -66,7 +66,24 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None, idxID
             varphi = np.round((estimates['slope_est'] - general_params['estimates']['slope_est']) / estimates['slope_se'],1)
         else:
             varphi = 0
-    
+
+    if sel_params['model'] in ['reg_ssr', 'reg_ssrb', 'reg_bic']:
+        n = estimates['nrrows']        
+        N = general_params['nrrows']
+        nc = N - n
+        if nc == 0:
+            varphi = float('-inf')
+        else:
+            ef = -((n/N)*math.log((n/N),2)) - ((nc/N)*math.log((nc/N),2))
+            A = estimates['SSresLocal']             
+            B = estimates['SSresGlobal']
+            if sel_params['model'] == 'reg_ssr':
+                varphi = np.round(-1*((1/ef)*(A/n)), 2)      
+            if sel_params['model'] == 'reg_ssrb':
+                varphi = np.round(ef * (A/n) * ((B/n)-(A/n)), 2)  
+            if sel_params['model'] == 'reg_bic':
+                varphi = np.round((-1*n*np.log(A/n))-(estimates['nrparams']*np.log(n))-(-1*n*np.log(B/n))+(general_params['estimates']['nrparams']*np.log(n)),2)
+
     if sel_params['model'] == 'zsubrange_low': # one-sided, small
         if estimates['subrange_se'] > 0:
             varphi = np.round(-(estimates['subrange_est'] - general_params['estimates']['subrange_est']) / estimates['subrange_se'],1)            
@@ -78,7 +95,7 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None, idxID
         else:
             varphi = 0
     
-    if sel_params['model'] in ['subrange_fit', 'subrange_ssr', 'subrange_ssrs', 'subrange_ssrb', 'subrange_ll']: 
+    if sel_params['model'] in ['subrange_fit', 'subrange_ssr', 'subrange_ssrb', 'subrange_ll', 'subrange_bic']: 
         n = estimates['nrrows']        
         N = general_params['nrrows']
         nc = N - n
@@ -91,14 +108,18 @@ def calculate_varphi(estimates=None, sel_params=None, general_params=None, idxID
             if sel_params['model'] == 'subrange_fit':                
                 varphi = np.round(ef * ((B/n)-(A/n)), 2)
             if sel_params['model'] == 'subrange_ssr':
-                varphi = np.round(ef * -1 * (A/n), 2)      
+                #varphi = np.round(ef * -1 * (A/n), 2)     
+                varphi = np.round(-1*((1/ef)*(A/n)), 2)      
             #if sel_params['model'] == 'subrange_ssrs':
             #    varphi = np.round(-1 * (A/n), 2)                 
             if sel_params['model'] == 'subrange_ssrb':
                 varphi = np.round(ef * (A/n) * ((B/n)-(A/n)), 2)
-            if sel_params['model'] == 'subrange_ll':
+            if sel_params['model'] in ['subrange_ll', 'subrange_bic']:
                 llA = (n/2)*np.log(estimates['precision']) - (n/2)*np.log(2*np.pi) - 0.5*(estimates['precision'])*A
                 llB = (n/2)*np.log(general_params['estimates']['precision']) - (n/2)*np.log(2*np.pi) - 0.5*(general_params['estimates']['precision'])*B
-                varphi = np.round(llA-estimates['nrparams']-llB+general_params['estimates']['nrparams'], 2)
+                if sel_params['model'] == 'subrange_ll':
+                    varphi = np.round(llA-estimates['nrparams']-llB+general_params['estimates']['nrparams'], 2)
+                elif sel_params['model'] == 'subrange_bic': 
+                    varphi = np.round((-1*n*np.log(A/n))-(estimates['nrparams']*np.log(n))-(-1*n*np.log(B/n))+(general_params['estimates']['nrparams']*np.log(n)),2)
 
     return varphi

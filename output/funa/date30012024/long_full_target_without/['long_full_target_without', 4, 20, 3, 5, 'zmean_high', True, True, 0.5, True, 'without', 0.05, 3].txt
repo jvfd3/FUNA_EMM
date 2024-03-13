@@ -1,6 +1,0 @@
-NCTime	grade	NCNumDis	NCAns	NCStimL	NCStimR	literal_order	varphi	size_id	size_rows	mean_est	mean_se
-(1160.0, 56539.0)	['3', '4']	(4.0, 8.0)				('NCTime', 'grade', 'NCNumDis')	16.1	0.45	0.05	3098.8384	26.4389
-(1160.0, 56539.0)	['3', '4']		(1.0, 5.0)			('NCTime', 'grade', 'NCAns')	15.8	0.45	0.05	3090.5687	26.4298
-(1285.0, 56539.0)	['3', '4']			(7.0, 9.0)		('grade', 'NCTime', 'NCStimL')	15.7	0.46	0.05	3085.9224	26.1847
-(1160.0, 56539.0)	['3', '4']				(7.0, 9.0)	('NCTime', 'grade', 'NCStimR')	14.9	0.48	0.06	3050.161	25.2002
-	['3', '4']					('grade',)	13.3	0.53	0.51	2990.6178	23.8136

@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import scipy as sc
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 import experiment.pwlf as pwlf
 import beam_search.select_subgroup as ss
@@ -64,6 +65,34 @@ def calculate_slope_per_id(x=None, val_column=None, time_column=None):
     cols = ['avgslope']
 
     return pd.Series(d, index=cols)
+
+def regression_model(df=None, columns=None, order=1):
+
+    xaxis = columns[3]
+    yaxis = columns[0]
+    xx = df[xaxis].values
+    yy = df[yaxis].values
+    dferror = df[columns].copy()
+    dferror['ydis'] = yy - np.mean(yy)
+    sstot = np.dot(dferror['ydis'],dferror['ydis'])
+
+    X = xx.reshape(-1, 1)
+    poly = PolynomialFeatures(order) #order = 0 will result in just an intercept vector
+    Xuse = poly.fit_transform(X)    
+    
+    reg = LinearRegression().fit(Xuse, yy)  
+    qm_slopes = reg.coef_
+    qm_intercepts = reg.intercept_
+    dferror['yhat']= reg.predict(Xuse)
+    dferror['yerror'] = dferror['yhat'] - yy
+    ssres = np.dot(dferror['yerror'],dferror['yerror'])
+    
+    nrparams = order + 1
+
+    estimates = {'slopes': qm_slopes, 'intercepts': qm_intercepts, 
+                 'ssres': ssres, 'sstot': sstot, 'precision': 1/(ssres/len(yy)), 'dferror': dferror, 'nrparams': nrparams}
+
+    return estimates
 
 def calculate_subrange(df=None, columns=None, order=1):
 
@@ -183,7 +212,9 @@ def determine_model_order(df=None, columns=None, startorder=1, maxorder=2):
     #N = len(df[columns[1]].unique()) # number of IDs
     #print(df.head())
     N = len(df) # number of rows # we need this one, because every row is a datapoint in the regression
-    pvalue = 0 # initial  
+    #pvalue = 0 # initial  
+    go = True
+    bic1 = None
 
     # calculate with order = 0 = linear model
     estimates1 = calculate_subrange(df=df, columns=columns, order=startorder)
@@ -191,7 +222,8 @@ def determine_model_order(df=None, columns=None, startorder=1, maxorder=2):
     RSS1 = estimates1['ssres']
 
     iorder = startorder
-    while ( (pvalue < 0.05) & (iorder < maxorder) ):  
+    #while ( (pvalue < 0.05) & (iorder < maxorder) ):  
+    while ( (go) & (iorder < maxorder) ): 
 
         iorder += 1    
 
@@ -205,6 +237,7 @@ def determine_model_order(df=None, columns=None, startorder=1, maxorder=2):
         nrparams1 = estimates1['nrparams']
         RSS1 = estimates1['ssres']
 
+        '''
         # execute f test
         dfn = nrparams1 - nrparams0
         if dfn == 0: 
@@ -216,40 +249,95 @@ def determine_model_order(df=None, columns=None, startorder=1, maxorder=2):
         dfd = N - nrparams1 - 1        
         Fscore = ((RSS0-RSS1)/dfn)/(RSS1/dfd)
         #Fcrit = sc.stats.f.ppf(q=1-0.05, dfn=dfn, dfd=dfd)
-        pvalue = 1 - sc.stats.f.cdf(Fscore, dfn=dfn, dfd=dfd)        
+        pvalue = 1 - sc.stats.f.cdf(Fscore, dfn=dfn, dfd=dfd)
+        '''
+
+        # compare bic, maximize
+        #ll0 = (N/2)*np.log(estimates0['precision']) - (N/2)*np.log(2*np.pi) - 0.5*(estimates0['precision'])*RSS0         
+        ll0 = -1*N*np.log(RSS0/N)
+        #bic0 = ll0-(nrparams0*np.log(N))
+        bic0 = ll0-(nrparams0*np.log(N))
+        #ll1 = (N/2)*np.log(estimates1['precision']) - (N/2)*np.log(2*np.pi) - 0.5*(estimates1['precision'])*RSS1         
+        ll1 = -1*N*np.log(RSS1/N)
+        #bic1 = ll1-(nrparams1*np.log(N))
+        bic1 = ll1-(nrparams1*np.log(N))
+        if bic0 >= bic1:
+            go = False        
     
     if iorder == maxorder:
-        if pvalue < 0.05: 
+        #if pvalue < 0.05: 
+        if go: 
             iorder += 1
             RSS0 = RSS1.copy()
             nrparams0 = nrparams1
+            bic0 = bic1
             estimates0 = estimates1.copy()              
 
     # while loop has stopped
     # use lower order model: continue with RSS0, nrparams0, estimates0
     #print(iorder-1)
     estimates = estimates0.copy()
-    estimates.update({'chorder': iorder-1, 'nrparams': nrparams0})
+    estimates.update({'chorder': iorder-1, 'nrparams': nrparams0, 'bic':bic0})
 
     return estimates
 
-def calculate_adjrsquared(estimates=None, general_params=None, idxIDs=None):
+def determine_model_order_reg(df=None, columns=None, startorder=1, maxorder=2):
 
-    dferrorsg = ss.select_subgroup_part_of_target(idxIDs=idxIDs, target=general_params['estimates']['dferror'], case_based_target=False)
-    #N = len(idxIDs['idx_id']) # number IDs
-    N = len(dferrorsg) # number of rows, # we need this one because every row is a datapoint in the regression
+    N = len(df)
+    go = True
+    bic1 = None
 
-    # under sg parameters
-    r2 = 1 - (estimates['ssres']/estimates['sstot'])
-    adjrsquaredsg = 1 - ((1-r2)*((N-1)/(N-estimates['nrparams']-1)))
+    # calculate with order = 0
+    estimates1 = regression_model(df=df, columns=columns, order=startorder) 
+    nrparams1 = estimates1['nrparams']
+    RSS1 = estimates1['ssres']
 
-    # under omega parameters  
-    yerrorsg = dferrorsg['yerror'].values
-    ydissg = dferrorsg['ydis'].values
-    ssres = np.dot(yerrorsg,yerrorsg)
-    sstot = np.dot(ydissg,ydissg)
-    r2 = 1 - (ssres/sstot)
-    nrparams = 3 #always 2 segments, 1 breakpoint
-    adjrsquaredomega = 1 - ((1-r2)*((N-1)/(N-nrparams-1)))
+    iorder = startorder
+    #while ( (pvalue < 0.05) & (iorder < maxorder) ):  
+    while ( (go) & (iorder < maxorder) ): 
 
-    return adjrsquaredsg, adjrsquaredomega
+        iorder += 1    
+        print(iorder)
+
+        # previous model will become lower order model in next iteration
+        RSS0 = RSS1.copy()
+        nrparams0 = nrparams1
+        estimates0 = estimates1.copy()
+
+        # calculate with order = 1 = 1 segment
+        estimates1 = regression_model(df=df, columns=columns, order=iorder) 
+        nrparams1 = estimates1['nrparams']
+        RSS1 = estimates1['ssres']
+
+        # compare bic, maximize
+        #ll0 = (N/2)*np.log(estimates0['precision']) - (N/2)*np.log(2*np.pi) - 0.5*(estimates0['precision'])*RSS0         
+        ll0 = -1*N*np.log(RSS0/N)
+        #bic0 = ll0-(nrparams0*np.log(N))
+        bic0 = ll0-(nrparams0*np.log(N))
+        #ll1 = (N/2)*np.log(estimates1['precision']) - (N/2)*np.log(2*np.pi) - 0.5*(estimates1['precision'])*RSS1         
+        ll1 = -1*N*np.log(RSS1/N)
+        #bic1 = ll1-(nrparams1*np.log(N))
+        bic1 = ll1-(nrparams1*np.log(N))
+        print(bic0)
+        print(bic1)
+        if bic0 >= bic1:
+            go = False        
+    
+    if iorder == maxorder:
+        #if pvalue < 0.05: 
+        if go: 
+            iorder += 1
+            RSS0 = RSS1.copy()
+            nrparams0 = nrparams1
+            bic0 = bic1
+            estimates0 = estimates1.copy()              
+
+    # while loop has stopped
+    # use lower order model: continue with RSS0, nrparams0, estimates0
+    #print(iorder-1)
+    estimates = estimates0.copy()
+    estimates.update({'chorder': iorder-1, 'nrparams': nrparams0, 'bic':bic0})
+
+    return estimates
+
+

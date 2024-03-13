@@ -1,6 +1,0 @@
-difD	binvar5mean	binvar4mean	binvar1mean	binvar3mean	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-(11.0, 11.0)	(0.0, 0.6)				('difD', 'difD', 'binvar5mean')	665.4			0.667	0.0005	0.09	0.09
-(11.0, 11.0)		(0.0, 0.6)			('difD', 'difD', 'binvar4mean')	665.2			0.6669	0.0005	0.09	0.09
-(11.0, 11.0)			(0.4, 1.0)		('difD', 'difD', 'binvar1mean')	664.8			0.6667	0.0005	0.09	0.09
-(11.0, 11.0)				(0.0, 0.6)	('difD', 'difD', 'binvar3mean')	664.8			0.6667	0.0005	0.09	0.09
-(11.0, 11.0)		(0.4, 1.0)			('difD', 'difD', 'binvar4mean')	664.6			0.6666	0.0005	0.09	0.09

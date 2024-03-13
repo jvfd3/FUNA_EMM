@@ -1,6 +1,0 @@
-freqc	freqa	idxc	freqb	literal_order	varphi	mean_est	se_est	slope_est	se_slope	size_id	size_rows
-(0.0, 2.0)	(4.0, 9.0)	(0.0, 7.0)		('freqc', 'freqa', 'idxc')	33.5			0.2735	0.0081	0.16	0.16
-(0.0, 2.0)	(4.0, 9.0)			('freqc', 'freqa')	33.1			0.2402	0.0072	0.2	0.2
-(0.0, 2.0)	(3.0, 9.0)	(0.0, 7.0)		('freqc', 'freqa', 'idxc')	32.9			0.2353	0.0071	0.2	0.2
-(0.0, 2.0)	(4.0, 9.0)		(0.0, 5.0)	('freqc', 'freqb', 'freqa')	32.4			0.2387	0.0073	0.2	0.2
-(0.0, 2.0)	(3.0, 9.0)			('freqc', 'freqa')	32.2			0.2051	0.0063	0.26	0.26

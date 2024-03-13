@@ -1,6 +1,0 @@
-grade	NCTime6	NCAns6	NCTime8	language	literal_order	varphi	size_id	size_rows	mean_est	mean_se
-['3', '4']					('grade',)	13.3	0.53	0.53	2990.6178	23.8136
-['3', '4']				f	('grade', 'language')	13.2	0.49	0.49	2997.6486	24.4807
-['3', '4', '5', '6']					('dom_pruning',)	9.2	0.73	0.73	2853.5603	19.5979
-	(1157.75, 4317.0)	(0.0, '3')			('NCTime6', 'NCAns6')	11.4	0.1	0.1	3347.1596	59.2351
-			(981.0, 5119.0)		('dom_pruning',)	10.8	0.19	0.19	3133.1216	42.6534

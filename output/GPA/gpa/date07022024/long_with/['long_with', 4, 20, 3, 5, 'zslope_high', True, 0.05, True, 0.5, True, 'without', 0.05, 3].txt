@@ -1,6 +1,0 @@
-highgpa	sex	semester	job	literal_order	varphi	size_id	size_rows	slope_est	slope_se	nrrows
-(3.5, 3.6)	1.0			('highgpa', 'highgpa', 'sex')	2.3	0.06	0.06	0.15	0.018	72.0
-(2.0, 2.4)	1.0	[2, 3, 4, 5, 6]		('sex', 'highgpa', 'semester')	2.2	0.14	0.12	0.1474	0.0179	145.0
-(3.5, 3.9)		[1, 2]		('highgpa', 'highgpa', 'semester')	2.1	0.28	0.09	0.2091	0.0478	110.0
-(2.5, 2.9)		[5, 6]		('semester', 'highgpa', 'highgpa')	1.7	0.28	0.09	0.1482	0.0234	112.0
-	1.0		(2.0, 3.0)	('sex', 'job')	2.0	0.52	0.5	0.1277	0.0096	606.0
