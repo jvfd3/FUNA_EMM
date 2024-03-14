@@ -107,7 +107,11 @@ make_descriptions <- function(descs, subgroups){
     sg <- subgroups[i]
     desc <- descs[sg,] %>%
       select_if(~ !any(is.na(.))) %>%
-      select(-c(literal_order,varphi,wvarphi,size_id,size_rows,subrange_est,subrange_se,slopes,intercepts,fitbreaks,betas,ssres,sstot,precision,nrparams,chorder,SSresGlobal,SSresLocal,nrrows,bic))
+      select(-any_of(c("literal_order","varphi","wvarphi","size_id","size_rows",
+                       "subrange_est","subrange_se","slopes","intercepts",
+                       "fitbreaks","betas","ssres","sstot","precision",
+                       "nrparams","chorder","SSresGlobal","SSresLocal",
+                       "nrrows","bic")))
   nlit <- ncol(desc)
     colnames <- colnames(desc)
     for(j in 1:length(colnames)){

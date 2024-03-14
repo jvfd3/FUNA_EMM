@@ -103,14 +103,14 @@ def import_data_funa(data_name=None, data_from=None, datasets_names=None):
     for sheet_name in datasets_names:   
         if 'long' in sheet_name:
             if 'long_adapt' in sheet_name:
-                dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + 'long_adapt' + '.pq')
+                dict[sheet_name] = pd.read_parquet(data_from + data_name + '/FUNA_EMM/descriptive_' + 'long_adapt' + '.pq')
             else:
-                dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + 'long' + '.pq')
+                dict[sheet_name] = pd.read_parquet(data_from + data_name + '/FUNA_EMM/descriptive_' + 'long' + '.pq')
         else:
-            dict[sheet_name] = pd.read_parquet(data_from + data_name + '/DescriptionModels/descriptive_' + sheet_name + '.pq')
+            dict[sheet_name] = pd.read_parquet(data_from + data_name + '/FUNA_EMM/descriptive_' + sheet_name + '.pq')
 
     # import target data, import IDs
-    dict['target'] = pd.read_parquet(data_from + data_name + '/DescriptionModels/target.pq')
-    dict['IDs'] = pd.read_parquet(data_from + data_name + '/DescriptionModels/IDs.pq')
+    dict['target'] = pd.read_parquet(data_from + data_name + '/FUNA_EMM/target.pq')
+    dict['IDs'] = pd.read_parquet(data_from + data_name + '/FUNA_EMM/IDs.pq')
 
     return dict

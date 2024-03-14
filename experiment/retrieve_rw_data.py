@@ -4,7 +4,6 @@ import random
 import itertools as it
 
 import experiment.retrieve_funa as rfuna
-import experiment.retrieve_gpa as rgpa 
 import experiment.retrieve_curran as rcurran 
 
 def retrieve_rw_data(data_name=None, data_from=None, datasets_names=None, extra_info=None):
@@ -12,10 +11,6 @@ def retrieve_rw_data(data_name=None, data_from=None, datasets_names=None, extra_
     if data_name == 'FUNA':
         dict_funa = rfuna.import_data_funa(data_name=data_name, data_from=data_from, datasets_names=datasets_names)
         descriptives, attributes, target = rfuna.retrieve_data_funa(dict=dict_funa, datasets_names=datasets_names, extra_info=extra_info) 
-    
-    if 'GPA' in data_name:
-        dict_gpa = rgpa.import_data_gpa(data_name=data_name, data_from=data_from, datasets_names=datasets_names)
-        descriptives, attributes, target = rgpa.retrieve_data_gpa(dict=dict_gpa, datasets_names=datasets_names) 
 
     if 'Curran' in data_name:
         dict_curran = rcurran.import_data_curran(data_name=data_name, data_from=data_from, datasets_names=datasets_names)

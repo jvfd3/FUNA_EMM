@@ -5,52 +5,9 @@ import time
 import os
 
 import experiment.retrieve_rw_data as rd
-import experiment.retrieve_synthetic_data as sd
 import beam_search.beam_search as bs
 import experiment.distribution_false_discoveries as dfd
 import experiment.save_and_store_result as ssr
-
-def synthetic_analysis(datasets_names=None, synthetic_params=None, data_from=None, sim_params=None, extra_info=None, output_to_path=None, excel_file_name=None, sheet_names=None):
-
-    syn_simulation_result = []
-    synparamset = list(it.product(synthetic_params['N'], synthetic_params['T'], synthetic_params['G'], synthetic_params['noise']))
-    desc_keys = datasets_names
-
-    h = 1
-    for synparams in synparamset: 
-
-        # create or extract data
-        # this dataset contains synthetic_params['SGTypes'] number of subgroup types
-        print('Data is generated for', h, 'out of', len(synparamset), 'combinations:', synparams)      
-        descriptive_datasets, attribute_sets, target, syn_data_at_path = sd.retrieve_synthetic_data(data_from=data_from, synparams=synparams, datasets_names=datasets_names)
-       
-        j = 1
-        SGTypes = synthetic_params['SGTypes'].copy()
-        for subgroup_type in synthetic_params['SGTypes']:
-            synparamstype = synparams + tuple(subgroup_type)
-            print('Simulation for ', j, 'out of', len(SGTypes), 'subgroup types:', subgroup_type) 
-
-            output_to_syn_path = output_to_path + str(list(synparamstype)) + '/'
-            if not os.path.exists(output_to_syn_path):
-                os.makedirs(output_to_syn_path)  
-
-            # adapt target and desc-perfect dataset depending on subgroup type
-            targettype, descriptive_datasetstype, attribute_setstype = sd.adapt_desc_target_for_subgroup_type(subgroup_type=subgroup_type, 
-                                                                                                              target=target, descriptive_datasets=descriptive_datasets, 
-                                                                                                              attribute_sets=attribute_sets)      
-
-            # start analysis
-            analysis_per_dataset(descriptive_datasets=descriptive_datasetstype, attribute_sets=attribute_setstype, target=targettype, 
-                                 sim_params=sim_params, extra_info=extra_info, output_to_path=output_to_syn_path, excel_file_name=excel_file_name, sheet_names=sheet_names)
-            
-            j += 1    
-
-        h += 1
-    
-    # add columns with synthetic params to output
-    ssr.update_info_about_synthetic_result(synparamset=synparamset, SGTypes=synthetic_params['SGTypes'], excel_file_name=excel_file_name, sheet_names=sheet_names)
-
-    return True
 
 def analysis(data_name=None, data_from=None, datasets_names=None, sim_params=None, extra_info=None, output_to_path=None, excel_file_name=None, sheet_names=None):
 

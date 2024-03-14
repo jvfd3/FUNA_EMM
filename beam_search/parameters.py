@@ -21,8 +21,8 @@ def calculate_general_estimates(target=None, sel_params=None, extra_info=None):
         qm_slope, qm_slope_se = me.calculate_slope(df=target, columns=extra_info['target_column_names'])
         estimates = {'slope_est': qm_slope, 'slope_se': qm_slope_se}
     if "reg" in sel_params['model']:
-        #estimates = me.regression_model(df=target, columns=extra_info['target_column_names'], order=2)  
-        estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=extra_info['startorder'], maxorder=extra_info['maxorder']) 
+        estimates = me.regression_model(df=target, columns=extra_info['target_column_names'], order=2)  
+        #estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=extra_info['startorder'], maxorder=extra_info['maxorder']) 
     if "subrange" in sel_params['model']:
         estimates = me.calculate_subrange(df=target, columns=extra_info['target_column_names'], order=1)
 
@@ -45,9 +45,9 @@ def calculate_subgroup_estimates(target=None, sel_params=None, extra_info=None, 
         estimates = {'slope_est': qm_slope, 'slope_se': qm_slope_se}
     if "reg" in sel_params['model']:
         if 'ssr' in sel_params['model']: # to be able to repeat earlier experiments of 01022024
-            estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=2, maxorder=2)  
+            estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=1, maxorder=1)  
         elif 'ssrb' in sel_params['model']: # to be able to repeat earlier experiments of 01022024
-            estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=2, maxorder=2)  
+            estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=1, maxorder=1)  
         else: 
             estimates = me.determine_model_order_reg(df=target, columns=extra_info['target_column_names'], startorder=extra_info['startorder'], maxorder=extra_info['maxorder'])  
         #estimates = me.regression_model(df=target, columns=extra_info['target_column_names'])  
