@@ -23,6 +23,8 @@ colors <- c("#878787", "#de2d26", "#a1d99b", "#c51b8a", "#01665e", "#ffed6f", "#
             "#a6cee3", "#1f78b4", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a", "#b15928")
 # q = 10
 descs <- read_delim("../date10032024/desc/['desc', 4, 20, 3, 10, 'reg_bic', False, 0.05, True, 0.5, False, 'without', 0.05, 3].txt")
+descs <- read_delim("../date10032024/desc/['desc', 4, 20, 3, 10, 'reg_ssr', False, 0.05, True, 0.5, False, 'without', 0.05, 3].txt")
+descs <- read_delim("../date10032024/desc/['desc', 4, 20, 3, 10, 'reg_ssrb', False, 0.05, True, 0.5, False, 'without', 0.05, 3].txt")
 
 regs <- create_regs(descs)
 regs
@@ -39,6 +41,8 @@ selregs %>%
   select(at_age_6, slope1, slope2, slope3) %>%
   xtable()
 
+name <- paste('ssr053.pdf', sep = "", collapse = NULL)
+name <- paste('ssrb053.pdf', sep = "", collapse = NULL)
 name <- paste('bic053.pdf', sep = "", collapse = NULL)
 ggsave(name, width = 16, height = 10, units = "cm")
 

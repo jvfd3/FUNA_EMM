@@ -7,30 +7,36 @@ def into_desc(dd=None, db=None, info=None):
 
     #print(dd.keys()) # the four descriptor datasets
     #print(db.head()) # the 3 basic descriptors
-    dddesc, dddesc_adapt_to_target = transform_into_desc(dd=dd, info=info)     
+    dddesc, dddesc_adapt_to_target, ddesc_unscaled = transform_into_desc(dd=dd, info=info)     
 
     # add basic descriptors    
     descriptive_desc = pd.merge(dddesc, db.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
 
     descriptive_desc_adapt_to_target = pd.merge(dddesc_adapt_to_target, db.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
 
-    return descriptive_desc, info, descriptive_desc_adapt_to_target
+    descriptive_desc_unscaled = pd.merge(ddesc_unscaled, db.drop_duplicates(), how = 'left') # there is only one similar column: IDCode
+
+    return descriptive_desc, info, descriptive_desc_adapt_to_target, descriptive_desc_unscaled
 
 def transform_into_desc(dd=None, info=None):
 
     # first on entire dataset
     # groupby and create desc columns
-    ddgrouped = groupby_and_create_desc_columns(dd=dd, selection=False)    
+    ddgrouped, ddgrouped_unscaled = groupby_and_create_desc_columns(dd=dd, selection=False)    
+    print(ddgrouped)
+    print(ddgrouped_unscaled)
     dddesc = merge_into_desc(dd=ddgrouped)   
+    ddesc_unscaled = merge_into_desc(dd=ddgrouped_unscaled) 
 
     # then for the items corresponding with target
-    ddgrouped18 = groupby_and_create_desc_columns(dd=dd, selection=True, info=info)  
+    ddgrouped18, ddgrouped18_unscaled = groupby_and_create_desc_columns(dd=dd, selection=True, info=info)  
     dddesc_adapt_to_target = merge_into_desc(dd=ddgrouped18)   
 
-    return dddesc, dddesc_adapt_to_target
+    return dddesc, dddesc_adapt_to_target, ddesc_unscaled
 
 def groupby_and_create_desc_columns(dd=None, selection=None, info=None):
 
+    ddgrouped_unscaled = {}
     ddgrouped = {}
     
     for key in dd.keys():
@@ -40,14 +46,20 @@ def groupby_and_create_desc_columns(dd=None, selection=None, info=None):
             datasel = data[data.set_index(['IDCode',key+'PreOrd']).index.isin(datadm.set_index(['IDCode','DMPreOrd']).index)].reset_index(drop=True)
             data = datasel.copy()
             #data = data[data[key+'PreOrd']<19]
-        datagrouped = data.groupby('IDCode').apply(pf.desc_columns_per_case, name_task=key)
+        datagrouped_temp = data.groupby('IDCode').apply(pf.desc_columns_per_case, name_task=key)
+
+        datagrouped_unscaled = datagrouped_temp.copy()
+        datagrouped_unscaled.reset_index(inplace=True)
+        ddgrouped_unscaled[key] = datagrouped_unscaled
+        
+        datagrouped = datagrouped_temp.copy()
         datagrouped_scaled = pf.min_max_scaling(df=datagrouped)
         #print(datagrouped_scaled)
         #print(datagrouped_scaled.shape)
         datagrouped_scaled.reset_index(inplace=True)
         ddgrouped[key] = datagrouped_scaled
 
-    return ddgrouped
+    return ddgrouped, ddgrouped_unscaled
 
 def merge_into_desc(dd=None):
 
