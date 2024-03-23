@@ -83,7 +83,7 @@ create_figure <- function(target, regs, subgroups, colours){
     geom_point(aes(x=regs[1,'bp'], y=regs[1,'y1']), colour="#999999", size=0.5) + 
     geom_point(aes(x=1, y=regs[1,'ic1']), colour="#999999", size=0.5) + 
     geom_point(aes(x=9, y=regs[1,'y2']), colour="#999999", size=0.5) + 
-    scale_color_manual(name="sg", values=selcolors) + 
+    scale_color_manual(name="", values=selcolors) + 
     theme(legend.position="top",
           legend.justification="right",
           plot.title = element_text(vjust=-8,size=14), 
@@ -93,7 +93,7 @@ create_figure <- function(target, regs, subgroups, colours){
           axis.text.y=element_text(size=10),
           legend.text=element_text(size=10),
           axis.title=element_text(size=12)) + 
-    guides(fill = guide_legend(direction = "horizontal")) +
+    guides(colour = guide_legend(direction = "horizontal", nrow=1)) +
     labs(x = "Set size", y = "Response time (ms)", 
          title = paste0("Subitizing patterns")) 
 

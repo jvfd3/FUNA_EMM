@@ -41,6 +41,14 @@ def retrieve_data_funa(dict=None, datasets_names=None, extra_info=None):
         dataset.reset_index(inplace=True,drop=True)
         descriptives[name] = dataset
 
+        '''
+        if 'desc' == name:
+            path_to = "./data_input/FUNA/slice/"
+            dataset.to_parquet(path_to + 'desc.pq')
+            target.to_parquet(path_to + 'target.pq')
+            print('done')
+        '''
+
     # store names of descriptors for each of the descriptive datasets
     attribute_sets = {}
     for key in descriptives.keys():

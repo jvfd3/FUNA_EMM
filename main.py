@@ -119,20 +119,21 @@ if __name__ == '__main__':
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./output/")
     '''
-
+    '''
     main(data_name='Curran', 
          datasets_names=['desc'],
          synthetic_params = None,
          sim_params = {'b': [4], 'w': [20], 'd': [3, 5], 'q': [10], 'model': ['reg_ssr', 'reg_ssrb', 'reg_bic'],
                        'dbs': [False], 'alpha': [0.05], 'wcs': [True], 'gamma': [0.1,0.5,0.9], 'dp': [False], 'md': ['without'],
                        'min_size': [0.05]}, 
-         extra_info = {'target_column_names': ['read','id','occasion','kidage'], 'sample': None, 
+         extra_info = {'target_column_names': ['read','id','occasion','kidagetv'], 'sample': None, 
                        'prefclass': None, 'case_based_target': False, 'run_redun_metrics': False,
                        'run_beam_search': True, 'make_dfd': True, 'm': 50, 'startorder': 0, 'maxorder': 3}, 
          date='11032024', 
-         data_from="C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/DescriptionModels/data_input/",
+         data_from="C:/Users/20200059/OneDrive - TU Eindhoven/Documents/Github/FUNA_EMM/data_input/",
          output_to="./output/")
-    
+    '''
+    '''
     main(data_name='FUNA', 
          datasets_names=['desc'],
          synthetic_params = None,
@@ -145,4 +146,4 @@ if __name__ == '__main__':
          date='11032024', 
          data_from="C:/Users/20200059/Documents/Data/",
          output_to="./output/")
-
+     '''

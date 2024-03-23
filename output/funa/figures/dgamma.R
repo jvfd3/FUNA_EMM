@@ -20,11 +20,14 @@ out05 <- read_excel("date05032024/output.xlsx") %>%
   select(model,d,gamma,mu,rej90,rej95,rej99) %>%
   left_join(out03,by=c('model','d','gamma'))
 out07 <- read_excel("date07032024/output.xlsx") %>%
-  select(model,d,gamma,varphi50,size_id50,jentropy,jsim50,time_minutes,mu,rej90,rej95,rej99)
+  select(model,d,gamma,varphi50,size_id50,jentropy,jsim50,time_minutes)
+out11 <- read_excel("date11032024/output.xlsx") %>%
+  select(model,d,gamma,mu,rej90,rej95,rej99) %>%
+  left_join(out07,by=c('model','d','gamma'))
 out08 <- read_excel("date08032024/output.xlsx") %>%
   select(model,d,gamma,varphi50,size_id50,jentropy,jsim50,time_minutes,mu,rej90,rej95,rej99) %>%
-  rbind(out07) %>%
-  rbind(out05)
+  rbind(out05) %>%
+  rbind(out11)
 
 out08sum <- out08 %>%
   group_by(model) %>% 
@@ -37,7 +40,8 @@ out08sum <- out08 %>%
   mutate(model = ordered(factor(model), levels = c('subrange_ssr','subrange_ssrb','subrange_bic'))) 
   
 plot <-  out08sum %>%
-  filter(model %in% c('subrange_bic', 'subrange_ssr', 'subrange_ssrb')) %>%
+  #filter(model %in% c('subrange_bic', 'subrange_ssr', 'subrange_ssrb')) %>%
+  filter(model %in% c('subrange_ssr', 'subrange_ssrb')) %>%
   ggplot(aes(y=varphi,x=d,fill=gamma)) + 
   geom_bar(stat='identity', position = position_dodge()) + 
   facet_grid(. ~ model, scales = "free_y") + 
@@ -47,7 +51,7 @@ plot <-  out08sum %>%
        title = "") + 
   guides(pattern = guide_legend(override.aes = list(fill = "white")),
          fill = guide_legend(override.aes = list(pattern = "none"),
-                             direction = 'horizontal')) + 
+                             direction = 'horizontal')) + 9
   theme(legend.position="top",
         legend.justification="right",
         plot.title = element_text(vjust=-4), 
@@ -64,7 +68,7 @@ plot <-  out08sum %>%
 plot
 
 name <- paste0('figures/dgamma.eps', sep = "", collapse = NULL)
-ggsave(name, width = 16, height = 10, units = "cm")
+ggsave(name, width = 8, height = 10, units = "cm")
 
 ###
 
