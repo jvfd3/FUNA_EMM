@@ -1,8 +1,14 @@
 ## Exceptional Subitizing Patterns: Exploring Mathematical Abilities of Finnish Primary School Children with Piecewise Linear Regression
 
-Author information scrubbed for double-blind reviewing.
+Rianne M. Schouten
+Wouter Duivesteijn
+Pekka Räsänen
+Jacob M. Paul
+Mykola Pechenizkiy
 
-Submitted to ADS track of ECMLPKDD 2024.
+Accepted for publication at ECMLPKDD 2024 [find pdf here](./Schoutenetal_FUNA_ECMLPKDD24.pdf)
+
+-------------------
 
 The virtual environment can be start with venv\Scripts\activate
 
