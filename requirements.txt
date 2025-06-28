@@ -1,12 +1,16 @@
-numpy
-pandas
-scikit-learn
-pyarrow
-xlsxwriter
-matplotlib
-openpyxl
-pyDOE
-statsmodels
-alive_progress
+# Ambiente testado em Python ≥ 3.11
+# Versões escolhidas para manter compatibilidade cruzada entre NumPy 1.x, pandas 2.x
+# e para evitar a exigência de NumPy 2 que aparece no scikit-learn 1.4+.
 
-- the pwlf script as in the folder
+numpy==1.26.4          # >=1.23 p/ Python 3.11, ainda 1.x ─ evita conflito com scikit-learn <1.4
+pandas==2.2.2          # Compatível com NumPy 1.22+ e 2.0 (forward-ready) :contentReference[oaicite:0]{index=0}
+scipy==1.11.4          # Dependência direta de scikit-learn, statsmodels e pwlf
+scikit-learn==1.3.2    # Última antes de exigir NumPy 2.0 :contentReference[oaicite:1]{index=1}
+pyarrow==16.1.0        # Suporte oficial a Python 3.11 :contentReference[oaicite:2]{index=2}
+xlsxwriter==3.2.0
+matplotlib==3.9.0
+openpyxl==3.1.2
+pyDOE==0.3.8           # Funciona, mas antigo; se quebrar em Py 3.11 use pyDOE2==1.3.0 :contentReference[oaicite:3]{index=3}
+statsmodels==0.14.2
+alive_progress==3.1.5
+pwlf==2.5.1            # Última estável, exige NumPy ≥1.14 & SciPy ≥1.8 :contentReference[oaicite:4]{index=4}
