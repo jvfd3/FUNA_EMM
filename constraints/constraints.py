@@ -3,6 +3,8 @@ import numpy as np
 # because the descriptions are saved in a dictionary
 # it is possible to compare them without reordering them
 # the binary, nominal (tuple), ordinal (list) and numerical (tuple) can be handled
+
+
 def check_similar_description(desc=None, cq_satisfied=None, d_i=None, current_beam=None):
 
     constraint_similar_description = False
@@ -16,21 +18,23 @@ def check_similar_description(desc=None, cq_satisfied=None, d_i=None, current_be
 
         current = desc['description'].copy()
         old = seedcq['description'].copy()
-        if current == old: # we have to apply a constraint
+        if current == old:  # we have to apply a constraint
             constraint_similar_description = True
             break
 
-    if d_i > 1: 
+    if d_i > 1:
         for seedb in current_beam:
             current = desc['description'].copy()
             old = seedb['description'].copy()
-            if current == old: # we have to apply a constraint
+            if current == old:  # we have to apply a constraint
                 constraint_similar_description = True
                 break
 
     return constraint_similar_description
 
 # the min_size values are saved in general_params
+
+
 def check_subgroup_size(idxIDs=None, general_params=None, sel_params=None):
 
     constraint_subgroup_size = False
@@ -40,4 +44,3 @@ def check_subgroup_size(idxIDs=None, general_params=None, sel_params=None):
         constraint_subgroup_size = True
 
     return constraint_subgroup_size
-

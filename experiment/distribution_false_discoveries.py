@@ -6,56 +6,68 @@ from joblib import Parallel, delayed
 import beam_search.beam_search as bs
 
 # without parallelization
+
+
 def distribution_false_discoveries_params_without(m=None, target=None, attributes=None, descriptive=None, sel_params=None, extra_info=None):
 
     sel_params_temp = sel_params.copy()
     sel_params_temp['q'] = 1
 
     distribution = []
-    for i in np.arange(0,m):
+    for i in np.arange(0, m):
         print(i)
-        shuffled_descriptive = shuffle_dataset(descriptive=descriptive, attributes=attributes)
-        result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive, 
+        shuffled_descriptive = shuffle_dataset(
+            descriptive=descriptive, attributes=attributes)
+        result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive,
                                                                           sel_params=sel_params_temp, extra_info=extra_info)
-        qm_value = result_emm['varphi'].values[0] 
+        qm_value = result_emm['varphi'].values[0]
         distribution.append(qm_value)
 
     return distribution
 
 # with parallelization
+
+
 def distribution_false_discoveries_params(m=None, target=None, attributes=None, descriptive=None, sel_params=None, extra_info=None):
 
     sel_params_temp = sel_params.copy()
     sel_params_temp['q'] = 1
 
     # make list with varphi values
-    distribution = make_distribution_false_discoveries(m=m, target=target, attributes=attributes, descriptive=descriptive, sel_params_temp=sel_params_temp, extra_info=extra_info)
+    distribution = make_distribution_false_discoveries(
+        m=m, target=target, attributes=attributes, descriptive=descriptive, sel_params_temp=sel_params_temp, extra_info=extra_info)
 
     return distribution
+
 
 def make_distribution_false_discoveries(m=None, target=None, attributes=None, descriptive=None, sel_params_temp=None, extra_info=None):
 
     inputs = range(m)
     print('building distribution of false discoveries...')
 
-    qm_values = Parallel(n_jobs=-2)(delayed(make_false_discovery)(i, target, attributes, descriptive, sel_params_temp, extra_info) for i in inputs)
+    qm_values = Parallel(n_jobs=-2)(delayed(make_false_discovery)(i, target,
+                                                                  attributes, descriptive, sel_params_temp, extra_info) for i in inputs)
 
     return qm_values
+
 
 def make_false_discovery(i=None, target=None, attributes=None, descriptive=None, sel_params_temp=None, extra_info=None):
 
     print(i)
 
-    shuffled_descriptive = shuffle_dataset(descriptive=descriptive, attributes=attributes)
+    shuffled_descriptive = shuffle_dataset(
+        descriptive=descriptive, attributes=attributes)
 
-    # perform beam search    
-    result_emm, general_params, considered_subgroups = bs.beam_search(target=target, attributes=attributes, descriptive=shuffled_descriptive, sel_params=sel_params_temp, extra_info=extra_info)
+    # perform beam search
+    result_emm, general_params, considered_subgroups = bs.beam_search(
+        target=target, attributes=attributes, descriptive=shuffled_descriptive, sel_params=sel_params_temp, extra_info=extra_info)
 
     # save qm of the first subgroup
-    #print(result_emm)
-    qm_value = result_emm['varphi'].values[0] 
+    # print(result_emm)
+    qm_value = result_emm['varphi'].values[0]
 
     return qm_value
+
 
 def shuffle_dataset(descriptive=None, attributes=None):
 
@@ -65,16 +77,16 @@ def shuffle_dataset(descriptive=None, attributes=None):
     id_atts = attributes['id_atts']
 
     tobe_shuffled_descriptive = descriptive.copy()
-    tobe_shuffled_descriptive.reset_index(inplace=True,drop=True)
-    tobe_shuffled_descriptive.drop(id_atts,axis=1,inplace=True)
+    tobe_shuffled_descriptive.reset_index(inplace=True, drop=True)
+    tobe_shuffled_descriptive.drop(id_atts, axis=1, inplace=True)
     idx = np.arange(0, len(descriptive))
-    
+
     new_idx = idx.copy()
     r.shuffle(new_idx)
 
-    # remove ID columns and shuffle    
+    # remove ID columns and shuffle
     shuffled_descriptive = tobe_shuffled_descriptive.loc[new_idx]
-    shuffled_descriptive.reset_index(inplace=True,drop=True)
+    shuffled_descriptive.reset_index(inplace=True, drop=True)
 
     # add ID columns
     shuffled_descriptive[id_atts[0]] = descriptive[id_atts[0]]
