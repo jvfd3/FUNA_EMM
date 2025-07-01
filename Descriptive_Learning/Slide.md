@@ -1,6 +1,6 @@
 # Descrevendo os dados
 
-- FUNA
+- FUNA (pq: parquet)
   - **Target**: $(13135, 4)$
     - int64: 3 colunas (DMStimL, DMTime, PreOrd)
     - string: 1 coluna (IDCode)
@@ -10,7 +10,7 @@
       - $\{NCRT\} \times \{slopeNumDis, interceptNumDis, slopeNumRatio\}$
     - category: 1 coluna $\{grade\}$
     - string: 3 colunas $\{IDCode, sex, language\}$
-- Curran
+- Curran (sav: Statistical Package for the Social Sciences|pq: parquet)
   - **Data**: $(405, 15)$
     - float64: 14 colunas
       - $\{anti, read\} \times \{1, 2, 3, 4\}$
