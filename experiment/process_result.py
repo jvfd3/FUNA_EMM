@@ -234,8 +234,14 @@ def obtain_summary_values_dfd(distribution=None):
     cutoff95 = mu + 1.96*std
     cutoff99 = mu + 2.58*std
 
-    distribution_params = {'m': m, 'mu': mu, 'std': std,
-                           'cutoff90': cutoff90, 'cutoff95': cutoff95, 'cutoff99': cutoff99}
+    distribution_params = {
+        'm': m,
+        'mu': mu,
+        'std': std,
+        'cutoff90': cutoff90,
+        'cutoff95': cutoff95,
+        'cutoff99': cutoff99
+    }
 
     return distribution_params
 

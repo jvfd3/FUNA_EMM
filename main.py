@@ -34,7 +34,7 @@ def main_test_cases(choice=0):
     current_date = '20250630'
     input_data_path = 'data_input'
 
-    def choice_1a():
+    def choice_1a():  # FUNA
         """ Explanation of the test case #1a """
         main(
             data_name='FUNA',
@@ -57,6 +57,7 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': True,
                 'sample_prop': 0.05,
+
                 'case_based_target': False,
                 'run_redun_metrics': True,
                 'run_beam_search': True,
@@ -68,7 +69,7 @@ def main_test_cases(choice=0):
             output_to=output_path
         )
 
-    def choice_1b():
+    def choice_1b():  # FUNA
         """ Explanation of the test case #1b """
         main(
             data_name='FUNA',
@@ -91,6 +92,7 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': True,
                 'sample_prop': 0.05,
+
                 'case_based_target': False,
                 'run_redun_metrics': False,
                 'run_beam_search': True,
@@ -102,7 +104,7 @@ def main_test_cases(choice=0):
             output_to=output_path
         )
 
-    def choice_1c():
+    def choice_1c():  # FUNA
         """ Explanation of the test case #1c """
         main(
             data_name='FUNA',
@@ -125,6 +127,7 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': False,
                 'sample_prop': None,
+
                 'case_based_target': False,
                 'run_redun_metrics': False,
                 'run_beam_search': True,
@@ -136,7 +139,7 @@ def main_test_cases(choice=0):
             output_to=output_path
         )
 
-    def choice_2a():
+    def choice_2a():  # FUNA
         """ Explanation of the test case #2a """
 
         main(
@@ -160,12 +163,14 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': True,
                 'sample_prop': 0.05,
+
                 'case_based_target': False,
                 'run_redun_metrics': True,
                 'run_beam_search': True,
                 'make_dfd': True,
                 'm': 2,
                 'startorder': 0,
+
                 'maxorder': 3
             },
             date=current_date,
@@ -173,7 +178,7 @@ def main_test_cases(choice=0):
             output_to=output_path
         )
 
-    def choice_2b():
+    def choice_2b():  # FUNA
         """ Explanation of the test case #2b """
         # do ssr again, with 1/ef instead of ef
         main(
@@ -197,6 +202,7 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': True,
                 'sample_prop': 0.05,
+
                 'case_based_target': False,
                 'run_redun_metrics': True,
                 'run_beam_search': True,
@@ -208,7 +214,7 @@ def main_test_cases(choice=0):
             output_to=output_path
         )
 
-    def choice_2c():
+    def choice_2c():  # Curran
         """ Explanation of the test case #2c """
         main(
             data_name='Curran',
@@ -231,18 +237,22 @@ def main_test_cases(choice=0):
             extra_info={
                 'target_column_names': ['read', 'id', 'occasion', 'kidagetv'],
                 'sample': None,
-                'prefclass': None, 'case_based_target': False,
+                'prefclass': None,
+                'case_based_target': False,
                 'run_redun_metrics': True,
                 'run_beam_search': True,
                 'make_dfd': True,
-                'm': 2, 'startorder': 0, 'maxorder': 3
+                'm': 2,
+                'startorder': 0,
+
+                'maxorder': 3
             },
             date=current_date,
             data_from=input_data_path,
             output_to=output_path
         )
 
-    def choice_2d():
+    def choice_2d():  # FUNA
         """ Explanation of the test case #2d """
         main(
             data_name='FUNA',
@@ -265,18 +275,21 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': False,
                 'sample_prop': 0.05,
+
                 'case_based_target': False,
                 'run_redun_metrics': False,
                 'run_beam_search': True,
                 'make_dfd': False,
-                'm': 2, 'startorder': 0, 'maxorder': 3
+                'm': 2,
+                'startorder': 0,
+                'maxorder': 3
             },
             date=current_date,
             data_from=input_data_path,
             output_to=output_path
         )
 
-    def choice_3():
+    def choice_3():   # Curran
         """ Explanation of the test case #3 """
 
         main(
@@ -300,18 +313,21 @@ def main_test_cases(choice=0):
             extra_info={
                 'target_column_names': ['read', 'id', 'occasion', 'kidagetv'],
                 'sample': None,
-                'prefclass': None, 'case_based_target': False,
+                'prefclass': None,
+                'case_based_target': False,
                 'run_redun_metrics': False,
                 'run_beam_search': True,
                 'make_dfd': True,
-                'm': 50, 'startorder': 0, 'maxorder': 3
+                'm': 50,
+                'startorder': 0,
+                'maxorder': 3
             },
             date=current_date,
             data_from=input_data_path,
             output_to=output_path
         )
 
-    def choice_4():
+    def choice_4():   # FUNA
         """ Explanation of the test case #4 """
 
         main(
@@ -335,11 +351,14 @@ def main_test_cases(choice=0):
                 'target_column_names': ['DMTime', 'IDCode', 'PreOrd', 'DMStimL'],
                 'sample': True,
                 'sample_prop': 0.05,
+
                 'case_based_target': False,
                 'run_redun_metrics': False,
                 'run_beam_search': True,
                 'make_dfd': True,
-                'm': 50, 'startorder': 0, 'maxorder': 3
+                'm': 50,
+                'startorder': 0,
+                'maxorder': 3
             },
             date=current_date,
             data_from=input_data_path,
