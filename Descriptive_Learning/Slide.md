@@ -25,7 +25,7 @@
 ## Descrevendo o código
 
 - Main parâmetros:
-  - Padrão:
+  - **Padrão**:
     - datasets_names=['desc']
     - synthetic_params=None: Nunca ocorre, a função inclusive nem existe
     - date: dia da execução
